@@ -1,0 +1,40 @@
+.nav-item {
+    color:black
+}
+
+
+.login {
+  margin-bottom:5px;
+}
+
+/* FILTERS */
+
+#search {
+  width: 150px;
+}
+.radio {
+  font-size: 15spx;
+}
+
+/* dropdown menu boxes */
+.dropdown-menu {
+  width: 345px;
+}
+.btn-sel {
+  border: 2px solid black;
+  padding: 0px 75px;
+  font-size: 20px;
+  border-radius: 10px;
+  height: 60px;
+}
+/* each select element (label + select box) inside dropdown menu boxes */
+.mb-3 {
+  padding: 10px;
+  display: flex;
+  justify-content:space-between;
+  font-size: 20px;
+}
+/* each select box within select element (label + select box) */
+.org-field {
+  width: 75%;
+}
