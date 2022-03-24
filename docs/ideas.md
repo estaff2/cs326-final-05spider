@@ -17,5 +17,11 @@ Innovative idea:
 Important Components: 
 	The most basic layer of our website is a gym tracking and recommendation system. This means that we will need to give users the ability to write down what workouts they did in the past and keep track of them for future reference. Users will also be able to receive recommendations for what workouts they should do based on what muscle groups they want to target. This recommendation will include pictures of the equipment needed at the UMass rec center, and possibly a video of how to do the exercise. 
 	Beyond those basic functions, we will give users the ability to keep track of their personal records for various exercises. These personal records will go into a public leaderboard where users can see the top records and filter by things such as major, year, and goal, providing a competitive aspect to the app. There may also be other parts of the leaderboard, such as the longest gym streak. 
+<<<<<<< HEAD
 
 	
+=======
+	More features for workout recommendations, we will provide a human body map that users could select their targeted training areas. We are also considering  ranking exercises by difficulty levels. This way, users could find the most suitable plan based on their experiences.  
+
+	
+>>>>>>> 7547bb22ac5938c6f5648216323eca6bcdcb7e47
