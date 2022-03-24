@@ -1,0 +1,12 @@
+.nav-item {
+    color:black
+}
+
+.login {
+    margin-bottom:5px;
+  }
+
+  .center {
+      display: flex;
+      justify-content: center;
+  }
