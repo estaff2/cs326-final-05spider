@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en">
-
+    <script src="user_rec_input.js"></script>
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -77,61 +77,56 @@
             </div>
 
     </nav>
-    <div class = "container p-3 my-3 w-75 bg-light border">
-    <div class="d-flex flex-row justify-content-center">
-        <div class="d-flex flex-row justify-content-between">
-            <h1 class="p-2">Create User</h1>
-        </div>
+<div class="d-flex flex-row justify-content-center">
+    <div class="d-flex flex-row justify-content-between">
+        <h1 class="p-2">Get Workout Recommendations</h1>
     </div>
-    <div class="text-center">
-        <img src="images/default_user.png" class="avatar" alt="User_Image">
-      </div>
+</div>
 
-    <div class="form-floating mb-3">
-        <input type="username" class="form-control" id="floatingInput" placeholder="spider05">
-        <label for="floatingInput">User Name</label>
-      </div>
-         <div class="form-floating mb-3">
-            <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
-            <label for="floatingInput">Email address</label>
-          </div>
-          <div class="form-floating mb-3">
-            <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
-            <label for="floatingPassword">Password</label>
-          </div>
-          <div class="form-floating mb-3">
-            <input type="schoolYear" class="form-control" id="floatingInput" placeholder="Senior">
-            <label for="floatingInput">School Year</label>
-          </div>
-          <div class="form-floating mb-3">
-            <input type="major" class="form-control" id="floatingInput" placeholder="computer science">
-            <label for="floatingInput">Major</label>
-          </div>
+<div class="container p-3 my-3 w-75 bg-dark text-white border">
+    
 
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="other" checked>
-            <label class="form-check-label" for="flexCheckDefault">
-              Other
-            </label>
-          </div>
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="male">
-            <label class="form-check-label" for="flexCheckDefault">
-              Male
-            </label>
-          </div>
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="female" >
-            <label class="form-check-label" for="flexCheckChecked">
-              Female
-            </label>
-          </div>
-
-          <button class="w-100 btn btn-primary btn-lg" type="submit">Create User</button>
+        <div class="d-flex flex-row justify-content-between">
+            <h1 class="p-1">I'm looking to hit...</h1>
         </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-    crossorigin="anonymous"></script>
-</body>
+        <select class="form-select p-3 " aria-label="Default select example">
+            <option selected>Choose a Exercise</option>
+            <option value="1">Legs</option>
+            <option value="2">Shoulders</option>
+            <option value="3">Triceps</option>
+          </select>
+    
+          <div class = "hid my-3" >
+          <div class="alert alert-warning alert-dismissible fade show w-25" style="display: inline-block;" role="alert" id ="leg">
+            <strong>Leg</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
 
+          <div class="alert alert-warning alert-dismissible fade show w-25" style="display: inline-block;" role="alert">
+            <strong>Shoulders</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+          
+
+          <div class="alert alert-warning alert-dismissible fade show w-25" style="display: inline-block;" role="alert">
+            <strong>Triceps</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+
+          <button class="w-100 btn btn-primary btn-lg" type="button"> Find Exercises</button>
+</div>
+        </div>
+
+        
+
+        <script>
+            function displayDivDemo(id, elementValue) {
+               document.getElementById(id).style.display = elementValue.value == 0 ? 'block' : 'none';
+            }
+         </script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+crossorigin="anonymous"></script>        
+</body>
 </html>
