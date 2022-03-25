@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="en">
 
@@ -11,7 +12,7 @@
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="recs.css">
-
+    <title>Recommendations</title>
 </head>
 
 <body>
@@ -20,7 +21,7 @@
 
         <a href="index.html" class="navbar-brand">
             <h2><img src="https://www.seekpng.com/png/full/43-436743_free-download-man-weight-lifting-png-silhouette.png"
-                    width="35" height="30">RecCenterRecs</h2>
+                    width="35" height="30" alt = 'Logo'>RecCenterRecs</h2>
         </a>
 
         <ul class="nav">
@@ -43,7 +44,7 @@
             <li class="nav-item">
                 <a class="nav-link nav-item" href="edit-profile.html">Edit Profile</a>
             </li>
-
+        </ul>
             <div class="dropdown">
                 <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown"
                     aria-expanded="false">
@@ -52,12 +53,12 @@
                 <div class="dropdown-menu">
                     <form class="px-4 py-3">
                         <div>
-                            <label for="email" class="form-label">Email address</label>
+                            <label for= "exampleDropdownFormEmail1" class="form-label">Email address</label>
                             <input type="email" class="form-control" id="exampleDropdownFormEmail1"
                                 placeholder="email@example.com">
                         </div>
                         <div>
-                            <label for="password" class="form-label">Password</label>
+                            <label for="exampleDropdownFormPassword1" class="form-label">Password</label>
                             <input type="password" class="form-control" id="exampleDropdownFormPassword1"
                                 placeholder="Password">
                         </div>
@@ -83,56 +84,69 @@
         <span class="badge rounded-pill bg-success">Biceps</span>
     </div>
     <br>
-    <div class = 'grid-container'>
-    <span>
-    <img class = "equipment" src = "images/bench-press.png">
-    <div class = 'text-center'>
-        <h6> Bench press</h6>
-        <p> Body parts: 
-            <span class="badge rounded-pill bg-success">Biceps</span>
-            <span class="badge rounded-pill bg-secondary">Chest</span>
-            <span class="badge rounded-pill bg-secondary">Shoulders</span>
-        </p>
-        <p>Diffuculty: 
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star"></span>
-        </p>
-    </span>
-    <br>
-    <span>
-        <img class = "equipment" src = "images/bicep-curls.jpg">
-            <div class = 'info'>
-            <h6> Bicep Curls</h6>
-            <p> Body parts: 
+    <div class = 'container'>
+        <div class = 'row'>
+            <div class = 'col-sm-5'>
+                <img class = "equipment" src = "images/bench-press.png" alt = 'Exercise'>
+            </div>
+            <div class = 'col-sm-5'>
+            <h6> Bench press</h6>
+            <div> Body parts: 
                 <span class="badge rounded-pill bg-success">Biceps</span>
-            </p>
-            <p>Diffuculty: 
+                <span class="badge rounded-pill bg-secondary">Chest</span>
+                <span class="badge rounded-pill bg-secondary">Shoulders</span>
+            </div>
+            <br>
+            <div>Diffuculty: 
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
                 <span class="fa fa-star checked"></span>
                 <span class="fa fa-star checked"></span>
                 <span class="fa fa-star"></span>
-                <span class="fa fa-star"></span>
-                <span class="fa fa-star"></span>
-            </p>
-        </span>
-    <br>
-    <div>
-        <img class = "equipment" src = "images/tricep-pushdown.png">
-            <div class = 'info'>
-            <h6> Tricep Pushdown</h6>
-            <p> Body parts: 
-                <span class="badge rounded-pill bg-success">Triceps</span>
-            </p>
-            <p>Diffuculty: 
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star "></span>
-                <span class="fa fa-star "></span>
-                <span class="fa fa-star"></span>
-            </p>
+            </div>
+            </div>
         </div>
+        <div class ='row'>
+            <div class = 'col-sm-5'>
+            <img class = "equipment" src = "images/bicep-curls.jpg" alt = 'Exercise'>
+            </div>
+            <div class = 'col-sm-5'>
+                <h6> Bicep Curls</h6>
+                <div> Body parts: 
+                    <span class="badge rounded-pill bg-success">Biceps</span>
+                </div>
+                <br>
+                <div>Diffuculty: 
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star"></span>
+                    <span class="fa fa-star"></span>
+                    <span class="fa fa-star"></span>
+                </div>
+                </div>
+            </div>
+        <div class ='row'>
+            <div class = 'col-sm-5'>
+            <img class = "equipment" src = "images/tricep-pushdown.png" alt = 'Exercise'>
+            </div>
+            <div class = 'col-sm-5'>
+                <h6> Tricep Pushdown</h6>
+                <div> Body parts: 
+                    <span class="badge rounded-pill bg-success">Triceps</span>
+                </div>
+                <br>
+                <div>Diffuculty: 
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star "></span>
+                    <span class="fa fa-star "></span>
+                    <span class="fa fa-star"></span>
+                </div>
+            </div>
+            </div>
+    </div>
+    <div class=" row justify-content-center">
+        <button class = 'btn btn-primary' >View More</button>
     </div>
 </body>
 </html>
