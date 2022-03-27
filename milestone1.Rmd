@@ -22,42 +22,40 @@ Users can filter the leaderboard on year, major, exercise
 	
 Part 1: user interface (screenshots of wireframes)
 User profile creation:
-![](images/image8.png)
-
-
+![](rmd.images/image8.png)
 
 
 Landing page/leaderboard:
-![](images/image12.png)
+![](rmd.images/image12.png)
 
 User Workout history:
-![](images/image6.png)
+![](rmd.images/image6.png)
 
 
 Record workout page:
-![](images/image10.png)
+![](rmd.images/image10.png)
 
 User recommendation input: 
-![](images/image11.png)
+![](rmd.images/image11.png)
 
 User workout recommandations: 
-![](images/image5.png)
+![](rmd.images/image5.png)
 
 Part 2: screenshots of HTML pages
 User profile creation:
-![](images/image3.png)
+![](rmd.images/image3.png)
 Landing page/leaderboard:
-![](images/image7.png)
+![](rmd.images/image7.png)
 User Workout history:
-![](images/image9.png)
+![](rmd.images/image9.png)
 
 Record workout page:
-![](images/image2.png) 
+![](rmd.images/image2.png) 
 
 User recommendation input:
-![](images/image4.png)
+![](rmd.images/image4.png)
 User Recommendations:
-![](images/image1.png)
+![](rmd.images/image1.png)
 
 Part 3: Contributions
 
