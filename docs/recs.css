@@ -16,18 +16,13 @@
     border-radius: 10px;
     height: 60px;
   }
+
 .equipment{
-   max-width: 25%;
-   height: auto;
-   float: left;
-   padding-right: 50px;
+  max-width: 400px;
+  height: auto;
+  padding-left: 200px;
 }
 .checked{
   color: orange;
 }
 
-.grid-container{
-  display: grid;
-  grid-template-rows: auto auto auto;
-  grid-template-columns: auto auto auto;
-}
