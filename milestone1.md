@@ -54,6 +54,7 @@ Record workout page:
 
 User recommendation input:
 ![](rmd.images/image4.png)
+
 User Recommendations:
 ![](rmd.images/image1.png)
 
