@@ -17,6 +17,7 @@ async function reload(filename) {
       users = {};
     }
   }
+  
   async function saveCounters() {
     try {
       const data = JSON.stringify(users);
@@ -52,6 +53,19 @@ async function getExercises(response, exercies_tags){
     
 }
 
+async function recordWorkout(response, name){
+  const data = await readFile('users.json')
+  users = JSON.parse(data)
+}
+
+async function getLeaderboard(response, tags){
+  const data = await readFile('exercises.json')
+  users = JSON.parse(data)
+  for(i = 0; i < users.length; i++){
+    if(users)
+  }
+}
+
 //Add calls to your method in this function
  async function basicServer(request, response) {
     const parsedURL = url.parse(request.url, true);
@@ -62,9 +76,14 @@ async function getExercises(response, exercies_tags){
         if(pathname.startsWith('/exercises')){
             getExercises(response, options.tags);
         }
+        if(pathname.startsWith('leaderboard')) {
+          getLeaderboard(response, options);
+        }
     }
     else if( method === 'POST'){
-    
+        if(pathname.startsWith('record')) {
+          recordWorkout(response, options.name);
+        }
     }
     else{
         response.writeHead(404, headerFields);
