@@ -1,0 +1,21 @@
+{ 
+    "exercies": 
+
+    [
+        {
+        "Name": "Bench press",
+        "Diffuculty" : 4,
+        "Parts": ["Biceps", "Chest", "Shouulders"]
+        },
+        {
+        "Name": "Bicep Curls",
+        "Diffuculty" : 2,
+        "Parts": ["Biceps"]
+        },
+        {
+        "Name": "Tricep Pushdown",
+        "Diffuculty" : 2,
+        "Parts": ["Triceps"]
+        }
+    ]
+}
