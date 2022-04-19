@@ -4,17 +4,17 @@
     [
         {
         "name": "Bench press",
-        "difficulty" : 4,
+        "diffuculty" : 4,
         "parts": ["biceps", "chest", "shoulders"]
         },
         {
         "name": "Bicep Curls",
-        "difficulty" : 2,
+        "diffuculty" : 2,
         "parts": ["biceps"]
         },
         {
         "name": "Tricep Pushdown",
-        "difficulty" : 2,
+        "diffuculty" : 2,
         "parts": ["triceps"]
         }
     ]

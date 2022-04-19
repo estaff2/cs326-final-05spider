@@ -28,7 +28,6 @@ async function reload(filename) {
   }  
 
 
-
 function findCommonElements(arr1, arr2) {
     return arr1.some(item => arr2.includes(item))
 } 
@@ -62,7 +61,8 @@ async function getLeaderboard(response, tags){
   const data = await readFile('exercises.json')
   users = JSON.parse(data)
   for(i = 0; i < users.length; i++){
-    if(users)
+    if(users){
+  }
   }
 }
 
