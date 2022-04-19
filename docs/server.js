@@ -22,15 +22,22 @@ async function reload(filename) {
       console.log(err);
     }
   }  
-
+//$('#myLink').attr({"href" : '/myLink?array=' + myArray.join(',')}); is how to pass the tags in, so make one string with , and then split into array here
 async function getExercises(response, exercies_tags){
-    const data = await readFile('exercises.json')
-    const names = 
-    exercises = JSON.parse(data)
+    const data = await readFile('exercises.json');
+    const tags = exercies_tags.split(',');
+    let matching = []
+    let exercises = JSON.parse(data);
     let i;
     for(i = 0; i < exercises.length; i++){
-        exercise = exercises[i]
+        let exercise = exercises[i];
+        if( exercise.name in tags){
+            matching.push(exercise);
+        }
     }
+    response.writeHead(200, headerFields);
+    response.write(JSON.stringify(matching));
+    response.end();
     
 }
 
@@ -43,7 +50,7 @@ async function getExercises(response, exercies_tags){
   
     if (method === 'GET'){
         if(pathname.startsWith('exercises')){
-            getExercises(response, options);
+            getExercises(response, options.tags);
         }
     }
     else if( method === 'POST'){
