@@ -2,9 +2,12 @@ import * as http from 'http';
 import * as url from 'url';
 import { readFile, writeFile, access } from 'fs/promises';
 
+
 const JSONfile = 'users.json';
 let users = {};
-const headerFields = { 'Content-Type': 'text/html' };
+const headerFields = { 'Content-Type': 'text/html',
+  'Access-Control-Allow-Origin': '*'
+};
 
 async function reload(filename) {
     try {
@@ -22,16 +25,24 @@ async function reload(filename) {
       console.log(err);
     }
   }  
+
+
+
+function findCommonElements(arr1, arr2) {
+    return arr1.some(item => arr2.includes(item))
+} 
 //$('#myLink').attr({"href" : '/myLink?array=' + myArray.join(',')}); is how to pass the tags in, so make one string with , and then split into array here
 async function getExercises(response, exercies_tags){
     const data = await readFile('exercises.json');
     const tags = exercies_tags.split(',');
-    let matching = []
+    let matching = [];
     let exercises = JSON.parse(data);
+    exercises = exercises['exercises'];
     let i;
     for(i = 0; i < exercises.length; i++){
         let exercise = exercises[i];
-        if( exercise.name in tags){
+        let parts = exercise.parts;
+        if(findCommonElements(tags,parts)){
             matching.push(exercise);
         }
     }
@@ -47,9 +58,8 @@ async function getExercises(response, exercies_tags){
     const options = parsedURL.query;
     const pathname = parsedURL.pathname;
     const method = request.method;
-  
     if (method === 'GET'){
-        if(pathname.startsWith('exercises')){
+        if(pathname.startsWith('/exercises')){
             getExercises(response, options.tags);
         }
     }
@@ -64,8 +74,6 @@ async function getExercises(response, exercies_tags){
   }
   
 
-
-reload(JSONfile)
 http.createServer(basicServer).listen(3000, () => {
   console.log('Server started on port 3000');
 });

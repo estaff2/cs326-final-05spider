@@ -1,21 +1,21 @@
 { 
-    "exercies": 
+    "exercises": 
 
     [
         {
-        "Name": "Bench press",
-        "Diffuculty" : 4,
-        "Parts": ["Biceps", "Chest", "Shouulders"]
+        "name": "Bench press",
+        "difficulty" : 4,
+        "parts": ["biceps", "chest", "shoulders"]
         },
         {
-        "Name": "Bicep Curls",
-        "Diffuculty" : 2,
-        "Parts": ["Biceps"]
+        "name": "Bicep Curls",
+        "difficulty" : 2,
+        "parts": ["biceps"]
         },
         {
-        "Name": "Tricep Pushdown",
-        "Diffuculty" : 2,
-        "Parts": ["Triceps"]
+        "name": "Tricep Pushdown",
+        "difficulty" : 2,
+        "parts": ["triceps"]
         }
     ]
 }
