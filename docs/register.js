@@ -22,7 +22,7 @@ window.addEventListener("load", async function() {
       }
     
       else{
-      const response = await fetch(`./user/new`, {
+      const response = await fetch(`./user.JSON`, {
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
