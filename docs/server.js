@@ -3,6 +3,18 @@ import * as url from 'url';
 import { readFile, writeFile, access } from 'fs/promises';
 
 
+//I added authentification ---Vic
+
+const express = require("express");
+const { MongoClient } = require("mongodb");
+const expressSession = require('express-session');
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+const minicrypt = require('./MiniCrypt');
+
+const MongoDBStore = require('connect-mongodb-session')(expressSession);
+
+// end of added mongoClient
 const JSONfile = 'users.json';
 let users = {};
 const headerFields = { 'Content-Type': 'text/html',
