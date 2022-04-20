@@ -7,7 +7,7 @@ import { readFile, writeFile, access } from 'fs/promises';
 
 
 
-// end of added mongoClient
+
 const JSONfile = 'users.json';
 let users = {};
 const headerFields = { 'Content-Type': 'text/html',
