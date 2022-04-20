@@ -1,0 +1,17 @@
+
+{              
+    "username": "spider", 
+    "emailadress": "spider@umass.edu", 
+    "password": "12345", 
+    "schoolYear" : "senior",
+    "major": "Computer Science",
+    "sex": "female",
+    "workout_his": 
+        {
+        "exerciseName" : "squat", 
+        "sets": "1",
+        "reps": "1",
+        "weight": "135"
+        }
+                
+}
