@@ -1,6 +1,5 @@
 
-window.addEventListener("click", async function() {
-
+window.addEventListener("load", async function() {
     if(window.localStorage.getItem("logged-in") === true){
       window.location.replace('./landing_page.html');
       return;
@@ -8,19 +7,21 @@ window.addEventListener("click", async function() {
 
     document.getElementById("createUser").addEventListener('click', async function () {
 
-	const username = document.getElementById("username");
+	  const username = document.getElementById("username");
     const email = document.getElementById("email");
     const password = document.getElementById("password");
     const schoolYear = document.getElementById("schoolYear");
     const major = document.getElementById("major");
-    if(email === '' || password === '' || username === ''|| password === '' || schoolYear ===''
-    || major ===''){
+    const major = document.getElementById("sex");
+    if(email === '' || password === '' || username === ''|| password === '' || 
+    schoolYear ==='' || major ==='' || sex === ''){
       return;
 
     }else if(!email.match('[A-Za-z0-9_|$|#|+|]+@[a-zA-Z]*[.]*[a-zA-Z]+.(edu|com|net)')) {
       return;
     }
-
+   
+    else{
     const response = await fetch(`./user/new`, {
         headers: {
           'Accept': 'application/json',
@@ -28,8 +29,8 @@ window.addEventListener("click", async function() {
         },
         method: 'POST',
         body: JSON.stringify({username, email, password, schoolYear, major})
-
-    });
+      });
+    
 
     
     if(response.ok){
@@ -41,6 +42,6 @@ window.addEventListener("click", async function() {
       else {
         console.error("can't register.");
       }
-    });
-      
+    }
+  });  
 });

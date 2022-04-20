@@ -10,7 +10,7 @@ const { MongoClient } = require("mongodb");
 const expressSession = require('express-session');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
-const minicrypt = require('./MiniCrypt');
+const minicrypt = require('./docs/MiniCrypt');
 
 const MongoDBStore = require('connect-mongodb-session')(expressSession);
 
