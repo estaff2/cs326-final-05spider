@@ -66,16 +66,39 @@ async function getExercises(response, exercies_tags){
 
 async function recordWorkout(response, name){
   const data = await readFile('users.json')
-  users = JSON.parse(data)
+  users = JSON.parse(data);
+  response.writeHead(200, headerFields);
+  response.write(JSON.stringify(matching));
+  response.end();
 }
 
 async function getLeaderboard(response, tags){
-  const data = await readFile('exercises.json')
-  users = JSON.parse(data)
-  for(i = 0; i < users.length; i++){
-    if(users){
+  const data = await readFile('all-workouts.json');
+  const tags=tags.split(',');
+  const exercise=tags[2];
+  const workouts = sortByExcercise(filterTags(JSON.parse(data), tags), exercise);
+  let leaderboard = [];
+
+  for(i = 0; i < 25; i++){
+    leaderboard.push(workouts.get(i));
   }
+  response.writeHead(200, headerFields);
+  response.write(JSON.stringify(leaderboard));
+  response.end();
+}
+
+function filterTags(data, tags) {
+  for(each workout in workouts) {
+    for(tag in tags) {
+      if(workout contains all tags)
+        leaderboard.push(workout)
+    }
   }
+  return leaderboard;
+}
+
+function sortByExcercise(leaderboard, excercise) {
+
 }
 
 //Add calls to your method in this function
@@ -88,12 +111,12 @@ async function getLeaderboard(response, tags){
         if(pathname.startsWith('/exercises')){
             getExercises(response, options.tags);
         }
-        if(pathname.startsWith('leaderboard')) {
-          getLeaderboard(response, options);
+        if(pathname.startsWith('/leaderboard')) {
+          getLeaderboard(response, options.tags);
         }
     }
     else if( method === 'POST'){
-        if(pathname.startsWith('record')) {
+        if(pathname.startsWith('/record')) {
           recordWorkout(response, options.name);
         }
     }
