@@ -5,11 +5,16 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
+    "deploy": "copyfiles client/* server/* .env package*.json deploy",
     "start": "node server.js"
   },
   "author": "COMPSCI 326 Spider",
   "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.3"
+  },
   "engines": {
-    "node": "16.13.2"
+    "node": "17.8.0"
   }
 }
+
