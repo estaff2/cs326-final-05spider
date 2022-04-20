@@ -5,7 +5,14 @@ import { readFile, writeFile, access } from 'fs/promises';
 
 // added authentification ---do we need this?
 
+const express = require("express");
+const { MongoClient } = require("mongodb");
+const expressSession = require('express-session');
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+const minicrypt = require('./docs/MiniCrypt');
 
+const MongoDBStore = require('connect-mongodb-session')(expressSession);
 
 // end of added mongoClient
 const JSONfile = 'users.json';
@@ -79,8 +86,6 @@ async function getLeaderboard(response, string_tags){
   response.write(JSON.stringify(leaderboard));
   response.end();
 }
-
-//commented this function out as it was causing errors with server due to being unfinished
 
 //function filterTags(data, tags) {
   //for(each workout in workouts) {
