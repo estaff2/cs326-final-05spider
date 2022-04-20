@@ -3,7 +3,7 @@ import * as url from 'url';
 import { readFile, writeFile, access } from 'fs/promises';
 
 
-//I added authentification ---Vic
+// added authentification ---do we need this?
 
 const express = require("express");
 const { MongoClient } = require("mongodb");
