@@ -5,9 +5,6 @@ import { readFile, writeFile, access } from 'fs/promises';
 
 // added authentification ---do we need this?
 
-
-
-
 const JSONfile = 'users.json';
 let users = {};
 const headerFields = {
@@ -32,7 +29,6 @@ async function saveCounters() {
     console.log(err);
   }
 }
-
 
 function findCommonElements(arr1, arr2) {
   return arr1.some(item => arr2.includes(item))
@@ -77,8 +73,9 @@ async function recordWorkout(response, name, workout) {
 
 //loads in user JSONfile, filters out users/exercises according to tags, sort remainder by descending order of weight, return top 25 entries.
 async function getLeaderboard(response, tags) {
+  tags = tags.split(',');
   const users = await readFile('users.json');
-  const workouts = sortByExcercise(filterTags(JSON.parse(users), tags), tags["exercise"]);
+  const workouts = sortByExcercise(filterTags(JSON.parse(users), tags), tags[2]);
   let leaderboard = [];
   for (i = 0; i < 25; i++) {
     leaderboard.push(workouts[i]);
@@ -94,16 +91,16 @@ function filterTags(users, tags) {
   let valid_users = [];
   for (let i = 0; i < users.length; i++) {
     const user = users[i];
-    if (!user["sex"].equals(tags["gender"]))
+    if (!user["sex"].equals(tags[0]))
       continue;
-    if (tags["club"] !== null)
-      if (!user["club"].equals(tags["club"]))
+    if (tags[3] !== null)
+      if (!user["club"].equals(tags[3]))
         continue;
-    if (tags["major"] !== null)
-      if (!user["major"].equals(tags["major"]))
+    if (tags[4] !== null)
+      if (!user["major"].equals(tags[4]))
         continue;
-    if (tags["year"] !== null)
-      if (!user["schoolYear"].equals(tags["year"]))
+    if (tags[5] !== null)
+      if (!user["schoolYear"].equals(tags[5]))
         continue;
     valid_users.push(user);
   }
@@ -115,12 +112,12 @@ function filterTags(users, tags) {
     const user_workouts = user["workout_his"];
     for (let j = 0; j < user_workouts.length; j++) {
       const workout = user_workouts[j];
-      if (tags["time"].equals("week"))
+      if (tags[1].equals("week"))
         if (!pastWeek(workout))
           continue;
       for (let k = 0; k < workout.length; k++) {
         const entry = workout[k];
-        if (!tags["exercise"].equals(entry["exercise"]))
+        if (!tags[2].equals(entry["exercise"]))
           continue;
         else
           valid_exercises.push(entry);
@@ -163,12 +160,12 @@ async function basicServer(request, response) {
       getExercises(response, options.tags);
     }
     if (pathname.startsWith('/leaderboard')) {
-      getLeaderboard(response, body.tags);
+      getLeaderboard(response, options.tags);
     }
   }
   else if (method === 'POST') {
     if (pathname.startsWith('/record')) {
-      recordWorkout(response, options.username, body.workout);
+      recordWorkout(response, body);
     }
   }
   else {
@@ -177,7 +174,6 @@ async function basicServer(request, response) {
     response.end();
   }
 }
-
 
 http.createServer(basicServer).listen(process.env.PORT || 3000, () => {
   console.log('Server started on port 3000');

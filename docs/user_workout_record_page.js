@@ -22,7 +22,7 @@ add_ex.addEventListener("click", () => {
 
 //upon click, submit posts the completed workout to server, resets the page.
 submit.addEventListener("click", () => {
-    saveWorkout(name, workout);
+    saveWorkout(name);
     reset();
 })
 
@@ -41,7 +41,7 @@ function updateTable(exercise, sets, reps, weight) {
 }
 
 //makes http post to server to save the workout for current user
-async function saveWorkout(username, name, date,  workout) {
+async function saveWorkout(username, name, date) {
     const data = {username:username, name:name, date:date, workout:workout};
     await fetch('/record', {
         method: 'POST',
@@ -55,7 +55,6 @@ function reset() {
 }
 
 //nav bar stuff
-
 const onClick = function() {
     let location = window.location.pathname;
     let path = location.substring(0, location.lastIndexOf("/"));
