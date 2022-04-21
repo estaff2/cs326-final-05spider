@@ -150,7 +150,7 @@ function sortByExcercise(leaderboard, exercise) {
   return leaderboard.sort((a, b) => parseFloat(b.exercise) - parseFloat(a.exercise));
 }
 
-/*
+
 // create user function
 
 async function createUser (response, request){
@@ -171,7 +171,7 @@ async function createUser (response, request){
  }
   return;
 }
-*/
+
 
 //Add calls to your method in this function
 async function basicServer(request, response) {
