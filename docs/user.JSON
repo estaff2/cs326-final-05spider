@@ -14,19 +14,8 @@
         "exerciseName" : "squat", 
         "sets": "1",
         "reps": "1",
-<<<<<<< HEAD
-        "weight": "135"
-        },
-    "workout_his2": 
-         {
-        "exerciseName" : "squat", 
-        "sets": "2",
-        "reps": "2",
-        "weight": "100"
-=======
         "weight": "135",
         "notes" : "This was a good workout. I was a little tired after my game yesterday so I didn't hit peak results"
->>>>>>> 71e8041eb1bd5d01f2674c7ee5786812770d8413
         }
                 
 }

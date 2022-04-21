@@ -156,20 +156,23 @@ function sortByExcercise(leaderboard, exercise) {
 
 // create user function
 
-function createUser (response, username, email, password, schoolYear, major, gender){
-  const data = await readFile('users.json');
-  const newuser = {
-    username : username,
-    email : email,
-    password : encryPassword,
-    schoolYear : schoolYear,
-    major : major,
-    gender : gender,
-    workout_his : {}
-  };
-  response.writeHead(200, headerFields);
-  response.write(JSON.stringify(newuser));
-  response.end();
+function createUser (response, request){
+  const data = await readFile('users.json')
+  const username =request.body["username"];
+  const email =req.body["email"];
+  const password = request.body["encryPassword"];
+  const schoolYear = request.body["schoolYear"];
+  const major = request.body["major"];
+  const gender = request.body["gender"];
+  const workout_his = request.body["workout_his"];
+ const checkDuplicate = await data.countDocuments(
+   {email : email},
+   {limit : 1}
+ ) ;
+ if (checkDuplicate >0){
+   response.sendStatus(403);
+ }
+  return;
 }
 
 //Add calls to your method in this function
