@@ -13,12 +13,10 @@ const onClick = function() {
     href_string = href_string + this.id + ".html";
     document.getElementById(this.id).href = href_string;   
 }
-  document.getElementById("landing_page").onclick = onClick;
-  document.getElementById("user_workout_record_page").onclick = onClick;
-  document.getElementById("user_workout_history").onclick = onClick;
-  document.getElementById("user_rec_input").onclick = onClick;
-  document.getElementById("edit_profile").onclick = onClick;
+  document.getElementById("landing_page").addEventListener('click', onClick);
+  document.getElementById("user_workout_record_page").addEventListener('click', onClick);
+  document.getElementById("user_workout_history").addEventListener('click', onClick);
+  document.getElementById("user_rec_input").addEventListener('click', onClick);
+  document.getElementById("edit_profile").addEventListener('click', onClick);
 
 
-  document.getElementById('user_rec_input').addEventListener('click', onClick) 
-  document.getElementById('user_workout_history').addEventListener('click', onClick()) 
