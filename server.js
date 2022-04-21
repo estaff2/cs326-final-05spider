@@ -1,6 +1,7 @@
 import * as http from 'http';
 import * as url from 'url';
 import { readFile, writeFile, access } from 'fs/promises';
+import path from 'path';
 
 
 // added authentification ---do we need this?
@@ -164,6 +165,9 @@ async function basicServer(request, response) {
     }
     if (pathname.startsWith('/leaderboard')) {
       getLeaderboard(response, body.tags);
+    }
+    if(pathname.startsWith('/user/history')) {
+      
     }
   }
   else if (method === 'POST') {
