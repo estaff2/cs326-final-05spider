@@ -154,6 +154,24 @@ function sortByExcercise(leaderboard, exercise) {
   return leaderboard.sort((a, b) => parseFloat(b.exercise) - parseFloat(a.exercise));
 }
 
+// create user function
+
+function createUser (response, username, email, password, schoolYear, major, gender){
+  const data = await readFile('users.json');
+  const newuser = {
+    username : username,
+    email : email,
+    password : encryPassword,
+    schoolYear : schoolYear,
+    major : major,
+    gender : gender,
+    workout_his : {}
+  };
+  response.writeHead(200, headerFields);
+  response.write(JSON.stringify(newuser));
+  response.end();
+}
+
 //Add calls to your method in this function
 async function basicServer(request, response) {
   const parsedURL = url.parse(request.url, true);
@@ -188,20 +206,5 @@ http.createServer(basicServer).listen(process.env.PORT || 3000, () => {
   console.log('Server started on port 3000');
 });
 
-async function createUser (response, username, email, password, schoolYear, major, gender){
-  const data = await readFile('users.json')
-  const newuser = {
-    username : username,
-    email : email,
-    password : encryPassword,
-    schoolYear : schoolYear,
-    major : major,
-    gender : gender,
-    workout_his : {}
-  }
-  response.writeHead(200, headerFields);
-  response.write(JSON.stringify(newuser));
-  response.end();
-}
 
 
