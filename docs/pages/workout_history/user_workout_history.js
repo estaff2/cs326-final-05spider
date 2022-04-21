@@ -1,10 +1,37 @@
 
-const ls = window.localStorage; 
-await getallWorkouthistory(); 
+const ls = window.localStorage;  
 
-
+ 
 let workhistory = []; 
-const loggeduser = ls.getItem("users").value; 
+//const loggeduser = ls.getItem("users").value; 
+let selectedFilter = ''
+//gets selected filter
+const filteroptions = ['none', 'legs', 'chest', 'arms', 'back'];
+const filt = document.getElementById("filter");
+function getFilter() {  
+        let selectedfilt = filteroptions[filt.value]; 
+            if (selectedfilt === undefined){
+                selectedfilt = filteroptions[0]; 
+            }
+            selectedFilter = selectedfilt; 
+        return selectedFilter; 
+} 
+filt.addEventListener("change", getFilter); 
+
+
+async function callServer(){
+    let url = "https://gym-recs.herokuapp.com/user/history?filter=" + selectedFilter; 
+    let response = await fetch(url,
+        {
+            method: 'GET',
+        });
+    if(response.ok){
+        data = await response.json();
+    }
+    else{
+        alert(response.status)
+    }
+}
 
 async function getallWorkouthistory() {
     const response = await fetch ('/user.json', {

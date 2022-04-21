@@ -150,6 +150,12 @@ function sortByExcercise(leaderboard, exercise) {
   return leaderboard.sort((a, b) => parseFloat(b.exercise) - parseFloat(a.exercise));
 }
 
+async function getWorkoutHist(response, filter){
+  const data = await readFile('users.json');
+  const users = JSON.parse(data);
+  
+}
+
 
 // create user function
 
@@ -187,7 +193,7 @@ async function basicServer(request, response) {
       getLeaderboard(response, options.tags);
     }
     if(pathname.startsWith('/user/history')) {
-      
+      getWorkoutHist(response, options.filter); 
     }
   }
   else if (method === 'POST') {
