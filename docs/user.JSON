@@ -6,12 +6,21 @@
     "schoolYear" : "senior",
     "major": "Computer Science",
     "sex": "female",
+    "club" : "rugby",
+    "chosedWorkout": "Leg",
     "workout_his": 
         {
         "exerciseName" : "squat", 
         "sets": "1",
         "reps": "1",
         "weight": "135"
+        },
+    "workout_his2": 
+         {
+        "exerciseName" : "squat", 
+        "sets": "2",
+        "reps": "2",
+        "weight": "100"
         }
                 
 }
