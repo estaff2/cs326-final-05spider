@@ -188,27 +188,20 @@ http.createServer(basicServer).listen(process.env.PORT || 3000, () => {
   console.log('Server started on port 3000');
 });
 
-app.post("/user/add", async (req, res) => {
-  const username = req.body["username"];
-  const email = req.body["email"];
-  const password = req.body["password"];
-  const schoolYear = req.body["schoolYear"];
-  const major = req.body["major"];
-  const gender = req.body["gender"];
-
-const encryPassword = miniCrypt.hash(password);
-const user = {
-  username : username,
-  email : email,
-  password : encryPassword,
-  schoolYear : schoolYear,
-  major : major,
-  gender : gender,
-
-  chosedWorkout : {},
-  workout_his : {}
-
+async function createUser (response, username, email, password, schoolYear, major, gender){
+  const data = await readFile('users.json')
+  const newuser = {
+    username : username,
+    email : email,
+    password : encryPassword,
+    schoolYear : schoolYear,
+    major : major,
+    gender : gender,
+    workout_his : {}
+  }
+  response.writeHead(200, headerFields);
+  response.write(JSON.stringify(newuser));
+  response.end();
 }
 
-});
 
