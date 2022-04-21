@@ -2,6 +2,7 @@ import * as http from 'http';
 import * as url from 'url';
 import { readFile, writeFile, access } from 'fs/promises';
 import path from 'path';
+import { appendFile } from 'fs';
 
 
 // added authentification ---do we need this?
@@ -186,3 +187,28 @@ async function basicServer(request, response) {
 http.createServer(basicServer).listen(process.env.PORT || 3000, () => {
   console.log('Server started on port 3000');
 });
+
+app.post("/user/add", async (req, res) => {
+  const username = req.body["username"];
+  const email = req.body["email"];
+  const password = req.body["password"];
+  const schoolYear = req.body["schoolYear"];
+  const major = req.body["major"];
+  const gender = req.body["gender"];
+
+const encryPassword = miniCrypt.hash(password);
+const user = {
+  username : username,
+  email : email,
+  password : encryPassword,
+  schoolYear : schoolYear,
+  major : major,
+  gender : gender,
+
+  chosedWorkout : {},
+  workout_his : {}
+
+}
+
+});
+
