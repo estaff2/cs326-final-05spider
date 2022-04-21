@@ -21,7 +21,7 @@ document.getElementById("createUser").addEventListener('submit', async function 
         return;
       }
     
-      const response = await fetch(`./user.JSOn`, {
+      const response = await fetch(`./user/add`, {
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'

@@ -2,6 +2,7 @@ import * as http from 'http';
 import * as url from 'url';
 import { readFile, writeFile, access } from 'fs/promises';
 import path from 'path';
+import { appendFile } from 'fs';
 
 
 // added authentification ---do we need this?
@@ -153,6 +154,24 @@ function sortByExcercise(leaderboard, exercise) {
   return leaderboard.sort((a, b) => parseFloat(b.exercise) - parseFloat(a.exercise));
 }
 
+// create user function
+
+function createUser (response, username, email, password, schoolYear, major, gender){
+  const data = await readFile('users.json');
+  const newuser = {
+    username : username,
+    email : email,
+    password : encryPassword,
+    schoolYear : schoolYear,
+    major : major,
+    gender : gender,
+    workout_his : {}
+  };
+  response.writeHead(200, headerFields);
+  response.write(JSON.stringify(newuser));
+  response.end();
+}
+
 //Add calls to your method in this function
 async function basicServer(request, response) {
   const parsedURL = url.parse(request.url, true);
@@ -186,3 +205,6 @@ async function basicServer(request, response) {
 http.createServer(basicServer).listen(process.env.PORT || 3000, () => {
   console.log('Server started on port 3000');
 });
+
+
+
