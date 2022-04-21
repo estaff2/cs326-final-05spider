@@ -55,12 +55,11 @@ async function getExercises(response, exercies_tags) {
   response.writeHead(200, headerFields);
   response.write(JSON.stringify(matching));
   response.end();
-
 }
 
 //load in user JSONfile, appends new workout to field "workout" containing array of workouts
 async function recordWorkout(response, name, workout) {
-  const data = await readFile('users.json')
+  const data = await readFile('users.json');
   const users = JSON.parse(data);
   for (let i = 0; i < users.length; i++) {
     const user = user[i];
@@ -151,6 +150,7 @@ function sortByExcercise(leaderboard, exercise) {
   return leaderboard.sort((a, b) => parseFloat(b.exercise) - parseFloat(a.exercise));
 }
 
+/*
 // create user function
 
 function createUser (response, request){
@@ -171,6 +171,7 @@ function createUser (response, request){
  }
   return;
 }
+*/
 
 //Add calls to your method in this function
 async function basicServer(request, response) {
@@ -204,6 +205,3 @@ async function basicServer(request, response) {
 http.createServer(basicServer).listen(process.env.PORT || 3000, () => {
   console.log('Server started on port 3000');
 });
-
-
-

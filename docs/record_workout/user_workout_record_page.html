@@ -92,7 +92,7 @@
             <input type="text" class="form-control p-2" placeholder="Number of Sets" id="sets">
             <input type="text" class="form-control p-2" placeholder="Number of Reps" id="reps">
             <input type="text" class="form-control p-2" placeholder="Weight" id="weight">
-            <button class="btn btn-dark btn-lg" id="add_ex">+</button>
+            <button type="button" class="btn btn-dark btn-lg" id="add_ex">+</button>
         </form>
 
     </div>
@@ -100,36 +100,16 @@
     <div class="center">
         <div class="col-lg-5">
             <table class="table table-striped" id="workout_table">
+                <thead>
                 <tr scope="row">
                     <th>Excercise</th>
                     <th># Sets</th>
                     <th># Reps</th>
                     <th>Weight</th>
                 </tr>
-                <tr>
-                    <td>Squat</td>
-                    <td>3</td>
-                    <td>7</td>
-                    <td>225</td>
-                </tr>
-                <tr>
-                    <td>Deadlift</td>
-                    <td>2</td>
-                    <td>5</td>
-                    <td>315</td>
-                </tr>
-                <tr>
-                    <td>Leg Press</td>
-                    <td>4</td>
-                    <td>12</td>
-                    <td>405</td>
-                </tr>
-                <tr>
-                    <td>Calf Raises</td>
-                    <td>4</td>
-                    <td>15</td>
-                    <td>265</td>
-                </tr>
+            </thead>
+            <tbody id="tbody">
+            </tbody>
             </table>
         </div>
     </div>
