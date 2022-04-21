@@ -6,6 +6,8 @@
     "schoolYear" : "senior",
     "major": "Computer Science",
     "sex": "female",
+    "club" : "rugby",
+    "chosedWorkout": "Leg",
     "workout_his": 
         {
         "date" : "Wednesday, April 20th, 2022",

@@ -1,50 +1,70 @@
+let table = document.getElementById("leaderboard");
+let tag_bar=document.getElementById("tag_bar");
+
 load();
-console.log("poop");
 
 //upon page load, update leaderboard/tag display using default vals.
 //default vals: gender->all, time->all, exercise->squat, club->all, major->all, year->all
 function load() {
-    updatePage(null, null, "squat", null, null, null);
+    updatePage(null, null, "Squat", null, null, null);
 }
 
-const search = document.getElementById("search").value;
+const search = document.getElementById("search");
 //upon click search gathers user input for tags, updates leaderboard/tag display
 search.addEventListener("click", () => {
-    const gender = document.getElementById("gender").value;
-    const time = document.getElementById("time").value;
-    const exercise = document.getElementById("exercise").value;
-    const club = document.getElementById("club").value;
-    const major = document.getElementById("major").value;
-    const year = document.getElementById("year").value;
+
+    let gender = document.getElementsByName("sex");
+    for (var radio of gender)
+    {
+        if (radio.checked) {
+           
+            gender = radio.value;
+        }
+    }
+    let time = document.getElementsByName("time");
+    for (var radio of time)
+    {
+        if (radio.checked) {
+            time = radio.value;
+        }
+    }
+
+    let exercise = document.getElementById("exercise");
+    exercise = exercise.options[exercise.selectedIndex].text;
+
+    let club = document.getElementById("club");
+    club = club.options[club.selectedIndex].text;
+
+    let major = document.getElementById("major");
+    major = major.options[major.selectedIndex].text;
+
+    let year = document.getElementById("year");
+    year = year.options[year.selectedIndex].text;
+
+    console.log(gender, time, exercise, club, major, year)
     updatePage(gender, time, exercise, club, major, year);
 })
 
+
 //resets the leaderboard
-function reset() {
-    table.innerHTML="";
+async function resetTable() {
+    tbody.innerHTML="";
 }
 
 //updates page by calling updates on leaderboard, tag display
 async function updatePage(gender, time, exercise, club, major, year) {
     updateTable(gender, time, exercise, club, major, year);
-    updateTags(gender, time, exercise, club, major, year);
+    updateTags(exercise, club, major, year);
 }
 
-let table = document.getElementById("leaderboard");
-
-//makes the http request to server to get ranking data based on supplied tags
+//makes the http request to server to get ranking data based on supplied tags and updates the table accordingly
 async function updateTable(gender, time, exercise, club, major, year) {
-    tags = {gender:gender, time:time, exercise:exercise, club:club, major:major, year:year};
-
-    const response = await fetch('/leaderboard', {
-        method: 'GET',
-        body: JSON.stringify(tags)
-    });
-    const rankings = response.json;
+    const tags = [gender, time, exercise, club, major, year];
+    const rankings = callServer(tags);
 
     resetTable();
 
-    for(let i = 0; i < rankings.size(); i++) {
+    for(let i = 0; i < rankings.length; i++) {
         const curr=rankings[i];
         let row = document.createElement("tr");
         const rank = document.createElement("td").innerHTML = i+1;
@@ -63,22 +83,38 @@ async function updateTable(gender, time, exercise, club, major, year) {
     }
 }
 
-const tag_bar=document.getElementById("tag_bar");
+//makes the http request to server to get ranking data based on supplied tags
+async function callServer(tags) {
+    let url = 'http://localhost:3000/exercises?tags=' + tags.join(','); //tags.join(',') is a way to handle putting an array into one parameter of the query 
+    let response = await fetch(url,
+        {
+            method: 'GET'
+        });
+    if(response.ok){
+        data = await response.json();
+    }
+    else{
+        alert(response.status)
+    }
+    return response.json;
+}
+
 //updates the list of tags above the leaderboard
-function updateTags(time, exercise, club, major, year) {
+function updateTags(exercise, club, major, year) {
     resetTags();
-    const time = createTag(time);
-    const exercise = createTag(exercise);
-    const club = createTag(club);
-    const major = createTag(major);
-    const year = createTag(year);
-    tag_bar.appendChild(time);
-    tag_bar.appendChild(exercise);
-    tag_bar.appendChild(year);
+    const ex = createTag(exercise);
+    const cl = createTag(club);
+    const mj = createTag(major);
+    const yr = createTag(year);
+
+    if(exercise !== null) 
+        tag_bar.appendChild(ex);
+    if(year !== null) 
+        tag_bar.appendChild(yr);
     if(club !== null)
-        tag_bar.appendChild(club);
+        tag_bar.appendChild(cl);
     if(major !== null)
-        tag_bar.appendChild(major);
+        tag_bar.appendChild(mj);
 }
 
 //creates a tag element for display
@@ -91,17 +127,20 @@ function createTag(tag) {
     div.classList.add("show");
 
     const text = document.createElement("STRONG");
-    text.value = tag;
+    text.classList.add("tag-text");
+    console.log(tag)
+    text.innerHTML = tag;
 
     const close = document.createElement("button");
     close.classList.add("btn-close");
 
     div.appendChild(text);
     div.appendChild(close);
+    return div;
 }
 
 //resets the tag bar
-function resetTags() {
+async function resetTags() {
     tag_bar.innerHTML="";
 }
 
