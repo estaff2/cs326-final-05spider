@@ -6,7 +6,7 @@ API’s (names may have to be changed based on what is actually written in serve
 
 /leaderboard - This endpoint will get the workout history for every user and display the highest weights using the filters provided. This is a GET operation 
 
-/user/addWorkout - This endpoint will let a user post a workout with relevant information such as the exercise performed, the number of sets and reps, the weight used, and any additional notes they may have. This is a POST operation.
+/record - This endpoint will let a user post a workout with relevant information such as the exercise performed, the number of sets and reps, the weight used, and any additional notes they may have. This is a POST operation.
 
 /user/history - This endpoint will allow the user to look at all of their past workouts that they have posted. This is a GET operation.
 
@@ -25,7 +25,11 @@ This shows our interface for posting a workout. You select your machine and ente
 ![](images/setup_read.png)
 This is the login page, upon entering your username and password a GET request will be sent to the server and a check to see if that user actually exists will be performed, if it does then you will be signed in and have access to your workout history and have the ability to add more workouts.
 
+![](images/setup_update.png)
+This page will let you update your password for your user profile
 
+![](images/setup_delete.png)
+This page will let you delete a user profile.
 
 Contributions: 
 Ethan - Wrote all code for recommendation output, the recs js,html, and css files. I additionally wrote all related server GET requests for this involving the data from exercises.json, I also wrote the code for nav bar functionality. I also wrote the API descriptions. Due to a last minute heroku deployment the recs server request is currently not working, but will be fixed shortly after the deadline.
