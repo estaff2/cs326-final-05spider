@@ -31,6 +31,10 @@ This page will let you update your password for your user profile
 ![](images/setup_delete.png)
 This page will let you delete a user profile.
 
+
+
+Link to heroku: https://gym-recs.herokuapp.com/
+
 Contributions: 
 Ethan - Wrote all code for recommendation output, the recs js,html, and css files. I additionally wrote all related server GET requests for this involving the data from exercises.json, I also wrote the code for nav bar functionality. I also wrote the API descriptions. Due to a last minute heroku deployment the recs server request is currently not working, but will be fixed shortly after the deadline.
 
