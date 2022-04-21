@@ -1,9 +1,12 @@
+let table = document.getElementById("leaderboard");
+let tag_bar=document.getElementById("tag_bar");
+
 load();
 
 //upon page load, update leaderboard/tag display using default vals.
 //default vals: gender->all, time->all, exercise->squat, club->all, major->all, year->all
 function load() {
-    updatePage(null, null, "squat", null, null, null);
+    updatePage(null, null, "Squat", null, null, null);
 }
 
 const search = document.getElementById("search");
@@ -42,7 +45,7 @@ search.addEventListener("click", () => {
     updatePage(gender, time, exercise, club, major, year);
 })
 
-const tbody = document.getElementById("tbody");
+
 //resets the leaderboard
 async function resetTable() {
     tbody.innerHTML="";
@@ -51,11 +54,8 @@ async function resetTable() {
 //updates page by calling updates on leaderboard, tag display
 async function updatePage(gender, time, exercise, club, major, year) {
     updateTable(gender, time, exercise, club, major, year);
-    updateTags(gender, time, exercise, club, major, year);
+    updateTags(exercise, club, major, year);
 }
-
-let table = document.getElementById("leaderboard");
-let tag_bar=document.getElementById("tag_bar");
 
 //makes the http request to server to get ranking data based on supplied tags and updates the table accordingly
 async function updateTable(gender, time, exercise, club, major, year) {
@@ -88,7 +88,7 @@ async function callServer(tags) {
     let url = 'http://localhost:3000/exercises?tags=' + tags.join(','); //tags.join(',') is a way to handle putting an array into one parameter of the query 
     let response = await fetch(url,
         {
-            method: 'GET',
+            method: 'GET'
         });
     if(response.ok){
         data = await response.json();
@@ -106,8 +106,11 @@ function updateTags(exercise, club, major, year) {
     const cl = createTag(club);
     const mj = createTag(major);
     const yr = createTag(year);
-    tag_bar.appendChild(ex);
-    tag_bar.appendChild(yr);
+
+    if(exercise !== null) 
+        tag_bar.appendChild(ex);
+    if(year !== null) 
+        tag_bar.appendChild(yr);
     if(club !== null)
         tag_bar.appendChild(cl);
     if(major !== null)
@@ -124,6 +127,7 @@ function createTag(tag) {
     div.classList.add("show");
 
     const text = document.createElement("STRONG");
+    text.classList.add("tag-text");
     console.log(tag)
     text.innerHTML = tag;
 
