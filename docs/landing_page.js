@@ -1,17 +1,14 @@
 
 
 const onClick = function() {
-    console.log(this.id);
     let location = window.location.pathname;
     let path = location.substring(0, location.lastIndexOf("/"));
     let directoryName = path.substring(path.lastIndexOf("/")+1);
-    console.log(directoryName)
     let href_string = "";
     if( directoryName !== 'docs'){
         href_string = "docs/";
     }
     href_string = href_string + this.id + ".html";
-    console.log(href_string);
     window.location.href = href_string;
 }
   document.getElementById("landing_page").addEventListener('click', onClick);
