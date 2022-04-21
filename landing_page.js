@@ -1,10 +1,4 @@
-function showDiv(divId, element)
-{
-    document.getElementById(divId).style.display = element.value == 1 ? 'block' : 'none';
-}
 
-
-//nav bar stuff
 
 const onClick = function() {
     let location = window.location.pathname;
@@ -22,3 +16,5 @@ const onClick = function() {
   document.getElementById("user_workout_history").addEventListener('click', onClick);
   document.getElementById("user_rec_input").addEventListener('click', onClick);
   document.getElementById("edit_profile").addEventListener('click', onClick) 
+
+
