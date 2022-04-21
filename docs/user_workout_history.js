@@ -2,7 +2,7 @@
 const ls = window.localStorage; 
 await getallWorkouthistory(); 
 
-<<<<<<< HEAD
+
 let workhistory = []; 
 const loggeduser = ls.getItem("users").value; 
 
@@ -46,7 +46,7 @@ async function renderhist(element){
         w1date.innerHTML = date; 
     }
 }
-=======
+
 //nav bar stuff
 
 const onClick = function() {
@@ -65,4 +65,3 @@ const onClick = function() {
   document.getElementById("user_workout_history").addEventListener('click', onClick);
   document.getElementById("user_rec_input").addEventListener('click', onClick);
   document.getElementById("edit_profile").addEventListener('click', onClick) 
->>>>>>> 5cc7244c0cd1dac5638ba7f2d53768f136984753
