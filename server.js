@@ -40,7 +40,7 @@ function findCommonElements(arr1, arr2) {
   return arr1.some(item => arr2.includes(item))
 }
 
-//$('#myLink').attr({"href" : '/myLink?array=' + myArray.join(',')}); is how to pass the tags in, so make one string with , and then split into array here
+
 // myArray.join(',')}); is how to pass the tags in, so make one string with , and then split into array here
 async function getExercises(response, exercies_tags) {
   const data = await readFile('exercises.json');
