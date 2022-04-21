@@ -1,5 +1,5 @@
 load();
-let table = document.getElementById("leaderboard");
+console.log("poop");
 
 //upon page load, update leaderboard/tag display using default vals.
 //default vals: gender->all, time->all, exercise->squat, club->all, major->all, year->all
@@ -27,19 +27,22 @@ function reset() {
 //updates page by calling updates on leaderboard, tag display
 async function updatePage(gender, time, exercise, club, major, year) {
     updateTable(gender, time, exercise, club, major, year);
-    addTags(gender, time, exercise, club, major, year);
+    updateTags(gender, time, exercise, club, major, year);
 }
+
+let table = document.getElementById("leaderboard");
 
 //makes the http request to server to get ranking data based on supplied tags
 async function updateTable(gender, time, exercise, club, major, year) {
-    tags = {gender: gender, time: time, exercise: exercise, club:club, major:major, year:year};
+    tags = {gender:gender, time:time, exercise:exercise, club:club, major:major, year:year};
+
     const response = await fetch('/leaderboard', {
         method: 'GET',
         body: JSON.stringify(tags)
     });
     const rankings = response.json;
 
-    reset();
+    resetTable();
 
     for(let i = 0; i < rankings.size(); i++) {
         const curr=rankings[i];
@@ -60,11 +63,47 @@ async function updateTable(gender, time, exercise, club, major, year) {
     }
 }
 
+const tag_bar=document.getElementById("tag_bar");
 //updates the list of tags above the leaderboard
-function addTags(gender, time, exercise, club, major, year) {
-
+function updateTags(time, exercise, club, major, year) {
+    resetTags();
+    const time = createTag(time);
+    const exercise = createTag(exercise);
+    const club = createTag(club);
+    const major = createTag(major);
+    const year = createTag(year);
+    tag_bar.appendChild(time);
+    tag_bar.appendChild(exercise);
+    tag_bar.appendChild(year);
+    if(club !== null)
+        tag_bar.appendChild(club);
+    if(major !== null)
+        tag_bar.appendChild(major);
 }
 
+//creates a tag element for display
+function createTag(tag) {
+    const div = document.createElement("div");
+    div.classList.add("alert");
+    div.classList.add("alert-warning");
+    div.classList.add("alert-dismissible");
+    div.classList.add("fade");
+    div.classList.add("show");
+
+    const text = document.createElement("STRONG");
+    text.value = tag;
+
+    const close = document.createElement("button");
+    close.classList.add("btn-close");
+
+    div.appendChild(text);
+    div.appendChild(close);
+}
+
+//resets the tag bar
+function resetTags() {
+    tag_bar.innerHTML="";
+}
 
 const onClick = function() {
     let location = window.location.pathname;
@@ -82,5 +121,3 @@ const onClick = function() {
   document.getElementById("user_workout_history").addEventListener('click', onClick);
   document.getElementById("user_rec_input").addEventListener('click', onClick);
   document.getElementById("edit_profile").addEventListener('click', onClick) 
-
-
