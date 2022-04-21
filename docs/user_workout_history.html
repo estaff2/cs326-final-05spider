@@ -43,7 +43,31 @@
                 <a class="nav-link nav-item" id = "edit_profile">Manage Profile</a>
             </li>
 
-            
+            <div class="dropdown">
+                <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    Log In
+                </button>
+                <div class="dropdown-menu">
+                    <form class="px-4 py-3">
+                        <div>
+                            <label for="email" class="form-label">Email address</label>
+                            <input type="email" class="form-control" id="exampleDropdownFormEmail1"
+                                placeholder="email@example.com">
+                        </div>
+                        <div>
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="exampleDropdownFormPassword1"
+                                placeholder="Password">
+                        </div>
+                        <div>
+
+                        </div>
+                        <button type="submit" class="btn btn-primary">Sign in</button>
+                    </form>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="user_creation.html">New around here? Sign up</a>
+                </div>
 
     </nav>
 
@@ -64,7 +88,7 @@
     </div>
 
     <br>
-    <div class = "center">
+    <div class = "center" id = "workout1header">
         <div class = "col-md-7">
             <div class="d-flex flex-row">
                 <h2 class = "p-1">Wednesday,  March 11th,  2022</h2>
@@ -73,7 +97,7 @@
     </div>
 
     <br> 
-    <div class = "center">
+    <div class = "center" id = "workout1">
         <div class = "col-md-7">
             <table class = "table">
                 <thead>
@@ -177,5 +201,5 @@
         crossorigin="anonymous"></script>
    
 </body>
-<script  src="user_workout_history.js"></script>
+    <script  src="user_workout_history.js"></script>
 </html>

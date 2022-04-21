@@ -1,6 +1,8 @@
 import * as http from 'http';
 import * as url from 'url';
 import { readFile, writeFile, access } from 'fs/promises';
+import path from 'path';
+import { appendFile } from 'fs';
 
 
 // added authentification ---do we need this?
@@ -34,7 +36,7 @@ function findCommonElements(arr1, arr2) {
   return arr1.some(item => arr2.includes(item))
 }
 
-//$('#myLink').attr({"href" : '/myLink?array=' + myArray.join(',')}); is how to pass the tags in, so make one string with , and then split into array here
+
 // myArray.join(',')}); is how to pass the tags in, so make one string with , and then split into array here
 async function getExercises(response, exercies_tags) {
   const data = await readFile('exercises.json');
@@ -149,6 +151,27 @@ function sortByExcercise(leaderboard, exercise) {
   return leaderboard.sort((a, b) => parseFloat(b.exercise) - parseFloat(a.exercise));
 }
 
+// create user function
+
+function createUser (response, request){
+  const data = await readFile('users.json')
+  const username =request.body["username"];
+  const email =req.body["email"];
+  const password = request.body["encryPassword"];
+  const schoolYear = request.body["schoolYear"];
+  const major = request.body["major"];
+  const gender = request.body["gender"];
+  const workout_his = request.body["workout_his"];
+ const checkDuplicate = await data.countDocuments(
+   {email : email},
+   {limit : 1}
+ ) ;
+ if (checkDuplicate >0){
+   response.sendStatus(403);
+ }
+  return;
+}
+
 //Add calls to your method in this function
 async function basicServer(request, response) {
   const parsedURL = url.parse(request.url, true);
@@ -161,6 +184,9 @@ async function basicServer(request, response) {
     }
     if (pathname.startsWith('/leaderboard')) {
       getLeaderboard(response, options.tags);
+    }
+    if(pathname.startsWith('/user/history')) {
+      
     }
   }
   else if (method === 'POST') {
@@ -178,3 +204,6 @@ async function basicServer(request, response) {
 http.createServer(basicServer).listen(process.env.PORT || 3000, () => {
   console.log('Server started on port 3000');
 });
+
+
+

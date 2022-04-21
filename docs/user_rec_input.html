@@ -41,6 +41,31 @@
             <li class="nav-item">
                 <a class="nav-link nav-item" id = "edit_profile">Manage Profile</a>
             </li>
+            <div class="dropdown">
+                <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    Log In
+                </button>
+                <div class="dropdown-menu">
+                    <form class="px-4 py-3">
+                        <div>
+                            <label for="email" class="form-label">Email address</label>
+                            <input type="email" class="form-control" id="exampleDropdownFormEmail1"
+                                placeholder="email@example.com">
+                        </div>
+                        <div>
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="exampleDropdownFormPassword1"
+                                placeholder="Password">
+                        </div>
+                        <div>
+
+                        </div>
+                        <button type="submit" class="btn btn-primary">Sign in</button>
+                    </form>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="user_creation.html">New around here? Sign up</a>
+                </div>
 
             
 
@@ -57,42 +82,36 @@
         <div class="d-flex flex-row justify-content-between">
             <h1 class="p-1">I'm looking to hit...</h1>
         </div>
-        <select class="form-select p-3 " aria-label="Default select example">
+        <select class="form-select p-3 " aria-label="Default select example" id = "select">
             <option selected>Choose a Exercise</option>
-            <option value="1">Legs</option>
-            <option value="2">Shoulders</option>
-            <option value="3">Triceps</option>
+            <option value="1" id = "v1">Legs</option>
+            <option value="2" id = "v2">Shoulders</option>
+            <option value="3" id = "v3">Triceps</option>
           </select>
     
-          <div class = "hid my-3" >
-          <div class="alert alert-warning alert-dismissible fade show w-25" style="display: inline-block;" role="alert" id ="leg">
+          <div class = "hid my-3"  id = "hidden">
+          <div class="alert alert-warning alert-dismissible fade show w-25" style="display: inline-block;" role="alert" id ="b1">
             <strong>Leg</strong>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" ></button>
           </div>
 
-          <div class="alert alert-warning alert-dismissible fade show w-25" style="display: inline-block;" role="alert">
+          <div class="alert alert-warning alert-dismissible fade show w-25" style="display: inline-block;" role="alert" id = "b2">
             <strong>Shoulders</strong>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
           </div>
           
 
-          <div class="alert alert-warning alert-dismissible fade show w-25" style="display: inline-block;" role="alert">
+          <div class="alert alert-warning alert-dismissible fade show w-25" style="display: inline-block;" role="alert" id = "b3">
             <strong>Triceps</strong>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
           </div>
+        </div>
 
-          <button class="w-100 btn btn-primary btn-lg" type="button"> Find Exercises</button>
-</div>
+          <button class="w-100 btn btn-primary btn-lg" type="button" id = "find"> Find Exercises</button>
+        </div>
         </div>
 
         
-
-        <script>
-            function displayDivDemo(id, elementValue) {
-               document.getElementById(id).style.display = elementValue.value == 0 ? 'block' : 'none';
-            }
-         </script>
-
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
 integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
 crossorigin="anonymous"></script>        
