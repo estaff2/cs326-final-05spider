@@ -39,7 +39,7 @@ function findCommonElements(arr1, arr2) {
 
 // myArray.join(',')}); is how to pass the tags in, so make one string with , and then split into array here
 async function getExercises(response, exercies_tags) {
-  const data = await readFile('exercises.json');
+  const data = await readFile('docs/JSON Files/exercises.json');
   const tags = exercies_tags.split(',');
   let matching = [];
   let exercises = JSON.parse(data);
@@ -183,11 +183,16 @@ async function basicServer(request, response) {
     if (pathname.startsWith('/exercises')) {
       getExercises(response, options.tags);
     }
-    if (pathname.startsWith('/leaderboard')) {
+    else if (pathname.startsWith('/leaderboard')) {
       getLeaderboard(response, options.tags);
     }
-    if(pathname.startsWith('/user/history')) {
+    else if(pathname.startsWith('/user/history')) {
       
+    }
+    else{
+      response.writeHead(400, headerFields);
+      response.write(JSON.stringify({ error: 'not a valid get request'}));
+      response.end();
     }
   }
   else if (method === 'POST') {
