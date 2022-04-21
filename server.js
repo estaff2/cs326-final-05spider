@@ -153,7 +153,7 @@ function sortByExcercise(leaderboard, exercise) {
 /*
 // create user function
 
-function createUser (response, request){
+async function createUser (response, request){
   const data = await readFile('users.json')
   const username =request.body["username"];
   const email =req.body["email"];
