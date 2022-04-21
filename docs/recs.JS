@@ -32,7 +32,7 @@ function renderTags(element){
 }
 
 async function serverRequest(){
-    let url = 'http://localhost:3000/exercises?tags=' + tags.join(','); //tags.join(',') is a way to handle putting an array into one parameter of the query 
+    let url = 'https://gym-recs.herokuapp.com/exercises?tags=' + tags.join(','); //tags.join(',') is a way to handle putting an array into one parameter of the query 
     let response = await fetch(url,
         {
             method: 'GET',
