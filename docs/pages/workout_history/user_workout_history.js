@@ -2,10 +2,9 @@
 const ls = window.localStorage;  
 
  
-let workhistory = []; 
-//const loggeduser = ls.getItem("users").value; 
+let workhistory = [];
 let selectedFilter = ''
-//gets selected filter
+//gets the selected filter
 const filteroptions = ['none', 'legs', 'chest', 'arms', 'back'];
 const filt = document.getElementById("filter");
 function getFilter() {  
@@ -13,14 +12,37 @@ function getFilter() {
             if (selectedfilt === undefined){
                 selectedfilt = filteroptions[0]; 
             }
-            selectedFilter = selectedfilt; 
+            selectedFilter = selectedfilt;
+        console.log(selectedFilter); 
         return selectedFilter; 
 } 
-filt.addEventListener("change", getFilter); 
+filt.addEventListener("change", getFilter);
+filt.addEventListener("change", getTags); 
 
+//turns filter into group of parts being worked
 
+const legs = ["quads, hamstrings, glutes, groin, calves"]; 
+const chest = ["chest"]; 
+const arms  = ["biceps, triceps, delts"]; 
+const back = ["lats, traps"]; 
+let parts; 
+function getTags() { 
+    if (getFilter() === "legs"){
+        parts = legs; 
+    } else if (getFilter() === "chest"){
+        parts = chest; 
+    } else if (getFilter() === "arms"){
+        parts = arms; 
+    } else if (getFilter() === "back"){
+        parts = back; 
+    }
+    console.log(parts); 
+    return parts; 
+}
+
+//server call 
 async function callServer(){
-    let url = "https://gym-recs.herokuapp.com/user/history?filter=" + selectedFilter; 
+    let url = "https://gym-recs.herokuapp.com/user/history?tags=" + parts.join(','); 
     let response = await fetch(url,
         {
             method: 'GET',
@@ -33,18 +55,6 @@ async function callServer(){
     }
 }
 
-async function getallWorkouthistory() {
-    const response = await fetch ('/user.json', {
-        method: 'GET',
-    }); 
-
-    if(response.ok){
-        const json = await response.json();
-        workhistory.push(json); 
-    } else {
-        console.error("Can't fetch user workout history"); 
-    }
-}
 
 let myusersworkouts = []; 
 

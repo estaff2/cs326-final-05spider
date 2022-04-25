@@ -37,6 +37,49 @@ function findCommonElements(arr1, arr2) {
 }
 
 
+//gets current users
+
+
+//gets user workout history based on filter selected
+async function getWorkoutHist(response, workouttags){
+  //makes sure users match
+  //window.localStorage.getItem("user").value;
+  let currentuser = "spider"
+  let filterselected = workouttags.split(',');
+  const data = await readFile('docs/JSON Files/users.json')
+  let exercises = await readFile('docs/JSON Files/exercises.json');
+  exercises = JSON.parse(exercises);
+  exercises = exercises['exercises'];
+  let matching = []; 
+  let i;
+  for (i = 0; i < exercises.length; i++) {
+    let exercise = exercises[i];
+    let parts = exercise.parts;
+    if (findCommonElements(filterselected, parts)) {
+      matching.push(exercise);
+    }
+  } 
+  let validworkouts = []; 
+  matching.forEach(exerc => {
+    validworkouts.push(exerc["name"]); 
+  }) 
+  console.log(validworkouts); 
+  let alldata = JSON.parse(data);
+  let userhist = []; 
+  if (alldata["username"] === (currentuser)){
+    userhist = alldata["workout_his"];
+    
+  } 
+  //makes sure workouts equal the filter
+  response.writeHead(200, headerFields); 
+  response.write(JSON.stringify(userhist)); 
+  response.end(); 
+}
+
+
+
+
+
 // myArray.join(',')}); is how to pass the tags in, so make one string with , and then split into array here
 async function getExercises(response, exercies_tags) {
   const data = await readFile('docs/JSON Files/exercises.json');
@@ -150,11 +193,6 @@ function sortByExcercise(leaderboard, exercise) {
   return leaderboard.sort((a, b) => parseFloat(b.exercise) - parseFloat(a.exercise));
 }
 
-async function getWorkoutHist(response, filter){
-  const data = await readFile('users.json');
-  const users = JSON.parse(data);
-  
-}
 
 
 // create user function
@@ -193,7 +231,7 @@ async function basicServer(request, response) {
       getLeaderboard(response, options.tags);
     }
     if(pathname.startsWith('/user/history')) {
-      getWorkoutHist(response, options.filter); 
+      getWorkoutHist(response, options.tags); 
     }
     else{
       response.writeHead(400, headerFields);

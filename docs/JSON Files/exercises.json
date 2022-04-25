@@ -16,6 +16,25 @@
         "name": "Tricep Pushdown",
         "diffuculty" : 2,
         "parts": ["triceps"]
-        }
+        },
+        {"name": "Squat", 
+        "diffuculty": 3, 
+        "parts": ["quads, hamstrings, glutes, groin, calves"]
+        }, 
+        {"name": "Deadlift", 
+        "diffuculty": 4, 
+        "parts": ["hamstrings, glutes, back "]
+        }, 
+        {"name": "Hamstring Curl", 
+        "diffuculty": 2, 
+        "parts": ["hamstrings, glutes"]
+        }, 
+        {"name": "Leg Extensions", 
+        "diffuculty": 2, 
+        "parts": ["quads"]
+        }, 
+        {"name": "Cable Fly", 
+        "diffuculty": 2, 
+        "parts": ["chest"]}
     ]
 }

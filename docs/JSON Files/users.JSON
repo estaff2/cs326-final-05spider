@@ -9,13 +9,21 @@
     "club" : "rugby",
     "chosedWorkout": "Leg",
     "workout_his": 
-        {
+        [{
         "date" : "Wednesday, April 20th, 2022",
         "exerciseName" : "squat", 
         "sets": "1",
         "reps": "1",
         "weight": "135",
         "notes" : "This was a good workout. I was a little tired after my game yesterday so I didn't hit peak results"
-        }
+        },
+        {
+        "date" : "Wednesday, April 25th, 2022",
+        "exerciseName" : "deadlift", 
+        "sets": "3",
+        "reps": "5",
+        "weight": "210",
+        "notes" : "Solid lift, my back felt tight at the end so I only did 3 reps."
+        }]
                 
 }
