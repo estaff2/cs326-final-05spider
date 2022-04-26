@@ -55,8 +55,7 @@ async function callServer(){
         });
     if(response.ok){
         data = await response.json();
-        workoutdata = data;
-        console.log(workoutdata); 
+        workoutdata = data; 
         numberofWorkouts = workoutdata.length; 
         renderhist();  
     }
