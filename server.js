@@ -3,6 +3,7 @@ import * as url from 'url';
 import { readFile, writeFile, access } from 'fs/promises';
 import path from 'path';
 import { appendFile } from 'fs';
+import { match } from 'assert';
 
 
 // added authentification ---do we need this?
@@ -37,42 +38,58 @@ function findCommonElements(arr1, arr2) {
 }
 
 
-//gets current users
+
 
 
 //gets user workout history based on filter selected
 async function getWorkoutHist(response, workouttags){
-  //makes sure users match
   //window.localStorage.getItem("user").value;
+  if (workouttags == undefined){
+    workouttags = "quads,hamstrings,glutes,groin,calves,chest,biceps,triceps,delts,lats,traps";
+    console.log("working"); 
+  } 
   let currentuser = "spider"
-  let filterselected = workouttags.split(',');
+  let filterselected = workouttags.split(','); 
   const data = await readFile('docs/JSON Files/users.json')
   let exercises = await readFile('docs/JSON Files/exercises.json');
   exercises = JSON.parse(exercises);
-  exercises = exercises['exercises'];
+  exercises = exercises['exercises']; 
+  //finds exercises that match the filter
   let matching = []; 
   let i;
   for (i = 0; i < exercises.length; i++) {
     let exercise = exercises[i];
     let parts = exercise.parts;
+    console.log(exercise); 
+    console.log(filterselected); 
     if (findCommonElements(filterselected, parts)) {
       matching.push(exercise);
     }
   } 
+  console.log(matching);  
+  //gets exercise names
   let validworkouts = []; 
   matching.forEach(exerc => {
     validworkouts.push(exerc["name"]); 
-  }) 
-  console.log(validworkouts); 
+  })   
+  //makes sure it is only history of the current user
   let alldata = JSON.parse(data);
   let userhist = []; 
   if (alldata["username"] === (currentuser)){
     userhist = alldata["workout_his"];
     
+  //filters user history to only include workouts that match their filter 
   } 
-  //makes sure workouts equal the filter
+  let final = []; 
+  userhist.forEach(workout => {
+    validworkouts.forEach(exerciseName => {
+      if (workout["exerciseName"].toLowerCase() == exerciseName.toLowerCase()){
+        final.push(workout); 
+      }
+    })
+  })
   response.writeHead(200, headerFields); 
-  response.write(JSON.stringify(userhist)); 
+  response.write(JSON.stringify(final)); 
   response.end(); 
 }
 
@@ -231,6 +248,7 @@ async function basicServer(request, response) {
       getLeaderboard(response, options.tags);
     }
     if(pathname.startsWith('/user/history')) {
+      console.log(options.tags); 
       getWorkoutHist(response, options.tags); 
     }
     else{

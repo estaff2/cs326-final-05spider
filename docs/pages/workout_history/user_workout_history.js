@@ -12,8 +12,7 @@ function getFilter() {
             if (selectedfilt === undefined){
                 selectedfilt = filteroptions[0]; 
             }
-            selectedFilter = selectedfilt;
-        console.log(selectedFilter); 
+            selectedFilter = selectedfilt; 
         return selectedFilter; 
 } 
 filt.addEventListener("change", getFilter);
@@ -25,6 +24,7 @@ const legs = ["quads, hamstrings, glutes, groin, calves"];
 const chest = ["chest"]; 
 const arms  = ["biceps, triceps, delts"]; 
 const back = ["lats, traps"]; 
+const all = ["quads, hamstrings, glutes, groin, calves, chest, biceps, triceps, delts, lats, traps"]
 let parts; 
 function getTags() { 
     if (getFilter() === "legs"){
@@ -35,53 +35,60 @@ function getTags() {
         parts = arms; 
     } else if (getFilter() === "back"){
         parts = back; 
+    } else {
+        parts = []; 
     }
-    console.log(parts); 
     return parts; 
 }
 
 //server call 
-async function callServer(){
-    let url = "https://gym-recs.herokuapp.com/user/history?tags=" + parts.join(','); 
+let workoutdata;
+let numberofWorkouts;  
+async function callServer(){ 
+    let url = "http://localhost:3000/user/history?tags=" + parts.join(',');
+    if (parts.length === 0){
+        url = "http://localhost:3000/user/history"; 
+    }
     let response = await fetch(url,
         {
             method: 'GET',
         });
     if(response.ok){
         data = await response.json();
+        workoutdata = data;
+        console.log(workoutdata); 
+        numberofWorkouts = workoutdata.length; 
+        renderhist();  
     }
     else{
         alert(response.status)
     }
 }
 
-
-let myusersworkouts = []; 
-
-workhistory.forEach(user => {
-    if (user.username === loggeduser){
-        myusersworkouts.push(user.workout_his); 
+filt.addEventListener("change", callServer); 
+ 
+function renderhist(){
+    //getting all the data that matches the filter selected
+    let i = 0;
+    let dates = []; 
+    let exercisename = []; 
+    let sets = []
+    let reps = []; 
+    let weight = [];  
+    while (i < numberofWorkouts){ 
+        dates.push(workoutdata[i]["date"]);  
+        exercisename.push(workoutdata[i]["exerciseName"]);  
+        sets.push(workoutdata[i]["sets"]); 
+        reps.push(workoutdata[i]["reps"]); 
+        weight.push(workoutdata[i]["weight"]); 
+        i++; 
     }
-})
-
-async function renderhist(element){
-    let lower = myusersworkouts.length; 
-    if (lower > 3){
-        lower = 3; 
-    }
-    for (let i = 0; i < lower; i++){
-        let date = myusersworkouts[i].date; 
-        let exname = myusersworkouts[i].exercisename; 
-        let sets = myusersworkouts[i].sets;
-        let reps = myusersworkouts[i].reps; 
-        let weight = myusersworkouts[i].weight;
-        //creates date header 
-        let w1date = document.createElement("h2"); 
-        w1date.classList.add("col-md-7"); 
-        w1date.classList.add("d-flex flex-row"); 
-        w1date.classList.add("p1"); 
-        w1date.innerHTML = date; 
-    }
+    console.log(dates); 
+    console.log(exercisename); 
+    console.log(sets);
+    console.log(reps); 
+    console.log(weight);
+    document.getElementById("workout1header").innerHTML = dates[0]; 
 }
 
 //nav bar stuff

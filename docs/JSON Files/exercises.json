@@ -19,15 +19,15 @@
         },
         {"name": "Squat", 
         "diffuculty": 3, 
-        "parts": ["quads, hamstrings, glutes, groin, calves"]
+        "parts": ["quads", "hamstrings", "glutes", "groin", "calves"]
         }, 
         {"name": "Deadlift", 
         "diffuculty": 4, 
-        "parts": ["hamstrings, glutes, back "]
+        "parts": ["hamstrings", "glutes", "back"]
         }, 
         {"name": "Hamstring Curl", 
         "diffuculty": 2, 
-        "parts": ["hamstrings, glutes"]
+        "parts": ["hamstrings", "glutes"]
         }, 
         {"name": "Leg Extensions", 
         "diffuculty": 2, 
@@ -35,6 +35,25 @@
         }, 
         {"name": "Cable Fly", 
         "diffuculty": 2, 
-        "parts": ["chest"]}
+        "parts": ["chest"]}, 
+        {"name": "Bulgarian Split Squats", 
+        "diffuculty": 5, 
+        "parts": ["quads", "glutes", "abductors"]}, 
+        {"name": "Hacksquat", 
+         "diffuculty": 4, 
+        "parts": ["quads"]}, 
+        {"name": "Leg Press", 
+        "diffuculty": 3, 
+        "parts": ["quads", "glutes", "abductors"]}, 
+        {"name": "Inclined bench press", 
+        "diffuculty": 5, 
+        "parts": ["chest", "tricep"]}, 
+        {"name": "Lat pulldowns", 
+        "diffuculty": 2, 
+        "parts": ["lats", "biceps"]}, 
+        {"name": "Dumbell row", 
+        "diffuculty": 3, 
+        "parts": ["lats", "traps"]}
+
     ]
 }
