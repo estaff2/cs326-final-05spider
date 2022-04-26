@@ -22,10 +22,10 @@ find.addEventListener('submit', function change () {
       else {
         console.error("can't find.");
     }
-  
+ 
 });  
 
-    
+
 
 
 //nav bar stuff
