@@ -4,6 +4,8 @@ import { readFile, writeFile, access } from 'fs/promises';
 import path from 'path';
 import { appendFile } from 'fs';
 import { match } from 'assert';
+import express from 'express'; 
+import logger from 'morgan'; 
 
 
 // added authentification ---do we need this?
@@ -14,24 +16,6 @@ const headerFields = {
   'Content-Type': 'text/html',
   'Access-Control-Allow-Origin': '*'
 };
-
-async function reload(filename) {
-  try {
-    const data = await readFile(filename, 'utf-8')
-    users = JSON.parse(data)
-  } catch (err) {
-    users = {};
-  }
-}
-
-async function saveCounters() {
-  try {
-    const data = JSON.stringify(users);
-    await writeFile(JSONfile, data, { encoding: 'utf8' });
-  } catch (err) {
-    console.log(err);
-  }
-}
 
 function findCommonElements(arr1, arr2) {
   return arr1.some(item => arr2.includes(item))
@@ -118,16 +102,18 @@ async function getExercises(response, exercies_tags) {
 }
 
 //load in user JSONfile, appends new workout to field "workout" containing array of workouts
-async function recordWorkout(response, name, workout) {
-  const data = await readFile('users.json');
+async function recordWorkout(response, username, workout) {
+  const data = await readFile('docs/JSON Files/users.json');
   const users = JSON.parse(data);
   for (let i = 0; i < users.length; i++) {
     const user = user[i];
-    if (user["name"].equals(name)) {
+    if (user["username"].equals(username)) {
       user["workouts"].push(workout);
     }
   }
+  //todo add user workout to the users.JSON file
   response.writeHead(200, headerFields);
+  console.log(workout); 
   response.write(JSON.stringify(workout));
   response.end();
 }
@@ -135,10 +121,10 @@ async function recordWorkout(response, name, workout) {
 //loads in user JSONfile, filters out users/exercises according to tags, sort remainder by descending order of weight, return top 25 entries.
 async function getLeaderboard(response, tags) {
   tags = tags.split(',');
-  const users = await readFile('users.json');
+  const users = await readFile('docs/JSON Files/users.json');
   const workouts = sortByExcercise(filterTags(JSON.parse(users), tags), tags[2]);
   let leaderboard = [];
-  for (i = 0; i < 25; i++) {
+  for (let i = 0; i < 25; i++) {
     leaderboard.push(workouts[i]);
   }
   response.writeHead(200, headerFields);
@@ -234,41 +220,78 @@ async function createUser (response, request){
 }
 
 
-//Add calls to your method in this function
-async function basicServer(request, response) {
-  const parsedURL = url.parse(request.url, true);
-  const options = parsedURL.query;
-  const pathname = parsedURL.pathname;
-  const method = request.method;
-  if (method === 'GET') {
-    if (pathname.startsWith('/exercises')) {
-      getExercises(response, options.tags);
-    }
-    else if (pathname.startsWith('/leaderboard')) {
-      getLeaderboard(response, options.tags);
-    }
-    if(pathname.startsWith('/user/history')) {
-      console.log(options.tags); 
-      getWorkoutHist(response, options.tags); 
-    }
-    else{
-      response.writeHead(400, headerFields);
-      response.write(JSON.stringify({ error: 'not a valid get request'}));
-      response.end();
-    }
-  }
-  else if (method === 'POST') {
-    if (pathname.startsWith('/record')) {
-      recordWorkout(response, body);
-    }
-  }
-  else {
-    response.writeHead(404, headerFields);
-    response.write(JSON.stringify({ error: 'Invalid Request' }));
-    response.end();
-  }
-}
+const app = express(); 
+const port = 3000; 
+app.use(express.json()); 
+app.use(express.urlencoded({ extended: false }));
+app.use(logger('dev'));
+app.use('/', express.static('client'));
 
-http.createServer(basicServer).listen(process.env.PORT || 3000, () => {
-  console.log('Server started on port 3000');
+app.get('/exercises', async (request, response) => {
+  const options = request.query;
+  console.log(options); 
+  getExercises(response, options.tags); 
 });
+
+app.get('/leaderboard', async (request, response) => {
+  const options = request.query;
+  console.log(options.tags); 
+  getLeaderboard(response, options.tags); 
+});
+
+app.get('/user/history', async (request, response) => {
+  const options = request.query; 
+  getWorkoutHist(response, options.tags); 
+});
+
+app.post('/record', async (request, response) => {
+  console.log(request.query.name, request.query.workout); 
+  recordWorkout(response, request.query.name, request.query.workout); 
+});
+
+app.all('*', async (request, response) => {
+  response.status(404).send(`Not found: ${response.path}`); 
+});
+
+app.listen(port, () => {
+  console.log(`Server started on http://localhost:${port}`)
+});
+//Add calls to your method in this function
+// async function basicServer(request, response) {
+
+//   const parsedURL = url.parse(request.url, true);
+//   const options = parsedURL.query;
+//   const pathname = parsedURL.pathname;
+//   const method = request.method;
+//   if (method === 'GET') {
+//     if (pathname.startsWith('/exercises')) {
+//       getExercises(response, options.tags);
+//     }
+//     else if (pathname.startsWith('/leaderboard')) {
+//       getLeaderboard(response, options.tags);
+//     }
+//     if(pathname.startsWith('/user/history')) {
+//       console.log(options.tags); 
+//       getWorkoutHist(response, options.tags); 
+//     }
+//     else{
+//       response.writeHead(400, headerFields);
+//       response.write(JSON.stringify({ error: 'not a valid get request'}));
+//       response.end();
+//     }
+//   }
+//   else if (method === 'POST') {
+//     if (pathname.startsWith('/record')) {
+//       recordWorkout(response, body);
+//     }
+//   }
+//   else {
+//     response.writeHead(404, headerFields);
+//     response.write(JSON.stringify({ error: 'Invalid Request' }));
+//     response.end();
+//   }
+// }
+
+// http.createServer(basicServer).listen(process.env.PORT || 3000, () => {
+//   console.log('Server started on port 3000');
+// });

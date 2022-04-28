@@ -11,10 +11,10 @@
   "author": "COMPSCI 326 Spider",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.3"
+    "express": "^4.17.3",
+    "morgan": "^1.10.0"
   },
   "engines": {
     "node": "17.8.0"
   }
 }
-
