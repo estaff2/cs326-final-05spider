@@ -82,6 +82,7 @@ function renderhist(){
         weight.push(workoutdata[i]["weight"]); 
         i++; 
     }
+    
     console.log(dates); 
     console.log(exercisename); 
     console.log(sets);
