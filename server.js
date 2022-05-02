@@ -1,11 +1,11 @@
-import * as http from 'http';
-import * as url from 'url';
+
 import { readFile, writeFile, access } from 'fs/promises';
 import path from 'path';
 import { appendFile } from 'fs';
 import { match } from 'assert';
 import express from 'express'; 
-import logger from 'morgan'; 
+import logger from 'morgan';
+import { GymDatabase } from './gym-db.js'; 
 
 
 // added authentification ---do we need this?
@@ -219,43 +219,88 @@ async function createUser (response, request){
   return;
 }
 
+class GymServer{
+  constructor(dburl) {
+    this.dburl = dburl;
+    this.app = express();
+    this.app.use(express.urlencoded({ extended: false }));
+    this.app.use(express.static('client')); //app.use('/', express.static('client')); is first part neccessary? not sure dont think so
+    this.app.use(logger('dev'));
+  }
 
-const app = express(); 
-const port = 3000; 
-app.use(express.json()); 
-app.use(express.urlencoded({ extended: false }));
-app.use(logger('dev'));
-app.use('/', express.static('client'));
+  async initRoutes(){
+    const self = this;
 
-app.get('/exercises', async (request, response) => {
-  const options = request.query;
-  console.log(options); 
-  getExercises(response, options.tags); 
-});
+    this.app.get('/', function(req, res){
+      res.sendFile('/docs/pages/landing_page/landing_page.html')
+    })
 
-app.get('/leaderboard', async (request, response) => {
-  const options = request.query;
-  console.log(options.tags); 
-  getLeaderboard(response, options.tags); 
-});
 
-app.get('/user/history', async (request, response) => {
-  const options = request.query; 
-  getWorkoutHist(response, options.tags); 
-});
+    this.app.get('/exercises', async (request, response) => {
+      const options = request.query;
+      const exercise_list = await self.db.getExercises(options.tags)
+      response.status(200).send(JSON.stringify(exercise_list))
+    });
+    
+    this.app.get('/leaderboard', async (request, response) => {
+      const options = request.query;
+      console.log(options.tags); 
+      getLeaderboard(response, options.tags); 
+    });
 
-app.post('/record', async (request, response) => {
-  console.log(request.query.name, request.query.workout); 
-  recordWorkout(response, request.query.name, request.query.workout); 
-});
+    this.app.get('/user/history', async (request, response) => {
+      const options = request.query; 
+      getWorkoutHist(response, options.tags); 
+    });
 
-app.all('*', async (request, response) => {
-  response.status(404).send(`Not found: ${response.path}`); 
-});
+    this.app.post('/record', async (request, response) => {
+      console.log(request.query.name, request.query.workout); 
+      recordWorkout(response, request.query.name, request.query.workout); 
+    });
 
-app.listen(port, () => {
-  console.log(`Server started on http://localhost:${port}`)
-});
+    this.app.post('/addExercise', async (request, response) => {
+      const options = request.query;
+      const exercise = await self.db.postExercise(options.name, options.diffuculty, options.part)
+      response.status(200).send(JSON.stringify(exercise))
+    });
+
+    this.app.all('*', async (request, response) => {
+      response.status(404).send(`Not found: ${response.path}`); 
+    });
+
+    
+  }
+  
+  async initDb() {
+    this.db = new GymDatabase(this.dburl);
+    await this.db.connect();
+  }
+
+
+  async start() {
+    await this.initRoutes();
+    await this.initDb();
+    const port = process.env.PORT || 3000;
+    this.app.listen(port, () => {
+      console.log(`Scrabble server started`);
+    });
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+const server = new GymServer(process.env.DATABASE_URL)
+server.start()
+
 //Add calls to your method in this function
 // async function basicServer(request, response) {
 
