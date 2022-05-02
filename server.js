@@ -223,7 +223,8 @@ class GymServer{
     this.app = express();
     this.app.use(express.urlencoded({ extended: false }));
     this.app.use(express.static('docs'));
-    //this.app.use(express.static('docs/pages/landingPage')); need this level of  specific? not sure
+    this.app.use(express.static('docs/pages')); 
+    this.app.use(express.static('docs/pages/landingPage')); 
     this.app.use(logger('dev'));
   }
 
