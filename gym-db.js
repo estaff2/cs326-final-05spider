@@ -38,11 +38,13 @@ export class GymDatabase {
       //not sure how we want to handle workout_his
       // seperate table for workout history? 
       //images in exercises table? 
+      //if you change any values in a table, either name or type of the variable or just deleting or adding values
+      //you will need add DROP TABLE nameOfTable; to the top of the query text and run npm start once. Remove the statement after to avoid table being deleted every time
     const queryText = `
       create table if not exists exercises (
         name varchar(30),
         diffuculty integer,
-        part integer 
+        part varchar(30) 
       );
         
       create table if not exists users (

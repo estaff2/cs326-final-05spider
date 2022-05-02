@@ -3,6 +3,7 @@ import { readFile, writeFile, access } from 'fs/promises';
 import express from 'express'; 
 import logger from 'morgan';
 import { GymDatabase } from './gym-db.js'; 
+import path from 'path';
 
 
 
@@ -221,7 +222,8 @@ class GymServer{
     this.dburl = dburl;
     this.app = express();
     this.app.use(express.urlencoded({ extended: false }));
-    this.app.use(express.static('docs')); //app.use('/', express.static('client')); is first part neccessary? not sure dont think so
+    this.app.use(express.static('docs'));
+    //this.app.use(express.static('docs/pages/landingPage')); need this level of  specific? not sure
     this.app.use(logger('dev'));
   }
 
@@ -229,7 +231,8 @@ class GymServer{
     const self = this;
 
     this.app.get('/', function(req, res){
-      res.sendFile('/docs/pages/landing_page/landing_page.html')
+
+      res.sendFile('landingPage.html', {root:'docs/pages/landingPage'})
     })
 
 
@@ -279,7 +282,7 @@ class GymServer{
     await this.initDb();
     const port = process.env.PORT || 3000;
     this.app.listen(port, () => {
-      console.log(`Gym server started`);
+      console.log(`Gym server started on ${port}`);
     });
   }
 }
@@ -288,42 +291,3 @@ class GymServer{
 const server = new GymServer(process.env.DATABASE_URL)
 server.start()
 
-//Add calls to your method in this function
-// async function basicServer(request, response) {
-
-//   const parsedURL = url.parse(request.url, true);
-//   const options = parsedURL.query;
-//   const pathname = parsedURL.pathname;
-//   const method = request.method;
-//   if (method === 'GET') {
-//     if (pathname.startsWith('/exercises')) {
-//       getExercises(response, options.tags);
-//     }
-//     else if (pathname.startsWith('/leaderboard')) {
-//       getLeaderboard(response, options.tags);
-//     }
-//     if(pathname.startsWith('/user/history')) {
-//       console.log(options.tags); 
-//       getWorkoutHist(response, options.tags); 
-//     }
-//     else{
-//       response.writeHead(400, headerFields);
-//       response.write(JSON.stringify({ error: 'not a valid get request'}));
-//       response.end();
-//     }
-//   }
-//   else if (method === 'POST') {
-//     if (pathname.startsWith('/record')) {
-//       recordWorkout(response, body);
-//     }
-//   }
-//   else {
-//     response.writeHead(404, headerFields);
-//     response.write(JSON.stringify({ error: 'Invalid Request' }));
-//     response.end();
-//   }
-// }
-
-// http.createServer(basicServer).listen(process.env.PORT || 3000, () => {
-//   console.log('Server started on port 3000');
-// });
