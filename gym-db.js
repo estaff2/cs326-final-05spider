@@ -47,11 +47,11 @@ export class GymDatabase {
         
       create table if not exists users (
         username varchar(30),
-        emailaddress varchar(30)
-        password varchar(30)
-        schoolYear varchar(30)
-        major varchar(30)
-        club varchar(30)
+        emailaddress varchar(30),
+        password varchar(30),
+        schoolYear varchar(30),
+        major varchar(30),
+        club varchar(30),
         workout_his varchar(30)
       );
     `;

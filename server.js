@@ -1,14 +1,11 @@
 
 import { readFile, writeFile, access } from 'fs/promises';
-import path from 'path';
-import { appendFile } from 'fs';
-import { match } from 'assert';
 import express from 'express'; 
 import logger from 'morgan';
 import { GymDatabase } from './gym-db.js'; 
 
 
-// added authentification ---do we need this?
+
 
 const JSONfile = 'users.json';
 let users = {};
@@ -282,20 +279,10 @@ class GymServer{
     await this.initDb();
     const port = process.env.PORT || 3000;
     this.app.listen(port, () => {
-      console.log(`Scrabble server started`);
+      console.log(`Gym server started`);
     });
   }
 }
-
-
-
-
-
-
-
-
-
-
 
 
 const server = new GymServer(process.env.DATABASE_URL)
