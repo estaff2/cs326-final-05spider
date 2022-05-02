@@ -222,9 +222,16 @@ class GymServer{
     this.dburl = dburl;
     this.app = express();
     this.app.use(express.urlencoded({ extended: false }));
-    this.app.use(express.static('docs'));
+    this.app.use(express.static('docs')); 
     this.app.use(express.static('docs/pages')); 
-    this.app.use(express.static('docs/pages/landingPage')); 
+    this.app.use(express.static('docs/pages/landing_page')); 
+    this.app.use(express.static('docs/pages/edit_profile')); 
+    this.app.use(express.static('docs/pages/login')); 
+    this.app.use(express.static('docs/pages/record_workout')); 
+    this.app.use(express.static('docs/pages/register')); 
+    this.app.use(express.static('docs/pages/user_rec_input')); 
+    this.app.use(express.static('docs/pages/workout_history')); 
+    this.app.use(express.static('docs/pages/workout_recs')); 
     this.app.use(logger('dev'));
   }
 
@@ -233,7 +240,7 @@ class GymServer{
 
     this.app.get('/', function(req, res){
 
-      res.sendFile('landingPage.html', {root:'docs/pages/landingPage'})
+      res.sendFile('landing_page.html', {root:'docs/pages/landing_page'})
     })
 
 

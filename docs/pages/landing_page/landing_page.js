@@ -85,6 +85,7 @@ async function updateTable(gender, time, exercise, club, major, year) {
 
 //makes the http request to server to get ranking data based on supplied tags
 async function callServer(tags) {
+    return 0 // added this for testing, was messing up server with wrong call
     let url = 'http://localhost:3000/exercises?tags=' + tags.join(','); //tags.join(',') is a way to handle putting an array into one parameter of the query 
     let response = await fetch(url,
         {
@@ -144,19 +145,3 @@ async function resetTags() {
     tag_bar.innerHTML="";
 }
 
-const onClick = function() {
-    let location = window.location.pathname;
-    let path = location.substring(0, location.lastIndexOf("/"));
-    let directoryName = path.substring(path.lastIndexOf("/")+1);
-    let href_string = "";
-    if( directoryName !== 'docs'){
-        href_string = "docs/";
-    }
-    href_string = href_string + this.id + ".html";
-    window.location.href = href_string;
-}
-  document.getElementById("landing_page").addEventListener('click', onClick);
-  document.getElementById("user_workout_record_page").addEventListener('click', onClick);
-  document.getElementById("user_workout_history").addEventListener('click', onClick);
-  document.getElementById("user_rec_input").addEventListener('click', onClick);
-  document.getElementById("edit_profile").addEventListener('click', onClick) 
