@@ -221,7 +221,7 @@ class GymServer{
     this.dburl = dburl;
     this.app = express();
     this.app.use(express.urlencoded({ extended: false }));
-    this.app.use(express.static('client')); //app.use('/', express.static('client')); is first part neccessary? not sure dont think so
+    this.app.use(express.static('docs')); //app.use('/', express.static('client')); is first part neccessary? not sure dont think so
     this.app.use(logger('dev'));
   }
 
