@@ -2,9 +2,7 @@
 "use strict"
 let tags = ['biceps','triceps']; //this be assigned the value from getTags()
 let data;
-await serverRequest();
-renderTags(document.getElementById('tags'))
-renderRecs(document.getElementById('recs'));
+
 
 
 function getTags(){
@@ -32,7 +30,15 @@ function renderTags(element){
 }
 
 async function serverRequest(){
-    let url = 'https://gym-recs.herokuapp.com/exercises?tags=' + tags.join(','); //tags.join(',') is a way to handle putting an array into one parameter of the query 
+    let loc = window.location.href 
+    let url =''
+    if(loc.substring(7,12) == 'local'){
+        url = 'http://localhost:3000/exercises?tags=' + tags.join(',');
+    }
+    else{
+        url = 'https://gym-recs.herokuapp.com/exercises?tags=' + tags.join(',');
+    }
+    //tags.join(',') is a way to handle putting an array into one parameter of the query 
     let response = await fetch(url,
         {
             method: 'GET',
@@ -60,7 +66,7 @@ async function renderRecs(element){
         image_col.classList.add('col-sm-5');
         let image = document.createElement('img');
         image.classList.add('equipment')
-        let path = 'images/' + exercise.name + '.png'
+        let path = '../images/exercises/' + exercise.name + '.png'
         image.src = path
         image_col.appendChild(image);
         row.appendChild(image_col);
@@ -115,5 +121,10 @@ async function renderRecs(element){
 }
 
 
+async function main(){
+    await serverRequest();
+    renderTags(document.getElementById('tags'))
+    renderRecs(document.getElementById('recs'));
+}
 
-
+main()
