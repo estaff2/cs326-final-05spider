@@ -246,9 +246,9 @@ class GymServer{
 
     this.app.get('/exercises', async (request, response) => {
       const options = request.query;
-      let tags = options.tags.split(',')
-      const exercise_list = await self.db.getExercises(tags)
-      response.status(200).send(JSON.stringify(exercise_list))
+      let tags = options.tags.split(',');
+      const exercise_list = await self.db.getExercises(tags);
+      response.status(200).send(JSON.stringify(exercise_list));
     });
     
     this.app.get('/leaderboard', async (request, response) => {

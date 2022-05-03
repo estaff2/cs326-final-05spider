@@ -41,10 +41,11 @@ export class GymDatabase {
       //if you change any values in a table, either name or type of the variable or just deleting or adding values
       //you will need add DROP TABLE nameOfTable; to the top of the query text and run npm start once. Remove the statement after to avoid table being deleted every time
     const queryText = `
+      DROP TABLE exercises
       create table if not exists exercises (
         name varchar(30),
         diffuculty integer,
-        part varchar(30) 
+        parts string[] 
       );
         
       create table if not exists users (
@@ -67,10 +68,10 @@ export class GymDatabase {
   }
 
   //this is just for us to use to add exercises to the database
-  async postExercise(name, diff, part){
+  async postExercise(name, diff, parts){
     const queryText =
-    'INSERT INTO exercises (name, diffuculty, part) VALUES ($1, $2, $3) RETURNING *';
-    const res = await this.client.query(queryText, [name, diff, part]);
+    'INSERT INTO exercises (name, diffuculty, parts) VALUES ($1, $2, $3)';
+    const res = await this.client.query(queryText, [name, diff, parts]);
     return res.rows;
   }
 
@@ -78,7 +79,7 @@ export class GymDatabase {
   //tags is an array of words, this will return all exercises that have a part listed in the supplied tags
   async getExercises(tags){
     const queryText = 
-     `SELECT * FROM exercises WHERE part IN ${tags} `
+     `SELECT * FROM exercises WHERE parts && ${tags.toString()}} `
     const res = await this.client.query(queryText);
     return res.rows
   }
