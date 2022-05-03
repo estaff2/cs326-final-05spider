@@ -2,6 +2,8 @@ const find = document.getElementById('find');
 
 
 
+
+//not sure why this method is making server requests, also should go to recs page 
 find.addEventListener('submit', function change () {
     const e = document.getElementById("select");
     const chosedW = e.value;
