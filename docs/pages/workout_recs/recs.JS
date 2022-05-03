@@ -108,6 +108,7 @@ async function renderRecs(element){
             }
             diffuculty.appendChild(rating)
         }
+        diffuculty.appendChild(line_break)
 
         info_col.appendChild(diffuculty);
         row.appendChild(info_col)
