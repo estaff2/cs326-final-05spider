@@ -2,17 +2,17 @@
 "use strict"
 let tags = ['biceps','triceps']; //this be assigned the value from getTags()
 let data;
-await serverRequest();
-renderTags(document.getElementById('tags'))
-renderRecs(document.getElementById('recs'));
+
 
 
 function getTags(){
     let stored = JSON.parse(window.localStorage.getItem('tags')); //name will change
     if(stored === null || stored === undefined){
-        tags = []
+        tags = [];
     }
-    return tags;
+    else{
+        tags = stored;
+    }
 }
 
 function renderTags(element){
@@ -32,7 +32,15 @@ function renderTags(element){
 }
 
 async function serverRequest(){
-    let url = 'https://gym-recs.herokuapp.com/exercises?tags=' + tags.join(','); //tags.join(',') is a way to handle putting an array into one parameter of the query 
+    let loc = window.location.href 
+    let url =''
+    if(loc.substring(7,12) == 'local'){
+        url = 'http://localhost:3000/exercises?tags=' + tags.join(',');
+    }
+    else{
+        url = 'https://gym-recs.herokuapp.com/exercises?tags=' + tags.join(',');
+    }
+    //tags.join(',') is a way to handle putting an array into one parameter of the query 
     let response = await fetch(url,
         {
             method: 'GET',
@@ -60,7 +68,7 @@ async function renderRecs(element){
         image_col.classList.add('col-sm-5');
         let image = document.createElement('img');
         image.classList.add('equipment')
-        let path = 'images/' + exercise.name + '.png'
+        let path = '../images/exercises/' + exercise.name + '.png'
         image.src = path
         image_col.appendChild(image);
         row.appendChild(image_col);
@@ -100,6 +108,7 @@ async function renderRecs(element){
             }
             diffuculty.appendChild(rating)
         }
+        diffuculty.appendChild(line_break)
 
         info_col.appendChild(diffuculty);
         row.appendChild(info_col)
@@ -115,21 +124,10 @@ async function renderRecs(element){
 }
 
 
-//nav bar stuff
-
-const onClick = function() {
-    let location = window.location.pathname;
-    let path = location.substring(0, location.lastIndexOf("/"));
-    let directoryName = path.substring(path.lastIndexOf("/")+1);
-    let href_string = "";
-    if( directoryName !== 'docs'){
-        href_string = "docs/";
-    }
-    href_string = href_string + this.id + ".html";
-    window.location.href = href_string;
+async function main(){
+    await serverRequest();
+    renderTags(document.getElementById('tags'))
+    renderRecs(document.getElementById('recs'));
 }
-  document.getElementById("landing_page").addEventListener('click', onClick);
-  document.getElementById("user_workout_record_page").addEventListener('click', onClick);
-  document.getElementById("user_workout_history").addEventListener('click', onClick);
-  document.getElementById("user_rec_input").addEventListener('click', onClick);
-  document.getElementById("edit_profile").addEventListener('click', onClick) 
+
+main()

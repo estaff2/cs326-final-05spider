@@ -47,7 +47,7 @@
         "parts": ["quads", "glutes", "abductors"]}, 
         {"name": "Inclined bench press", 
         "diffuculty": 5, 
-        "parts": ["chest", "tricep"]}, 
+        "parts": ["chest", "triceps"]}, 
         {"name": "Lat pulldowns", 
         "diffuculty": 2, 
         "parts": ["lats", "biceps"]}, 

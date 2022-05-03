@@ -1,14 +1,12 @@
-import * as http from 'http';
-import * as url from 'url';
+
 import { readFile, writeFile, access } from 'fs/promises';
-import path from 'path';
-import { appendFile } from 'fs';
-import { match } from 'assert';
 import express from 'express'; 
-import logger from 'morgan'; 
+import logger from 'morgan';
+import { GymDatabase } from './gym-db.js'; 
+import path from 'path';
 
 
-// added authentification ---do we need this?
+
 
 const JSONfile = 'users.json';
 let users = {};
@@ -216,79 +214,87 @@ async function createUser (response, request){
   return;
 }
 
+class GymServer{
+  constructor(dburl) {
+    this.dburl = dburl;
+    this.app = express();
+    this.app.use(express.urlencoded({ extended: false }));
+    this.app.use(express.static('docs')); //not sure if this and docs/pages are strictly neccessary
+    this.app.use(express.static('docs/pages')); 
+    this.app.use(express.static('docs/pages/landing_page')); 
+    this.app.use(express.static('docs/pages/edit_profile')); 
+    this.app.use(express.static('docs/pages/login')); 
+    this.app.use(express.static('docs/pages/record_workout')); 
+    this.app.use(express.static('docs/pages/register')); 
+    this.app.use(express.static('docs/pages/user_rec_input')); 
+    this.app.use(express.static('docs/pages/workout_history')); 
+    this.app.use(express.static('docs/pages/workout_recs')); 
+    this.app.use(logger('dev'));
+  }
 
-const app = express(); 
-const port = 3000; 
-app.use(express.json()); 
-app.use(express.urlencoded({ extended: false }));
-app.use(logger('dev'));
-app.use('/', express.static('client'));
+  async initRoutes(){
+    const self = this;
 
-app.get('/exercises', async (request, response) => {
-  const options = request.query;
-  console.log(options); 
-  getExercises(response, options.tags); 
-});
+    this.app.get('/', function(req, res){
 
-app.get('/leaderboard', async (request, response) => {
-  const options = request.query;
-  console.log(options.tags); 
-  getLeaderboard(response, options.tags); 
-});
+      res.sendFile('landing_page.html', {root:'docs/pages/landing_page'})
+    })
 
-app.get('/user/history', async (request, response) => {
-  const options = request.query; 
-  getWorkoutHist(response, options.tags); 
-});
 
-app.post('/record', async (request, response) => {
-  console.log(request.query.name, request.query.workout); 
-  recordWorkout(response, request.query.name, request.query.workout); 
-});
+    this.app.get('/exercises', async (request, response) => {
+      const options = request.query;
+      let tags = options.tags.split(',');
+      const exercise_list = await self.db.getExercises(tags);
+      response.status(200).send(JSON.stringify(exercise_list));
+    });
+    
+    this.app.get('/leaderboard', async (request, response) => {
+      const options = request.query;
+      console.log(options.tags); 
+      getLeaderboard(response, options.tags); 
+    });
 
-app.all('*', async (request, response) => {
-  response.status(404).send(`Not found: ${response.path}`); 
-});
+    this.app.get('/user/history', async (request, response) => {
+      const options = request.query; 
+      getWorkoutHist(response, options.tags); 
+    });
 
-app.listen(port, () => {
-  console.log(`Server started on http://localhost:${port}`)
-});
-//Add calls to your method in this function
-// async function basicServer(request, response) {
+    this.app.post('/record', async (request, response) => {
+      console.log(request.query.name, request.query.workout); 
+      recordWorkout(response, request.query.name, request.query.workout); 
+    });
 
-//   const parsedURL = url.parse(request.url, true);
-//   const options = parsedURL.query;
-//   const pathname = parsedURL.pathname;
-//   const method = request.method;
-//   if (method === 'GET') {
-//     if (pathname.startsWith('/exercises')) {
-//       getExercises(response, options.tags);
-//     }
-//     else if (pathname.startsWith('/leaderboard')) {
-//       getLeaderboard(response, options.tags);
-//     }
-//     if(pathname.startsWith('/user/history')) {
-//       console.log(options.tags); 
-//       getWorkoutHist(response, options.tags); 
-//     }
-//     else{
-//       response.writeHead(400, headerFields);
-//       response.write(JSON.stringify({ error: 'not a valid get request'}));
-//       response.end();
-//     }
-//   }
-//   else if (method === 'POST') {
-//     if (pathname.startsWith('/record')) {
-//       recordWorkout(response, body);
-//     }
-//   }
-//   else {
-//     response.writeHead(404, headerFields);
-//     response.write(JSON.stringify({ error: 'Invalid Request' }));
-//     response.end();
-//   }
-// }
+    this.app.post('/addExercise', async (request, response) => {
+      const options = request.query;
+      let parts = options.parts.split(',')
+      const exercise = await self.db.postExercise(options.name, options.diffuculty, parts)
+      response.status(200).send(JSON.stringify(exercise))
+    });
 
-// http.createServer(basicServer).listen(process.env.PORT || 3000, () => {
-//   console.log('Server started on port 3000');
-// });
+    this.app.all('*', async (request, response) => {
+      response.status(404).send(`Not found: ${response.path}`); 
+    });
+
+    
+  }
+  
+  async initDb() {
+    this.db = new GymDatabase(this.dburl);
+    await this.db.connect();
+  }
+
+
+  async start() {
+    await this.initRoutes();
+    await this.initDb();
+    const port = process.env.PORT || 3000;
+    this.app.listen(port, () => {
+      console.log(`Gym server started on ${port}`);
+    });
+  }
+}
+
+
+const server = new GymServer(process.env.DATABASE_URL)
+server.start()
+
