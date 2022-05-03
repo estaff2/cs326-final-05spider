@@ -78,9 +78,6 @@ async function getWorkoutHist(response, workouttags){
 }
 
 
-
-
-
 // myArray.join(',')}); is how to pass the tags in, so make one string with , and then split into array here
 async function getExercises(response, exercies_tags) {
   const data = await readFile('docs/JSON Files/exercises.json');
