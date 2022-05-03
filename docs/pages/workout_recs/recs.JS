@@ -8,10 +8,10 @@ let data;
 function getTags(){
     let stored = JSON.parse(window.localStorage.getItem('tags')); //name will change
     if(stored === null || stored === undefined){
-        tags = []
+        tags = [];
     }
     else{
-        tags = stored
+        tags = stored;
     }
 }
 
