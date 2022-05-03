@@ -45,9 +45,9 @@ function getTags() {
 let workoutdata;
 let numberofWorkouts;  
 async function callServer(){ 
-    let url = "http://localhost:3000/user/history?tags=" + parts.join(',');
+    let url = "https://gym-recs.herokuapp.com/user/history?tags=" + parts.join(',');
     if (parts.length === 0){
-        url = "http://localhost:3000/user/history"; 
+        url = "https://gym-recs.herokuapp.com/user/history"; 
     }
     let response = await fetch(url,
         {
