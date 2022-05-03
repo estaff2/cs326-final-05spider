@@ -269,7 +269,8 @@ class GymServer{
 
     this.app.post('/addExercise', async (request, response) => {
       const options = request.query;
-      const exercise = await self.db.postExercise(options.name, options.diffuculty, options.part)
+      let parts = options.parts.split(',')
+      const exercise = await self.db.postExercise(options.name, options.diffuculty, parts)
       response.status(200).send(JSON.stringify(exercise))
     });
 
