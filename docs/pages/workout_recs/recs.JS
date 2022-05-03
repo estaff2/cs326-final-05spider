@@ -10,7 +10,9 @@ function getTags(){
     if(stored === null || stored === undefined){
         tags = []
     }
-    return tags;
+    else{
+        tags = stored
+    }
 }
 
 function renderTags(element){
