@@ -222,7 +222,7 @@ class GymServer{
     this.dburl = dburl;
     this.app = express();
     this.app.use(express.urlencoded({ extended: false }));
-    this.app.use(express.static('docs')); 
+    this.app.use(express.static('docs')); //not sure if this and docs/pages are strictly neccessary
     this.app.use(express.static('docs/pages')); 
     this.app.use(express.static('docs/pages/landing_page')); 
     this.app.use(express.static('docs/pages/edit_profile')); 
@@ -246,7 +246,8 @@ class GymServer{
 
     this.app.get('/exercises', async (request, response) => {
       const options = request.query;
-      const exercise_list = await self.db.getExercises(options.tags)
+      let tags = options.tags.split(',')
+      const exercise_list = await self.db.getExercises(tags)
       response.status(200).send(JSON.stringify(exercise_list))
     });
     
