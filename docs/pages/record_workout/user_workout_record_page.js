@@ -1,6 +1,6 @@
 let workout = [];
 const add_ex = document.getElementById("add_ex");
-const submit = document.getElementById("submit"); 
+const submit = document.getElementById("submit");
 const tbody = document.getElementById("tbody");
 updateDate();
 
@@ -9,7 +9,7 @@ function updateDate() {
     console.log('updateDate')
     const date = document.getElementById("date");
     const today = new Date();
-    const month = today.getMonth()+1;
+    const month = today.getMonth() + 1;
     const day = today.getDate();
     const year = today.getFullYear();
     date.innerHTML = month + "/" + day + "/" + year;
@@ -25,12 +25,12 @@ add_ex.addEventListener("click", () => {
     const weight = document.getElementById("weight").value;
     const notes = document.getElementById("notes").value;
 
-   try {
+    try {
         updateTable(exercise, sets, reps, weight);
-        workout.push({username:username, exercise:exercise, sets:sets, reps:reps, weight:weight, notes:notes, date:date});
+        workout.push({ username: username, exercise: exercise, sets: sets, reps: reps, weight: weight, notes: notes, date: date });
     } catch {
         console.error("invalid exercise input; missing fields");
-    } 
+    }
 })
 
 //upon click, submit posts the completed workout to server, resets the page.
@@ -60,16 +60,31 @@ function updateTable(exercise, sets, reps, weight) {
 
 //makes http post to server to save the workout for current user
 async function saveWorkout(username, name, date) {
-    const data = {username:username, name:name, date:date, workout:workout};
-    await fetch('/record', {
-        method: 'POST',
-        body: JSON.stringify(data)
-    });
+    const data = { username: username, name: name, date: date, workout: workout };
+    let loc = window.location.href
+    let url = ''
+    if (loc.substring(7, 12) == 'local') {
+        url = 'http://localhost:3000/record;
+    }
+    else {
+        url = 'https://gym-recs.herokuapp.com/record;
+    }
+    let response = await fetch(url,
+        {
+            method: 'POST',
+            body: JSON.stringify(data)
+        });
+    if (response.ok) {
+        data = await response.json();
+    }
+    else {
+        alert(response.status)
+    }
 }
 
 //resets the page to blank values.
 function resetTable() {
-    tbody.innerHTML="";
+    tbody.innerHTML = "";
 }
 
 

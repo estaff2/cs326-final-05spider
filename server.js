@@ -248,7 +248,7 @@ class GymServer{
       try {
         const options = request.query;
         let tags = options.tags.split(',');
-        const leaderboard = await getLeaderboard(tags); 
+        const leaderboard = await getLeaderboard(tags[0],tags[1],tags[2],tags[3],tags[4],tags[5]); 
         response.status(200).send(JSON.stringify(leaderboard));
       }
       catch(err) {

@@ -103,7 +103,7 @@ export class GymDatabase {
   } 
 
   //grab leaderboard given tags
-  async getLeaderboard(gender, schoolYear, major, club, date) { 
+  async getLeaderboard(gender, schoolYear, major, club, exercise, date) { 
     const usersQuery = 
     'SELECT * ' +
     'FROM users ' +
@@ -129,7 +129,8 @@ export class GymDatabase {
    const workoutQuery = 
    'SELECT * ' +
    'FROM workouthistory ' +
-   `WHERE username && '{${users}}'`;
+   `WHERE username && '{${users}}'` +
+   `WHERE exercise = '${exercise}'`;
    
    if(date != null)
     workoutQuery += `WHERE DATE LIKE '%.date'`;
