@@ -64,10 +64,10 @@ async function saveWorkout(username, name, date) {
     let loc = window.location.href
     let url = ''
     if (loc.substring(7, 12) == 'local') {
-        url = 'http://localhost:3000/record;
+        url = 'http://localhost:3000/record';
     }
     else {
-        url = 'https://gym-recs.herokuapp.com/record;
+        url = 'https://gym-recs.herokuapp.com/record';
     }
     let response = await fetch(url,
         {
