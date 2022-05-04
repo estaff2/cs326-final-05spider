@@ -56,6 +56,16 @@ export class GymDatabase {
         club varchar(30),
         workout_his varchar(30)
       );
+
+      create table if not exits workouthistory (
+        username varchar(30),
+        exercise integer,
+        sets integer,
+        reps integer, 
+        weight integer,
+        notes varchar(150),
+        date varchar(30)
+      ); 
     `;
     const res = await this.client.query(queryText);
   }
@@ -83,6 +93,11 @@ export class GymDatabase {
      `WHERE parts && '{${tags}}'`; // the '{}' syntax is only neccessary for array insertion
     const res = await this.client.query(queryText);
     return res.rows
+  }
+
+
+  async getWorkoutHist(tags) {
+
   }
 
 }

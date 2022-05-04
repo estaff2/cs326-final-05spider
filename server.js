@@ -255,8 +255,9 @@ class GymServer{
     });
 
     this.app.get('/user/history', async (request, response) => {
-      const options = request.query; 
-      getWorkoutHist(response, options.tags); 
+      let options = request.query;
+      options = options.tags.split(','); 
+      const history = await self.db.getWorkoutHist(options); 
     });
 
     this.app.post('/record', async (request, response) => {
