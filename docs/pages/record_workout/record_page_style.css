@@ -29,3 +29,11 @@
       display: flex;
       justify-content: center;
   }
+
+  #date {
+    color: darkgray
+  }
+
+  .form-control {
+    margin:2px;
+  }

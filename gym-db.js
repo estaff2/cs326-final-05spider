@@ -84,7 +84,6 @@ export class GymDatabase {
     return res.rows;
   }
 
-
   //tags is an array of words, this will return all exercises that have a part listed in the supplied tags
   async getExercises(tags){
     const queryText = 
@@ -95,9 +94,27 @@ export class GymDatabase {
     return res.rows
   }
 
-
   async getWorkoutHist(tags) {
 
   }
 
+  //grab leaderboard given tags
+  async getLeaderboard(tags) {
+    const queryText = 
+    'SELECT * ' +
+    'FROM workouthistory ' +
+    `WHERE parts && '{${tags}}'`;
+   const res = await this.client.query(queryText);
+   return res.rows
+  }
+
+  //post workout to database
+  async recordWorkout(workouts) {
+    for(let i = 0; i < workouts.length; i++) {
+      const ex = workouts[i];
+      const queryText =
+      'INSERT INTO workoutHistory (username, exercise, sets, reps, weight, notes, date) VALUES ($1, $2, $3, $4, $5, $6, $7)';
+      await this.client.query(queryText, [ex.username, ex.exercise, ex.sets, ex.reps, ex.weight, ex.notes, ex.date])
+    }
+  }
 }

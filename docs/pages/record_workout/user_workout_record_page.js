@@ -17,7 +17,6 @@ function updateDate() {
 
 //upon click, "+" button appends the new exercise to the table, adds to array of exercises for workout.
 add_ex.addEventListener("click", () => {
-    console.log("add_ex event listenter")
     const date = document.getElementById("date").value;
     let exercise = document.getElementById("exercise");
     exercise = exercise.options[exercise.selectedIndex].text;
@@ -28,7 +27,7 @@ add_ex.addEventListener("click", () => {
 
    try {
         updateTable(exercise, sets, reps, weight);
-        workout.push({exercise:exercise, sets:sets, reps:reps, weight:weight, notes:notes});
+        workout.push({username:username, exercise:exercise, sets:sets, reps:reps, weight:weight, notes:notes, date:date});
     } catch {
         console.error("invalid exercise input; missing fields");
     } 

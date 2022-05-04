@@ -192,7 +192,6 @@ function sortByExcercise(leaderboard, exercise) {
 }
 
 
-
 // create user function
 
 async function createUser (response, request){
@@ -236,10 +235,8 @@ class GymServer{
     const self = this;
 
     this.app.get('/', function(req, res){
-
       res.sendFile('landing_page.html', {root:'docs/pages/landing_page'})
     })
-
 
     this.app.get('/exercises', async (request, response) => {
       const options = request.query;
@@ -249,20 +246,32 @@ class GymServer{
     });
     
     this.app.get('/leaderboard', async (request, response) => {
-      const options = request.query;
-      console.log(options.tags); 
-      getLeaderboard(response, options.tags); 
+      try {
+        const options = request.query;
+        let tags = options.tags.split(',');
+        const leaderboard = await getLeaderboard(tags); 
+        response.status(200).send(JSON.stringify(leaderboard));
+      }
+      catch(err) {
+        response.status(500).send(err);
+      }
+    });
+
+    this.app.post('/record', async (request, response) => {
+      try {
+        const options = request.body;
+        self.db.recordWorkout(options.workout); 
+        response.status(200).send(JSON.stringify({status: "workout sucessfully recorded"}));
+      }
+      catch(err) {
+        response.status(500).send(err);
+      }
     });
 
     this.app.get('/user/history', async (request, response) => {
       let options = request.query;
       options = options.tags.split(','); 
       const history = await self.db.getWorkoutHist(options); 
-    });
-
-    this.app.post('/record', async (request, response) => {
-      console.log(request.query.name, request.query.workout); 
-      recordWorkout(response, request.query.name, request.query.workout); 
     });
 
     this.app.post('/addExercise', async (request, response) => {
@@ -275,15 +284,12 @@ class GymServer{
     this.app.all('*', async (request, response) => {
       response.status(404).send(`Not found: ${response.path}`); 
     });
-
-    
   }
   
   async initDb() {
     this.db = new GymDatabase(this.dburl);
     await this.db.connect();
   }
-
 
   async start() {
     await this.initRoutes();
@@ -295,7 +301,5 @@ class GymServer{
   }
 }
 
-
 const server = new GymServer(process.env.DATABASE_URL)
 server.start()
-
