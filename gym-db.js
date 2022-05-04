@@ -57,9 +57,9 @@ export class GymDatabase {
         workout_his varchar(30)
       );
 
-      create table if not exits workouthistory (
+      create table if not exists workouthistory (
         username varchar(30),
-        exercise integer,
+        exercise varchar(30),
         sets integer,
         reps integer, 
         weight integer,
@@ -94,8 +94,17 @@ export class GymDatabase {
     return res.rows
   }
 
+<<<<<<< HEAD
   async getWorkoutHist(tags) {
 
+=======
+
+  async getWorkoutHist(username) {
+    const queryText = `SELECT * FROM workouthistory where username = '${username}'`
+    console.log(queryText); 
+    const res = await this.client.query(queryText); 
+    return res.rows
+>>>>>>> 07336aff7013eec1e12fe4e1e2bf5eb7a2aa6901
   }
 
   //grab leaderboard given tags

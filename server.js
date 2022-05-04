@@ -24,8 +24,7 @@ function findCommonElements(arr1, arr2) {
 
 
 //gets user workout history based on filter selected
-async function getWorkoutHist(response, workouttags){
-  //window.localStorage.getItem("user").value;
+async function filterUserworkoutHist(workoutarray, workouttags){
   if (workouttags == undefined){
     workouttags = "quads,hamstrings,glutes,groin,calves,chest,biceps,triceps,delts,lats,traps";
     console.log("working"); 
@@ -268,10 +267,11 @@ class GymServer{
       }
     });
 
-    this.app.get('/user/history', async (request, response) => {
-      let options = request.query;
-      options = options.tags.split(','); 
-      const history = await self.db.getWorkoutHist(options); 
+    this.app.get('/user/history', async (request, response) => { 
+      let user = request.query;
+      user = user.username; 
+      const history = await self.db.getWorkoutHist(user);
+      response.status(200).send(JSON.stringify(history)); 
     });
 
     this.app.post('/addExercise', async (request, response) => {
