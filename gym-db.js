@@ -57,7 +57,7 @@ export class GymDatabase {
         workout_his varchar(30)
       );
 
-      create table if not exits workouthistory (
+      create table if not exists workouthistory (
         username varchar(30),
         exercise integer,
         sets integer,
@@ -97,8 +97,10 @@ export class GymDatabase {
   }
 
 
-  async getWorkoutHist(tags) {
-
+  async getWorkoutHist(username) {
+    `SELECT * FROM workouthistory where username = ${username}`
+    const res = await this.client.query(queryText); 
+    return res.rows
   }
 
 }
