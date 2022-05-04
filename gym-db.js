@@ -77,7 +77,6 @@ export class GymDatabase {
 
   //tags is an array of words, this will return all exercises that have a part listed in the supplied tags
   async getExercises(tags){
-
     const queryText = 
      'SELECT * ' +
      'FROM exercises ' +
