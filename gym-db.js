@@ -98,7 +98,8 @@ export class GymDatabase {
 
 
   async getWorkoutHist(username) {
-    `SELECT * FROM workouthistory where username = ${username}`
+    const queryText = `SELECT * FROM workouthistory where username = '${username}'`
+    console.log(queryText); 
     const res = await this.client.query(queryText); 
     return res.rows
   }
