@@ -52,6 +52,7 @@ export class GymDatabase {
         emailaddress varchar(30),
         password varchar(30),
         schoolYear varchar(30),
+        gender varchar(30),
         major varchar(30),
         club varchar(30),
         workout_his varchar(30)
@@ -94,27 +95,47 @@ export class GymDatabase {
     return res.rows
   }
 
-<<<<<<< HEAD
-  async getWorkoutHist(tags) {
-
-=======
-
   async getWorkoutHist(username) {
     const queryText = `SELECT * FROM workouthistory where username = '${username}'`
     console.log(queryText); 
     const res = await this.client.query(queryText); 
     return res.rows
->>>>>>> 07336aff7013eec1e12fe4e1e2bf5eb7a2aa6901
-  }
+  } 
 
   //grab leaderboard given tags
-  async getLeaderboard(tags) {
-    const queryText = 
+  async getLeaderboard(gender, schoolYear, major, club, date) { 
+    const usersQuery = 
     'SELECT * ' +
-    'FROM workouthistory ' +
-    `WHERE parts && '{${tags}}'`;
-   const res = await this.client.query(queryText);
-   return res.rows
+    'FROM users ' +
+    `WHERE gender = '${gender}'`;
+
+    if(schoolYear != null)
+      usersQuery += `WHERE schoolYear = '${schoolYear}'`;
+    if(major != null)
+      usersQuery += `WHERE major = '${major}'`;
+    if(club != null)
+      usersQuery += `WHERE club = '${club}'`;
+
+   const res1 = await this.client.query(usersQuery);
+   const found = res1.rows;
+
+   let users = [];
+   for(let i = 0; i < found.length; i++) {
+      users.push(found[i].username);
+   }
+
+   const date=date[1]+"-"+date[2];
+
+   const workoutQuery = 
+   'SELECT * ' +
+   'FROM workouthistory ' +
+   `WHERE username && '{${users}}'`;
+   
+   if(date != null)
+    workoutQuery += `WHERE DATE LIKE '%.date'`;
+
+    const res2 = await this.client.query(workoutQuery);
+    return res2.rows;
   }
 
   //post workout to database
