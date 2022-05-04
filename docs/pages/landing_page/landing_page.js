@@ -134,7 +134,8 @@ function createTag(tag) {
 
     const close = document.createElement("button");
     close.classList.add("btn-close");
-
+    close.classList.add("btn-close-white");
+    
     div.appendChild(text);
     div.appendChild(close);
     return div;
