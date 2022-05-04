@@ -59,7 +59,7 @@ export class GymDatabase {
 
       create table if not exists workouthistory (
         username varchar(30),
-        exercise integer,
+        exercise varchar(30),
         sets integer,
         reps integer, 
         weight integer,
