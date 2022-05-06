@@ -33,13 +33,13 @@ export class GymDatabase {
   }
 
   async init() {
-      //It's important to note that part(for exercises) should just be a single tag. This means that an exercise with 2 body part tags 
-      // should have 2 seperate entries in the table.   
-      //not sure how we want to handle workout_his
-      // seperate table for workout history? 
-      //images in exercises table? 
-      //if you change any values in a table, either name or type of the variable or just deleting or adding values
-      //you will need add DROP TABLE nameOfTable; to the top of the query text and run npm start once. Remove the statement after to avoid table being deleted every time
+    //It's important to note that part(for exercises) should just be a single tag. This means that an exercise with 2 body part tags 
+    // should have 2 seperate entries in the table.   
+    //not sure how we want to handle workout_his
+    // seperate table for workout history? 
+    //images in exercises table? 
+    //if you change any values in a table, either name or type of the variable or just deleting or adding values
+    //you will need add DROP TABLE nameOfTable; to the top of the query text and run npm start once. Remove the statement after to avoid table being deleted every time
     const queryText = `
       create table if not exists exercises (
         name varchar(30),
@@ -78,62 +78,64 @@ export class GymDatabase {
   }
 
   //this is just for us to use to add exercises to the database
-  async postExercise(name, diff, parts){
+  async postExercise(name, diff, parts) {
     const queryText =
-    'INSERT INTO exercises (name, diffuculty, parts) VALUES ($1, $2, $3)';
+      'INSERT INTO exercises (name, diffuculty, parts) VALUES ($1, $2, $3)';
     const res = await this.client.query(queryText, [name, diff, parts]);
     return res.rows;
   }
 
   //tags is an array of words, this will return all exercises that have a part listed in the supplied tags
-  async getExercises(tags){
-    const queryText = 
-     'SELECT * ' +
-     'FROM exercises ' +
-     `WHERE parts && '{${tags}}'`; // the '{}' syntax is only neccessary for array insertion
+  async getExercises(tags) {
+    const queryText =
+      'SELECT * ' +
+      'FROM exercises ' +
+      `WHERE parts && '{${tags}}'`; // the '{}' syntax is only neccessary for array insertion
     const res = await this.client.query(queryText);
     return res.rows
   }
 
   async getWorkoutHist(username) {
     const queryText = `SELECT * FROM workouthistory where username = '${username}'`
-    console.log(queryText); 
-    const res = await this.client.query(queryText); 
+    console.log(queryText);
+    const res = await this.client.query(queryText);
     return res.rows
-  } 
+  }
 
   //grab leaderboard given tags
-  async getLeaderboard(gender, schoolYear, major, club, exercise, date) { 
-    const usersQuery = 
-    'SELECT * ' +
-    'FROM users ' +
-    `WHERE gender = '${gender}'`;
+  async getLeaderboard(gender, schoolYear, major, club, exercise, date) {
+    const usersQuery =
+      'SELECT * ' +
+      'FROM users ' +
+      `WHERE gender = '${gender}'`;
 
-    if(schoolYear != null)
+    if (schoolYear != "All")
       usersQuery += ` AND schoolYear = '${schoolYear}'`;
-    if(major != null)
+    if (major != "All")
       usersQuery += ` AND major = '${major}'`;
-    if(club != null)
+    if (club != "All")
       usersQuery += ` AND club = '${club}'`;
 
-   const res1 = await this.client.query(usersQuery);
-   const found = res1.rows;
+    const res1 = await this.client.query(usersQuery);
+    const found = res1.rows;
 
-   let users = [];
-   for(let i = 0; i < found.length; i++) {
+    let users = [];
+    for (let i = 0; i < found.length; i++) {
       users.push(found[i].username);
-   }
+    }
 
-   const d=date[1]+"-"+date[2];
+    const d = date[1] + "-" + date[2];
 
-   const workoutQuery = 
-   'SELECT * ' +
-   'FROM workouthistory ' +
-   `WHERE username && '{${users}}'` +
-   ` AND exercise = '${exercise}'`;
-   
-   if(date !== "All")
-    workoutQuery += ` AND DATE LIKE '%.d'`;
+    const workoutQuery =
+      'SELECT * ' +
+      'FROM workouthistory ' +
+      `WHERE username && '{${users}}'` +
+      ` AND exercise = '${exercise}'`;
+
+    if (d !== "All")
+      workoutQuery += ` AND DATE LIKE '%.d'`;
+
+    workoutQuery += ' ORDER BY weight DESC';
 
     const res2 = await this.client.query(workoutQuery);
     return res2.rows;
@@ -141,10 +143,10 @@ export class GymDatabase {
 
   //post workout to database
   async recordWorkout(workouts) {
-    for(let i = 0; i < workouts.length; i++) {
+    for (let i = 0; i < workouts.length; i++) {
       const ex = workouts[i];
       const queryText =
-      'INSERT INTO workoutHistory (username, exercise, sets, reps, weight, notes, date) VALUES ($1, $2, $3, $4, $5, $6, $7)';
+        'INSERT INTO workoutHistory (username, exercise, sets, reps, weight, notes, date) VALUES ($1, $2, $3, $4, $5, $6, $7)';
       await this.client.query(queryText, [ex.username, ex.exercise, ex.sets, ex.reps, ex.weight, ex.notes, ex.date]);
     }
   }

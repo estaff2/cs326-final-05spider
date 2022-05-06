@@ -1,4 +1,5 @@
-let workout = [];
+let workouts = [];
+let date = [];
 const add_ex = document.getElementById("add_ex");
 const submit = document.getElementById("submit");
 const tbody = document.getElementById("tbody");
@@ -6,42 +7,43 @@ updateDate();
 
 //updates date on top of page
 function updateDate() {
-    console.log('updateDate')
-    const date = document.getElementById("date");
+    const d = document.getElementById("date");
     const today = new Date();
     const month = today.getMonth() + 1;
     const day = today.getDate();
     const year = today.getFullYear();
-    date.innerHTML = month + "/" + day + "/" + year;
+    date.push(day);
+    date.push(month);
+    date.push(year);
+    d.innerHTML = month + "/" + day + "/" + year;
 }
 
 //upon click, "+" button appends the new exercise to the table, adds to array of exercises for workout.
 add_ex.addEventListener("click", () => {
-    const date = document.getElementById("date").value.split("/");
     let exercise = document.getElementById("exercise");
     exercise = exercise.options[exercise.selectedIndex].text;
     const sets = document.getElementById("sets").value;
     const reps = document.getElementById("reps").value;
     const weight = document.getElementById("weight").value;
     const notes = document.getElementById("notes").value;
+    const username = "jlaidler";
 
     try {
         updateTable(exercise, sets, reps, weight);
-        workout.push({ username: username, exercise: exercise, sets: sets, reps: reps, weight: weight, notes: notes, date: date });
+        workouts.push({ username: username, exercise: exercise, sets: sets, reps: reps, weight: weight, notes: notes, date: date });
     } catch {
-        console.error("invalid exercise input; missing fields");
+        console.error("invalid exercise input: missing fields");
     }
 })
 
 //upon click, submit posts the completed workout to server, resets the page.
 submit.addEventListener("click", () => {
-    saveWorkout(name);
+    saveWorkout();
     resetTable();
 })
 
 //updates the workout table
 function updateTable(exercise, sets, reps, weight) {
-    console.log("updateTable")
     let row = document.createElement('tr');
     const e = document.createElement('td');
     e.innerHTML = exercise;
@@ -59,8 +61,8 @@ function updateTable(exercise, sets, reps, weight) {
 }
 
 //makes http post to server to save the workout for current user
-async function saveWorkout(username, name, date) {
-    const data = { username: username, name: name, date: date, workout: workout };
+async function saveWorkout() {
+    const data = { workouts: workouts };
     let loc = window.location.href
     let url = ''
     if (loc.substring(7, 12) == 'local') {
@@ -86,5 +88,3 @@ async function saveWorkout(username, name, date) {
 function resetTable() {
     tbody.innerHTML = "";
 }
-
-
