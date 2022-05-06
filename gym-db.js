@@ -52,10 +52,21 @@ export class GymDatabase {
         email varchar(30),
         password varchar(30),
         schoolYear varchar(30),
+        gender varchar(30),
         major varchar(30),
         gender varchar(30)
        
       );
+
+      create table if not exists workouthistory (
+        username varchar(30),
+        exercise varchar(30),
+        sets integer,
+        reps integer, 
+        weight integer,
+        notes varchar(150),
+        date varchar(30)
+      ); 
     `;
     const res = await this.client.query(queryText);
   }
@@ -76,7 +87,6 @@ export class GymDatabase {
 
   //tags is an array of words, this will return all exercises that have a part listed in the supplied tags
   async getExercises(tags){
-
     const queryText = 
      'SELECT * ' +
      'FROM exercises ' +
@@ -101,4 +111,57 @@ export class GymDatabase {
    //console.log("db");
   };
 
+  async getWorkoutHist(username) {
+    const queryText = `SELECT * FROM workouthistory where username = '${username}'`
+    console.log(queryText); 
+    const res = await this.client.query(queryText); 
+    return res.rows
+  } 
+
+  //grab leaderboard given tags
+  async getLeaderboard(gender, schoolYear, major, club, exercise, date) { 
+    const usersQuery = 
+    'SELECT * ' +
+    'FROM users ' +
+    `WHERE gender = '${gender}'`;
+
+    if(schoolYear != null)
+      usersQuery += ` AND schoolYear = '${schoolYear}'`;
+    if(major != null)
+      usersQuery += ` AND major = '${major}'`;
+    if(club != null)
+      usersQuery += ` AND club = '${club}'`;
+
+   const res1 = await this.client.query(usersQuery);
+   const found = res1.rows;
+
+   let users = [];
+   for(let i = 0; i < found.length; i++) {
+      users.push(found[i].username);
+   }
+
+   const d=date[1]+"-"+date[2];
+
+   const workoutQuery = 
+   'SELECT * ' +
+   'FROM workouthistory ' +
+   `WHERE username && '{${users}}'` +
+   ` AND exercise = '${exercise}'`;
+   
+   if(date !== "All")
+    workoutQuery += ` AND DATE LIKE '%.d'`;
+
+    const res2 = await this.client.query(workoutQuery);
+    return res2.rows;
+  }
+
+  //post workout to database
+  async recordWorkout(workouts) {
+    for(let i = 0; i < workouts.length; i++) {
+      const ex = workouts[i];
+      const queryText =
+      'INSERT INTO workoutHistory (username, exercise, sets, reps, weight, notes, date) VALUES ($1, $2, $3, $4, $5, $6, $7)';
+      await this.client.query(queryText, [ex.username, ex.exercise, ex.sets, ex.reps, ex.weight, ex.notes, ex.date]);
+    }
+  }
 }

@@ -22,8 +22,7 @@ function findCommonElements(arr1, arr2) {
 
 
 //gets user workout history based on filter selected
-async function getWorkoutHist(response, workouttags){
-  //window.localStorage.getItem("user").value;
+async function filterUserworkoutHist(workoutarray, workouttags){
   if (workouttags == undefined){
     workouttags = "quads,hamstrings,glutes,groin,calves,chest,biceps,triceps,delts,lats,traps";
     console.log("working"); 
@@ -190,7 +189,6 @@ function sortByExcercise(leaderboard, exercise) {
 }
 
 
-
 // create user function
 /*
 async function createUser (response, request){
@@ -236,11 +234,9 @@ class GymServer{
     const self = this;
 
     this.app.get('/', function(req, res){
-
       res.sendFile('landing_page.html', {root:'docs/pages/landing_page'})
     })
 
-    
     this.app.get('/exercises', async (request, response) => {
       const options = request.query;
       let tags = options.tags.split(',');
@@ -249,19 +245,33 @@ class GymServer{
     });
     
     this.app.get('/leaderboard', async (request, response) => {
-      const options = request.query;
-      console.log(options.tags); 
-      getLeaderboard(response, options.tags); 
-    });
-
-    this.app.get('/user/history', async (request, response) => {
-      const options = request.query; 
-      getWorkoutHist(response, options.tags); 
+      try {
+        const options = request.query;
+        let tags = options.tags.split(',');
+        const leaderboard = await getLeaderboard(tags[0],tags[1],tags[2],tags[3],tags[4],tags[5]); 
+        response.status(200).send(JSON.stringify(leaderboard));
+      }
+      catch(err) {
+        response.status(500).send(err);
+      }
     });
 
     this.app.post('/record', async (request, response) => {
-      console.log(request.query.name, request.query.workout); 
-      recordWorkout(response, request.query.name, request.query.workout); 
+      try {
+        const options = request.body;
+        self.db.recordWorkout(options.workout); 
+        response.status(200).send(JSON.stringify({status: "workout sucessfully recorded"}));
+      }
+      catch(err) {
+        response.status(500).send(err);
+      }
+    });
+
+    this.app.get('/user/history', async (request, response) => { 
+      let user = request.query;
+      user = user.username; 
+      const history = await self.db.getWorkoutHist(user);
+      response.status(200).send(JSON.stringify(history)); 
     });
 
     this.app.post('/addExercise', async (request, response) => {
@@ -307,15 +317,12 @@ class GymServer{
     this.app.all('*', async (request, response) => {
       response.status(404).send(`Not found: ${response.path}`); 
     });
-
-    
   }
   
   async initDb() {
     this.db = new GymDatabase(this.dburl);
     await this.db.connect();
   }
-
 
   async start() {
     await this.initRoutes();
@@ -327,14 +334,5 @@ class GymServer{
   }
 }
 
-
-const server = new GymServer(process.env.DATABASE_URL)
-server.start()
-
-/*
-const email = req.query.email;
-      const password = req.query.password;
-      const schoolYear = req.query.schoolYear;
-      const major = req.query.major;
-      const gender = req.query.gender;
-*/
+const server = new GymServer(process.env.DATABASE_URL);
+server.start();

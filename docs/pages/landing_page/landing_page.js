@@ -1,5 +1,5 @@
 let table = document.getElementById("leaderboard");
-let tag_bar=document.getElementById("tag_bar");
+let tag_bar = document.getElementById("tag_bar");
 
 load();
 
@@ -14,16 +14,14 @@ const search = document.getElementById("search");
 search.addEventListener("click", () => {
 
     let gender = document.getElementsByName("sex");
-    for (var radio of gender)
-    {
+    for (var radio of gender) {
         if (radio.checked) {
-           
+
             gender = radio.value;
         }
     }
     let time = document.getElementsByName("time");
-    for (var radio of time)
-    {
+    for (var radio of time) {
         if (radio.checked) {
             time = radio.value;
         }
@@ -48,7 +46,7 @@ search.addEventListener("click", () => {
 
 //resets the leaderboard
 async function resetTable() {
-    tbody.innerHTML="";
+    tbody.innerHTML = "";
 }
 
 //updates page by calling updates on leaderboard, tag display
@@ -59,15 +57,14 @@ async function updatePage(gender, time, exercise, club, major, year) {
 
 //makes the http request to server to get ranking data based on supplied tags and updates the table accordingly
 async function updateTable(gender, time, exercise, club, major, year) {
-    const tags = [gender, time, exercise, club, major, year];
+    const tags = [gender, year, major, club, exercise, time];
     const rankings = callServer(tags);
-
     resetTable();
 
-    for(let i = 0; i < rankings.length; i++) {
-        const curr=rankings[i];
+    for (let i = 0; i < rankings.length; i++) {
+        const curr = rankings[i];
         let row = document.createElement("tr");
-        const rank = document.createElement("td").innerHTML = i+1;
+        const rank = document.createElement("td").innerHTML = i + 1;
         const name = document.createElement("td").innerHTML = curr["name"];
         const date = document.createElement("td").innerHTML = curr["date"];
         const year = document.createElement("td").innerHTML = curr["year"];
@@ -85,19 +82,24 @@ async function updateTable(gender, time, exercise, club, major, year) {
 
 //makes the http request to server to get ranking data based on supplied tags
 async function callServer(tags) {
-    return 0 // added this for testing, was messing up server with wrong call
-    let url = 'http://localhost:3000/exercises?tags=' + tags.join(','); //tags.join(',') is a way to handle putting an array into one parameter of the query 
+    let loc = window.location.href
+    let url = ''
+    if (loc.substring(7, 12) == 'local') {
+        url = 'http://localhost:3000/leaderboard?tags=' + tags.join(',');
+    }
+    else {
+        url = 'https://gym-recs.herokuapp.com/leaderboard?tags=' + tags.join(',');
+    }
     let response = await fetch(url,
         {
-            method: 'GET'
+            method: 'GET',
         });
-    if(response.ok){
+    if (response.ok) {
         data = await response.json();
     }
-    else{
+    else {
         alert(response.status)
     }
-    return response.json;
 }
 
 //updates the list of tags above the leaderboard
@@ -108,13 +110,13 @@ function updateTags(exercise, club, major, year) {
     const mj = createTag(major);
     const yr = createTag(year);
 
-    if(exercise !== null) 
+    if (exercise !== null)
         tag_bar.appendChild(ex);
-    if(year !== null) 
+    if (year !== null)
         tag_bar.appendChild(yr);
-    if(club !== null)
+    if (club !== null)
         tag_bar.appendChild(cl);
-    if(major !== null)
+    if (major !== null)
         tag_bar.appendChild(mj);
 }
 
@@ -134,6 +136,7 @@ function createTag(tag) {
 
     const close = document.createElement("button");
     close.classList.add("btn-close");
+    close.classList.add("btn-close-white");
 
     div.appendChild(text);
     div.appendChild(close);
@@ -142,6 +145,6 @@ function createTag(tag) {
 
 //resets the tag bar
 async function resetTags() {
-    tag_bar.innerHTML="";
+    tag_bar.innerHTML = "";
 }
 

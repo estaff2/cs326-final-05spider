@@ -41,13 +41,20 @@ function getTags() {
     return parts; 
 }
 
+let loggeduser = 'jack'; 
+
+
 //server call 
 let workoutdata;
 let numberofWorkouts;  
-async function callServer(){ 
-    let url = "http://localhost:3000/user/history?tags=" + parts.join(',');
-    if (parts.length === 0){
-        url = "http://localhost:3000/user/history"; 
+async function callServer(){
+    let loc = window.location.href 
+    let url ='' 
+    if(loc.substring(7,12) == 'local'){
+        url = `http://localhost:3000/user/history?username=${loggeduser}` 
+    }
+    else{
+        url = `https://gym-recs.herokuapp.com/user/history?username=${loggeduser}`
     }
     let response = await fetch(url,
         {
@@ -55,9 +62,9 @@ async function callServer(){
         });
     if(response.ok){
         data = await response.json();
-        workoutdata = data; 
-        numberofWorkouts = workoutdata.length; 
-        renderhist();  
+        console.log(data); 
+        workoutdata = data;  
+        numberofWorkouts = workoutdata.length;   
     }
     else{
         alert(response.status)
