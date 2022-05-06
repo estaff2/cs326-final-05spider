@@ -132,7 +132,7 @@ export class GymDatabase {
    `WHERE username && '{${users}}'` +
    ` AND exercise = '${exercise}'`;
    
-   if(date != null)
+   if(date !== "All")
     workoutQuery += ` AND DATE LIKE '%.d'`;
 
     const res2 = await this.client.query(workoutQuery);

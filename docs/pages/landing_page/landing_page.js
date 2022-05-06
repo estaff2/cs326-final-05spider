@@ -57,7 +57,7 @@ async function updatePage(gender, time, exercise, club, major, year) {
 
 //makes the http request to server to get ranking data based on supplied tags and updates the table accordingly
 async function updateTable(gender, time, exercise, club, major, year) {
-    const tags = gender + "," + year + "," + major + "," + club + "," + exercise + "," + time;
+    const tags = [gender, year, major, club, exercise, time];
     const rankings = callServer(tags);
     resetTable();
 
