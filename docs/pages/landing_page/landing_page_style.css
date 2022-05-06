@@ -1,7 +1,3 @@
-body {
-  font-family: "Arial"
-}
-
 .nav-item {
   color: black
 }
@@ -15,14 +11,16 @@ body {
 #leaderboard_header {
   position: relative;
   top:8px;
-  font-weight: 450;
-
 }
 
 #search {
   width: 150px;
   background-image: linear-gradient(maroon, black);
   color: white;
+}
+
+#search:hover {
+  background-image: linear-gradient(black, maroon);
 }
 
 .radio {
@@ -48,6 +46,15 @@ body {
   margin-top: 10px;
   font-weight: 600;
   min-width: 25%;
+}
+
+.btn-sel:hover {
+  -webkit-filter: brightness(90%);
+
+}
+
+.org-field:hover {
+  -webkit-filter: brightness(90%);
 }
 
 .mb-3 {
