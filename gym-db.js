@@ -110,11 +110,11 @@ export class GymDatabase {
     `WHERE gender = '${gender}'`;
 
     if(schoolYear != null)
-      usersQuery += `WHERE schoolYear = '${schoolYear}'`;
+      usersQuery += ` AND schoolYear = '${schoolYear}'`;
     if(major != null)
-      usersQuery += `WHERE major = '${major}'`;
+      usersQuery += ` AND major = '${major}'`;
     if(club != null)
-      usersQuery += `WHERE club = '${club}'`;
+      usersQuery += ` AND club = '${club}'`;
 
    const res1 = await this.client.query(usersQuery);
    const found = res1.rows;
@@ -124,16 +124,16 @@ export class GymDatabase {
       users.push(found[i].username);
    }
 
-   const date=date[1]+"-"+date[2];
+   const d=date[1]+"-"+date[2];
 
    const workoutQuery = 
    'SELECT * ' +
    'FROM workouthistory ' +
    `WHERE username && '{${users}}'` +
-   `WHERE exercise = '${exercise}'`;
+   ` AND exercise = '${exercise}'`;
    
    if(date != null)
-    workoutQuery += `WHERE DATE LIKE '%.date'`;
+    workoutQuery += ` AND DATE LIKE '%.d'`;
 
     const res2 = await this.client.query(workoutQuery);
     return res2.rows;
@@ -145,7 +145,7 @@ export class GymDatabase {
       const ex = workouts[i];
       const queryText =
       'INSERT INTO workoutHistory (username, exercise, sets, reps, weight, notes, date) VALUES ($1, $2, $3, $4, $5, $6, $7)';
-      await this.client.query(queryText, [ex.username, ex.exercise, ex.sets, ex.reps, ex.weight, ex.notes, ex.date])
+      await this.client.query(queryText, [ex.username, ex.exercise, ex.sets, ex.reps, ex.weight, ex.notes, ex.date]);
     }
   }
 }

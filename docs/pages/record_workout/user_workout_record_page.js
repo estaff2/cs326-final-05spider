@@ -17,7 +17,7 @@ function updateDate() {
 
 //upon click, "+" button appends the new exercise to the table, adds to array of exercises for workout.
 add_ex.addEventListener("click", () => {
-    const date = document.getElementById("date").value;
+    const date = document.getElementById("date").value.split("/");
     let exercise = document.getElementById("exercise");
     exercise = exercise.options[exercise.selectedIndex].text;
     const sets = document.getElementById("sets").value;
