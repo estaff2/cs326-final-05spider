@@ -4,7 +4,7 @@ import express from 'express';
 import logger from 'morgan';
 import { GymDatabase } from './gym-db.js'; 
 import path from 'path';
-
+import passport from "passport";
 
 const JSONfile = 'users.json';
 let users = {};
@@ -17,7 +17,7 @@ function findCommonElements(arr1, arr2) {
   return arr1.some(item => arr2.includes(item))
 }
 
-
+;
 
 
 
@@ -228,6 +228,10 @@ class GymServer{
     this.app.use(express.static('docs/pages/workout_recs')); 
     this.app.use(logger('dev'));
     this.app.use(express.json());
+    //passport.use(strategy);
+    //this.app.use(passport.initialize());
+    //this.app.use(passport.session());
+  
   }
 
   async initRoutes(){
@@ -236,6 +240,15 @@ class GymServer{
     this.app.get('/', function(req, res){
       res.sendFile('landing_page.html', {root:'docs/pages/landing_page'})
     })
+
+    async function checkLoggedIn(req, res, next) {
+      if (req.isAuthenticated()) {
+        // Ifauthenticated, run the next route.
+        next();
+      } else {
+        res.redirect(401);
+      }
+    }
 
     this.app.get('/exercises', async (request, response) => {
       const options = request.query;
@@ -300,11 +313,12 @@ class GymServer{
         res.status(200).send(JSON.stringify(person));
         //const check = await 
         console.log("bda");
-        
-        
-        
         //const person = await self.db.createPerson(username, email, password, schoolYear, major, gender);
         });
+
+    this.app.post('/login', passport.authenticate('local', { successRedirect: '/pages/landing_page', failureRedirect: '/login' }));
+
+
     this.app.get('/user/all', async (req, res) => {
       try {
         const people = await self.db.readAllPeople();
