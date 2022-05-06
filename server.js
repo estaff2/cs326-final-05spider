@@ -4,7 +4,7 @@ import express from 'express';
 import logger from 'morgan';
 import { GymDatabase } from './gym-db.js'; 
 import path from 'path';
-import passport from "passport";
+//import passport from "passport";
 
 const JSONfile = 'users.json';
 let users = {};
@@ -16,8 +16,6 @@ const headerFields = {
 function findCommonElements(arr1, arr2) {
   return arr1.some(item => arr2.includes(item))
 }
-
-;
 
 
 
@@ -93,101 +91,6 @@ async function getExercises(response, exercies_tags) {
   response.end();
 }
 
-//load in user JSONfile, appends new workout to field "workout" containing array of workouts
-async function recordWorkout(response, username, workout) {
-  const data = await readFile('docs/JSON Files/users.json');
-  const users = JSON.parse(data);
-  for (let i = 0; i < users.length; i++) {
-    const user = user[i];
-    if (user["username"].equals(username)) {
-      user["workouts"].push(workout);
-    }
-  }
-  //todo add user workout to the users.JSON file
-  response.writeHead(200, headerFields);
-  console.log(workout); 
-  response.write(JSON.stringify(workout));
-  response.end();
-}
-
-//loads in user JSONfile, filters out users/exercises according to tags, sort remainder by descending order of weight, return top 25 entries.
-async function getLeaderboard(response, tags) {
-  tags = tags.split(',');
-  const users = await readFile('docs/JSON Files/users.json');
-  const workouts = sortByExcercise(filterTags(JSON.parse(users), tags), tags[2]);
-  let leaderboard = [];
-  for (let i = 0; i < 25; i++) {
-    leaderboard.push(workouts[i]);
-  }
-  response.writeHead(200, headerFields);
-  response.write(JSON.stringify(leaderboard));
-  response.end();
-}
-
-//returns array of valid workouts (filters out users/workouts which don't match tags)
-function filterTags(users, tags) {
-  //filter out users
-  let valid_users = [];
-  for (let i = 0; i < users.length; i++) {
-    const user = users[i];
-    if (!user["sex"].equals(tags[0]))
-      continue;
-    if (tags[3] !== null)
-      if (!user["club"].equals(tags[3]))
-        continue;
-    if (tags[4] !== null)
-      if (!user["major"].equals(tags[4]))
-        continue;
-    if (tags[5] !== null)
-      if (!user["schoolYear"].equals(tags[5]))
-        continue;
-    valid_users.push(user);
-  }
-
-  //filter out exercises
-  let valid_exercises = [];
-  for (let i = 0; i < valid_users.length; i++) {
-    const user = users[i];
-    const user_workouts = user["workout_his"];
-    for (let j = 0; j < user_workouts.length; j++) {
-      const workout = user_workouts[j];
-      if (tags[1].equals("week"))
-        if (!pastWeek(workout))
-          continue;
-      for (let k = 0; k < workout.length; k++) {
-        const entry = workout[k];
-        if (!tags[2].equals(entry["exercise"]))
-          continue;
-        else
-          valid_exercises.push(entry);
-      }
-    }
-  }
-  return valid_exercises;
-}
-
-//returns true if the supplied workout took place within the last week
-function pastWeek(date) {
-  const today = new Date();
-  const today_date = today.getDate();
-  const today_day = today.getDay();
-
-  // get first date of week
-  const first = new Date(today.setDate(today_date - today_day));
-
-  // get last date of week
-  const last = new Date(first);
-  last.setDate(last.getDate() + 6);
-
-  // if date is equal or within the first and last dates of the week
-  return date >= first && date <= last;
-}
-
-//sorts array of workouts in descending order of weight according to specified excercise
-function sortByExcercise(leaderboard, exercise) {
-  return leaderboard.sort((a, b) => parseFloat(b.exercise) - parseFloat(a.exercise));
-}
-
 
 // create user function
 /*
@@ -261,7 +164,7 @@ class GymServer{
       try {
         const options = request.query;
         let tags = options.tags.split(',');
-        const leaderboard = await getLeaderboard(tags[0],tags[1],tags[2],tags[3],tags[4],tags[5]); 
+        const leaderboard = await self.db.getLeaderboard(tags[0],tags[1],tags[2],tags[3],tags[4],tags[5]); 
         response.status(200).send(JSON.stringify(leaderboard));
       }
       catch(err) {
@@ -272,7 +175,7 @@ class GymServer{
     this.app.post('/record', async (request, response) => {
       try {
         const options = request.body;
-        self.db.recordWorkout(options.workout); 
+        await self.db.recordWorkout(options.workout); 
         response.status(200).send(JSON.stringify({status: "workout sucessfully recorded"}));
       }
       catch(err) {
@@ -316,7 +219,7 @@ class GymServer{
         //const person = await self.db.createPerson(username, email, password, schoolYear, major, gender);
         });
 
-    this.app.post('/login', passport.authenticate('local', { successRedirect: '/pages/landing_page', failureRedirect: '/login' }));
+    //this.app.post('/login', passport.authenticate('local', { successRedirect: '/pages/landing_page', failureRedirect: '/login' }));
 
 
     this.app.get('/user/all', async (req, res) => {

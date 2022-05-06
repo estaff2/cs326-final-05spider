@@ -82,32 +82,6 @@ async function updateTable(gender, time, exercise, club, major, year) {
     }
 }
 
-//makes the http request to server to get ranking data based on supplied tags
-async function callServer(tags) {
-    let loc = window.location.href
-    let url = ''
-    if (loc.substring(7, 12) == 'local') {
-        url = 'http://localhost:3000/leaderboard?tags=' + tags.join(',');
-    }
-    else {
-        url = 'https://gym-recs.herokuapp.com/leaderboard?tags=' + tags.join(',');
-    }
-    let response = await fetch(url,
-        {
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-              },
-            method: 'GET',
-        });
-    if (response.ok) {
-        data = await response.json();
-    }
-    else {
-        alert(response.status)
-    }
-}
-
 //updates the list of tags above the leaderboard
 function updateTags(exercise, club, major, year) {
     resetTags();
@@ -204,3 +178,29 @@ async function resetTags() {
     tag_bar.innerHTML = "";
 }
 
+//makes the http request to server to get ranking data based on supplied tags
+async function callServer(tags) {
+    console.log("callServer")
+    let loc = window.location.href
+    let url = ''
+    if (loc.substring(7, 12) == 'local') {
+        url = 'http://localhost:3000/leaderboard?tags=' + tags.join(',');
+    }
+    else {
+        url = 'https://gym-recs.herokuapp.com/leaderboard?tags=' + tags.join(',');
+    }
+    let response = await fetch(url,
+        {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+              },
+            method: 'GET',
+        });
+    if (response.ok) {
+        data = await response.json();
+    }
+    else {
+        alert(response.status)
+    }
+}
