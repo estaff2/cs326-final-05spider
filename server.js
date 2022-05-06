@@ -6,8 +6,6 @@ import { GymDatabase } from './gym-db.js';
 import path from 'path';
 
 
-
-
 const JSONfile = 'users.json';
 let users = {};
 const headerFields = {
@@ -194,7 +192,7 @@ function sortByExcercise(leaderboard, exercise) {
 
 
 // create user function
-
+/*
 async function createUser (response, request){
   const data = await readFile('users.json')
   const username =request.body["username"];
@@ -213,6 +211,7 @@ async function createUser (response, request){
  }
   return;
 }
+*/
 
 class GymServer{
   constructor(dburl) {
@@ -230,6 +229,7 @@ class GymServer{
     this.app.use(express.static('docs/pages/workout_history')); 
     this.app.use(express.static('docs/pages/workout_recs')); 
     this.app.use(logger('dev'));
+    this.app.use(express.json());
   }
 
   async initRoutes(){
@@ -240,7 +240,7 @@ class GymServer{
       res.sendFile('landing_page.html', {root:'docs/pages/landing_page'})
     })
 
-
+    
     this.app.get('/exercises', async (request, response) => {
       const options = request.query;
       let tags = options.tags.split(',');
@@ -270,6 +270,39 @@ class GymServer{
       const exercise = await self.db.postExercise(options.name, options.diffuculty, parts)
       response.status(200).send(JSON.stringify(exercise))
     });
+    
+    this.app.post('/register', async (req, res) => {
+      console.log("ada");
+      //const options = request.query
+      const username = req.body["username"];
+      const email = req.body["email"];
+      const password = req.body["password"];
+      const schoolYear = req.body["schoolYear"];
+      const major = req.body["major"];
+      const gender = req.body["gender"];
+      //const options = req.query;
+      //let tags = options.tags.split(",");
+      console.log("person.tags");
+      console.log(username);
+      const person = await self.db.createPerson(username, email, password, schoolYear, major, gender);
+      //options.username, options.email, options.password, options.schoolYear, options.major, options.gender
+        //const { username, email, password, schoolYear, major, gender } = req.query;
+        res.status(200).send(JSON.stringify(person));
+        //const check = await 
+        console.log("bda");
+        
+        
+        
+        //const person = await self.db.createPerson(username, email, password, schoolYear, major, gender);
+        });
+    this.app.get('/user/all', async (req, res) => {
+      try {
+        const people = await self.db.readAllPeople();
+        res.send(JSON.stringify(people));
+      } catch (err) {
+        res.status(501).send(err);
+      }
+    });
 
     this.app.all('*', async (request, response) => {
       response.status(404).send(`Not found: ${response.path}`); 
@@ -298,3 +331,10 @@ class GymServer{
 const server = new GymServer(process.env.DATABASE_URL)
 server.start()
 
+/*
+const email = req.query.email;
+      const password = req.query.password;
+      const schoolYear = req.query.schoolYear;
+      const major = req.query.major;
+      const gender = req.query.gender;
+*/
