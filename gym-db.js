@@ -46,16 +46,16 @@ export class GymDatabase {
         diffuculty integer,
         parts text[] 
       );
-        
+
       create table if not exists users (
         username varchar(30),
-        emailaddress varchar(30),
+        email varchar(30),
         password varchar(30),
         schoolYear varchar(30),
         gender varchar(30),
         major varchar(30),
-        club varchar(30),
-        workout_his varchar(30)
+        gender varchar(30)
+       
       );
 
       create table if not exists workouthistory (
@@ -92,8 +92,24 @@ export class GymDatabase {
       'FROM exercises ' +
       `WHERE parts && '{${tags}}'`; // the '{}' syntax is only neccessary for array insertion
     const res = await this.client.query(queryText);
-    return res.rows
+    return res.rows;
   }
+  // create user 
+  async createPerson(username, email, password, schoolYear, major, gender) {
+    /*const newUser={
+      username: username,
+      email: email,
+      password: password,
+      schoolYear:schoolYear,
+      major:major,
+      gender:gender
+    };
+    */
+  const queryText ='INSERT INTO users (username, email, password, schoolYear, major, gender) VALUES ($1, $2, $3, $4, $5, $6)';
+   const res = await this.client.query(queryText, [username, email, password, schoolYear, major, gender]);
+   return res.rows;
+   //console.log("db");
+  };
 
   async getWorkoutHist(username) {
     const queryText = `SELECT * FROM workouthistory where username = '${username}'`
