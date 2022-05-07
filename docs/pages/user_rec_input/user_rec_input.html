@@ -9,7 +9,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="user_creation.css">
+    <link rel="stylesheet" href="user_rec_input.css">
 
 </head>
 <body>
@@ -84,27 +84,22 @@
         </div>
         <select class="form-select p-3 " aria-label="Default select example" id = "select">
             <option selected>Choose a Exercise</option>
-            <option value="1" id = "v1">Legs</option>
-            <option value="2" id = "v2">Shoulders</option>
-            <option value="3" id = "v3">Triceps</option>
+            <option id = "v1">Quads</option>
+            <option id = "v2">Shoulders</option>
+            <option id = "v3">Triceps</option>
+            <option id = "v4">Chest</option>
+            <option id = "v5">Back</option>
+            <option id = "v6">Biceps</option>
+            <option id = "v7">Glutes</option>
+            <option id = "v8">Hamstrings</option>
+            <option id = "v9">Lats</option>
+            <option id = "v10">Abductors</option>
+            <option id = "v11">Groin</option>
+            <option id = "v12">Calves</option>
           </select>
     
-          <div class = "hid my-3"  id = "hidden">
-          <div class="alert alert-warning alert-dismissible fade show w-25" style="display: inline-block;" role="alert" id ="b1">
-            <strong>Leg</strong>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" ></button>
-          </div>
+          <div class = "hid my-3"  id = "tags">
 
-          <div class="alert alert-warning alert-dismissible fade show w-25" style="display: inline-block;" role="alert" id = "b2">
-            <strong>Shoulders</strong>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-          </div>
-          
-
-          <div class="alert alert-warning alert-dismissible fade show w-25" style="display: inline-block;" role="alert" id = "b3">
-            <strong>Triceps</strong>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-          </div>
         </div>
 
           <button class="w-100 btn btn-primary btn-lg" type="button" id = "find"> Find Exercises</button>
