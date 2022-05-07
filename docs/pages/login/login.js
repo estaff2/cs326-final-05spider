@@ -78,11 +78,9 @@ document.getElementById("log").addEventListener('click', async function () {
             window.localStorage.setItem("user",username);
             console.log("successfully logged in");
             window.location.href = "../landing_page/landing_page.html"; 
-        } else {
-            alert("Username or Password is incorrect"); 
-        }
-        
+        } 
     });
+    alert("Username or Password is incorrect");
 });
         //loggedIn.push({username:username});
        // window.localStorage.setItem("logged-in", true);
