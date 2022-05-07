@@ -4,6 +4,7 @@ const ls = window.localStorage;
 let firsttime = true; 
 let workhistory = [];
 let selectedFilter = ''
+let loggeduser; 
 //gets the selected filter
 const filteroptions = ['none', 'legs', 'chest', 'arms', 'back'];
 const filt = document.getElementById("filter");
@@ -15,14 +16,10 @@ function getFilter() {
             selectedFilter = selectedfilt; 
         return selectedFilter; 
 } 
-filt.addEventListener("change", getFilter);
-filt.addEventListener("change", getTags); 
-
 //turns filter into group of parts being worked
-
 const legs = ["quads,hamstrings,glutes,groin,calves"]; 
-const chest = ["chest"]; 
-const arms  = ["biceps,triceps,delts"]; 
+const chest = ["chest,pectorals"]; 
+const arms  = ["biceps,triceps,delts,rotator cuff"]; 
 const back = ["lats,traps"]; 
 const all = ["quads,hamstrings,glutes,groin,calves,chest,biceps,triceps,delts,lats,traps"]
 let parts; 
@@ -41,10 +38,16 @@ function getTags() {
     return parts; 
 }
 
-let loggeduser = 'jack';
-getFilter(); 
-getTags();  
 
+function setup() {
+    filt.addEventListener("change", getFilter);
+    filt.addEventListener("change", getTags);
+    getFilter(); 
+    getTags();
+    loggeduser = "Brandon_Oconnor"; 
+}
+setup(); 
+ 
 
 //gets all the users workout history 
 let workoutdata;
@@ -64,7 +67,8 @@ async function callServer(){
         });
     if(response.ok){
         data = await response.json(); 
-        workoutdata = data;   
+        workoutdata = data;
+        numberofWorkouts = workoutdata.length;    
     }
     else{
         alert(response.status)
@@ -94,30 +98,34 @@ async function serverRequest(){
     else{
         alert(response.status)
     } 
-    filterworkouts();
     renderhist();  
 
       
 }
-callServer(); 
-serverRequest(); 
-filt.addEventListener("change", callServer); 
-filt.addEventListener("change", serverRequest); 
 
-function filterworkouts (){
+async function main(){
+    await callServer(); 
+    await serverRequest();
+    filt.addEventListener("change", callServer); 
+    filt.addEventListener("change", serverRequest);  
+}
+
+main(); 
+
+//matches user history to filter selected for a specific day
+function filterworkouts(date){
     let finalworkout = []; 
+    console.log(workoutdata); 
+    console.log(validexercises); 
     workoutdata.forEach(workout => {
         validexercises.forEach(exercise => {
-            if (workout['exercise'] == exercise['name']){
+            if (workout['exercise'].toLowerCase() == exercise['name'].toLowerCase() && workout['date'] == date){
                 finalworkout.push(workout); 
             }
         })
 
     })
-    numberofWorkouts = finalworkout.length;
-    workoutdata = finalworkout; 
-    console.log(finalworkout); 
-    getDates();   
+    return finalworkout;  
 }
 
 function getDates(){
@@ -131,6 +139,20 @@ function getDates(){
     uniqueDates = toUniqueArray(dates);
     return uniqueDates;  
      
+}
+
+function getNotes(date){
+    let notes = []; 
+    let uniqueNotes = []; 
+    let j = 0; 
+    while (j < numberofWorkouts){
+            if (workoutdata[j]['date'] == date){
+                notes.push(workoutdata[j]['notes'])
+            }
+        j++; 
+    }
+    uniqueNotes = toUniqueArray(notes); 
+    return uniqueNotes; 
 }
 
 function toUniqueArray(arr){
@@ -149,40 +171,19 @@ function renderreset(){
 }
  
 async function renderhist(){
-    if (firsttime == false){
-        renderreset();
-    } 
-    firsttime = false; 
+    renderreset(); 
     uniqueDates = getDates(); 
     let curworkout;
     let j = 0; 
-    const headers = ['Exercise Name', 'Sets', 'Reps', 'Weight'];
-    let datesnotes = false; 
+    const headers = ['Exercise Name', 'Sets', 'Reps', 'Weight']; 
     while (j < uniqueDates.length){
-        let loc = window.location.href 
-        let url =''
-        if(loc.substring(7,12) == 'local'){
-            url = `http://localhost:3000/user/historyhelper?name=${loggeduser}&date=${uniqueDates}`
+        curworkout = filterworkouts(uniqueDates[j]); 
+        if (curworkout.length < 1){
+            break;
         }
-        else{
-            url = `https://gym-recs.herokuapp.com/user/historyhelper?name=${loggeduser}&date=${uniqueDates}`
-        }
-        //tags.join(',') is a way to handle putting an array into one parameter of the query 
-        let response = await fetch(url,
-            {
-                method: 'GET',
-            });
-        if(response.ok){
-            data = await response.json();
-            curworkout = data;  
-        }
-        else{
-            alert(response.status)
-        }   
-        if (datesnotes == false) { 
+        let notes = getNotes(uniqueDates[j]);
         //creates date header
-        let curdate =  curworkout[0]['date'];
-        let notes = curworkout[0]['notes'];
+        let curdate =  curworkout[0]['date']; 
         let start = document.getElementById("historysection");
         let br = document.createElement('br');
         start.appendChild(br); 
@@ -219,9 +220,9 @@ async function renderhist(){
             th.innerHTML = head
             tr.appendChild(th); 
         })
-        }
+        
         datesnotes = true;  
-        curworkout.forEach(exercise => {
+        curworkout.forEach(exercise => { 
             let tablebody = document.createElement("tbody");
             let table = document.getElementById(`table${j}`); 
             table.appendChild(tablebody); 
@@ -229,7 +230,7 @@ async function renderhist(){
             tablebody.appendChild(tr);
             let th = document.createElement('th'); 
             th.setAttribute('scope', 'col'); 
-            th.innerHTML = exercise['name']; 
+            th.innerHTML = exercise['exercise']; 
             let td1 = document.createElement('td');
             td1.innerHTML = exercise['sets']; 
             let td2 = document.createElement('td'); 
@@ -241,6 +242,25 @@ async function renderhist(){
             tr.appendChild(td2); 
             tr.appendChild(td3); 
         }); 
+        notes.forEach(notes => {
+            if (notes != []){
+                let starting = document.getElementById("historysection")
+                let notescenter = document.createElement("div"); 
+                notescenter.classList.add("center"); 
+                starting.appendChild(notescenter); 
+                let header = document.createElement("div"); 
+                header.classList.add('col-md-1'); 
+                header.classList.add('p2'); 
+                header.innerHTML = "Workout Notes:"
+                let notestext = document.createElement("div"); 
+                notestext.classList.add('col-md-6'); 
+                notestext.classList.add('p3');
+                notestext.innerHTML = notes; 
+                notescenter.appendChild(header); 
+                notescenter.appendChild(notestext);   
+            } 
+        })
+        j++; 
 
      
 }
