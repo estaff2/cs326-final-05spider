@@ -27,8 +27,8 @@ async function logIn (username, password){
     else {
         data = await response.json();
         console.log('user successfully logged in', username);
-        window.localStorage.setItem("loggedIn-user", username);
-        //window.localStorage.setItem("username",username);
+        window.localStorage.setItem("loggedIn", true);
+        window.localStorage.setItem("me",username);
     }
 }
 
