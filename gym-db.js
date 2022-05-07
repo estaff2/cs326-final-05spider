@@ -11,15 +11,6 @@ export class GymDatabase {
   }
 
   async connect() {
-    // Create a new Pool. The Pool manages a set of connections to the database.
-    // It will keep track of unused connections, and reuse them when new queries
-    // are needed. The constructor requires a database URL to make the
-    // connection. You can find the URL of your database by looking in Heroku
-    // or you can run the following command in your terminal:
-    //
-    //  heroku pg:credentials:url -a APP_NAME
-    //
-    // Replace APP_NAME with the name of your app in Heroku.
 
     this.pool = new Pool({
       connectionString: this.dburl,
@@ -34,11 +25,6 @@ export class GymDatabase {
   }
 
   async init() {
-    //It's important to note that part(for exercises) should just be a single tag. This means that an exercise with 2 body part tags 
-    // should have 2 seperate entries in the table.   
-    //not sure how we want to handle workout_his
-    // seperate table for workout history? 
-    //images in exercises table? 
     //if you change any values in a table, either name or type of the variable or just deleting or adding values
     //you will need add DROP TABLE nameOfTable; to the top of the query text and run npm start once. Remove the statement after to avoid table being deleted every time
     const queryText = `

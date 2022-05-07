@@ -3,11 +3,9 @@ import { readFile, writeFile, access } from 'fs/promises';
 import express from 'express'; 
 import logger from 'morgan';
 import { GymDatabase } from './gym-db.js'; 
-import path from 'path';
 //import passport from "passport";
 
-const JSONfile = 'users.json';
-let users = {};
+
 const headerFields = {
   'Content-Type': 'text/html',
   'Access-Control-Allow-Origin': '*'
@@ -16,81 +14,6 @@ const headerFields = {
 function findCommonElements(arr1, arr2) {
   return arr1.some(item => arr2.includes(item))
 }
-
-
-
-//gets user workout history based on filter selected
-async function filterUserworkoutHist(workoutarray, workouttags){
-  if (workouttags == undefined){
-    workouttags = "quads,hamstrings,glutes,groin,calves,chest,biceps,triceps,delts,lats,traps";
-    console.log("working"); 
-  } 
-  let currentuser = "spider"
-  let filterselected = workouttags.split(','); 
-  const data = await readFile('docs/JSON Files/users.json')
-  let exercises = await readFile('docs/JSON Files/exercises.json');
-  exercises = JSON.parse(exercises);
-  exercises = exercises['exercises']; 
-  //finds exercises that match the filter
-  let matching = []; 
-  let i;
-  for (i = 0; i < exercises.length; i++) {
-    let exercise = exercises[i];
-    let parts = exercise.parts;
-    console.log(exercise); 
-    console.log(filterselected); 
-    if (findCommonElements(filterselected, parts)) {
-      matching.push(exercise);
-    }
-  } 
-  console.log(matching);  
-  //gets exercise names
-  let validworkouts = []; 
-  matching.forEach(exerc => {
-    validworkouts.push(exerc["name"]); 
-  })   
-  //makes sure it is only history of the current user
-  let alldata = JSON.parse(data);
-  let userhist = []; 
-  if (alldata["username"] === (currentuser)){
-    userhist = alldata["workout_his"];
-    
-  //filters user history to only include workouts that match their filter 
-  } 
-  let final = []; 
-  userhist.forEach(workout => {
-    validworkouts.forEach(exerciseName => {
-      if (workout["exerciseName"].toLowerCase() == exerciseName.toLowerCase()){
-        final.push(workout); 
-      }
-    })
-  })
-  response.writeHead(200, headerFields); 
-  response.write(JSON.stringify(final)); 
-  response.end(); 
-}
-
-
-// myArray.join(',')}); is how to pass the tags in, so make one string with , and then split into array here
-async function getExercises(response, exercies_tags) {
-  const data = await readFile('docs/JSON Files/exercises.json');
-  const tags = exercies_tags.split(',');
-  let matching = [];
-  let exercises = JSON.parse(data);
-  exercises = exercises['exercises'];
-  let i;
-  for (i = 0; i < exercises.length; i++) {
-    let exercise = exercises[i];
-    let parts = exercise.parts;
-    if (findCommonElements(tags, parts)) {
-      matching.push(exercise);
-    }
-  }
-  response.writeHead(200, headerFields);
-  response.write(JSON.stringify(matching));
-  response.end();
-}
-
 
 // create user function
 /*
