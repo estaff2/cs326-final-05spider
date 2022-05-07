@@ -64,6 +64,11 @@ export class GymDatabase {
     await this.pool.end();
   }
 
+  async users(){
+    const queryText = `SELECT * FROM users`
+    const res = await this.client.query(queryText); 
+    return res.rows; 
+  }
 
   async findName(username){
     const queryText = 

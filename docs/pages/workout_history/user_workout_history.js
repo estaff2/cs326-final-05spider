@@ -41,7 +41,7 @@ function getTags() {
 function setup() {
     getFilter(); 
     getTags();
-    user = ls.getItem("me"); 
+    user = ls.getItem("user"); 
     loggeduser = user;
     console.log(loggeduser); 
     if (loggeduser === null){

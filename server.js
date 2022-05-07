@@ -63,6 +63,11 @@ class GymServer{
       }
     }
 
+    this.app.get('/users', async (request, response) => {
+      const users = await self.db.users();  
+      response.status(200).send(JSON.stringify(users)); 
+    })
+
     this.app.get('/exercises', async (request, response) => {
       const options = request.query;
       let tags = options.tags.split(',');
