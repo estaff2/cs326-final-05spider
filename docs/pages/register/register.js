@@ -7,6 +7,7 @@ const passwordT = document.getElementById("password");
 const schoolYearT = document.getElementById("schoolYear");
 const majorT = document.getElementById("major");
 const genderT = document.getElementById("gender");
+const clubT = document.getElementById("club");
 const createButton = document.getElementById("createUser");
 
 //const location = window.location.hostname;
@@ -44,14 +45,15 @@ const password = document.getElementById("password").value;
 const schoolYear = document.getElementById("schoolYear").value;
 const major = document.getElementById("major").value;
 const gender = document.getElementById("gender").value;
+const club = document.getElementById("club").value;
 //const createButton = document.getElementById("createUser").value;
   if(email === '' || password === '' || username === ''|| password === '' || 
-      schoolYear ==='' || major ==='' || gender === ''){
+      schoolYear ==='' || major ==='' || gender === '' || club === ''){
         return;}
   
 console.log("js");
 //await serverRequest();
-const data = {username:username, email:email, password:password, schoolYear:schoolYear, major:major, gender:gender};
+const data = {username:username, email:email, password:password, schoolYear:schoolYear, major:major, gender:gender, club:club};
 const response = await fetch(`http://localhost:3000/register`, {
   method: 'POST',
   headers: {

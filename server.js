@@ -164,8 +164,8 @@ class GymServer{
       try {
         const options = request.query;
         let tags = options.tags.split(',');
-        console.log("Server tags :" + tags)
         const leaderboard = await self.db.getLeaderboard(tags[0],tags[1],tags[2],tags[3],tags[4],tags[5]); 
+        console.log("LEADERBOARD IN SERVER: " + JSON.stringify(leaderboard));
         response.status(200).send(JSON.stringify(leaderboard));
       }
       catch(err) {
@@ -174,7 +174,6 @@ class GymServer{
     });
 
     this.app.post('/record', async (request, response) => {
-      console.log("Inside the server file for record")
       try {
         const options = request.body;
         await self.db.recordWorkout(options.workouts, options.notes); 
@@ -208,11 +207,12 @@ class GymServer{
       const schoolYear = req.body["schoolYear"];
       const major = req.body["major"];
       const gender = req.body["gender"];
+      const club = req.body["club"];
       //const options = req.query;
       //let tags = options.tags.split(",");
       console.log("person.tags");
       console.log(username);
-      const person = await self.db.createPerson(username, email, password, schoolYear, major, gender);
+      const person = await self.db.createPerson(username, email, password, schoolYear, major, gender, club);
       //options.username, options.email, options.password, options.schoolYear, options.major, options.gender
         //const { username, email, password, schoolYear, major, gender } = req.query;
         res.status(200).send(JSON.stringify(person));

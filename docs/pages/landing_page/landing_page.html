@@ -71,13 +71,13 @@
             </div>
 
             <table class="table table-striped" id="leaderboard">
-                <thead>
+                <thead class="table-dark">
                     <tr>
                         <th>Rank</th>
-                        <th>Name</th>
+                        <th>Username</th>
                         <th>Date</th>
-                        <th>Year</th>
-                        <th>Excercise</th>
+                        <th>Exercise</th>
+                        <th>Reps</th>
                         <th>Weight</th>
                     </tr>
                 </thead>
@@ -98,12 +98,13 @@
 
                 <form class="radio p-2">
                     <input type="radio" id="week" name="time" value="Week">
-                    <label for="week">Weekly</label><br>
+                    <label for="week">Past Month</label><br>
                     <input type="radio" id="all-time" name="time" value="All">
                     <label for="all">All-time</label><br>
                 </form>
 
                 <select class="btn-sel p-2" id="exercise">
+                    <option>Any</option>
                     <optgroup label="Legs">
                         <option>Squat</option>
                         <option>Deadlift</option>

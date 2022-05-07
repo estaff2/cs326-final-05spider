@@ -53,10 +53,9 @@ export class GymDatabase {
         email varchar(30),
         password varchar(30),
         schoolYear varchar(30),
+        major varchar(150),
         gender varchar(30),
-        major varchar(30),
-        gender varchar(30),
-        club varchar(30)
+        club varchar(150)
       );
 
       create table if not exists workouthistory (
@@ -70,6 +69,7 @@ export class GymDatabase {
       ); 
     `;
     const res = await this.client.query(queryText);
+    await this.getAllWorkouts();
   }
 
   // Close the pool.
@@ -95,21 +95,13 @@ export class GymDatabase {
     const res = await this.client.query(queryText);
     return res.rows;
   }
+
   // create user 
-  async createPerson(username, email, password, schoolYear, major, gender) {
-    /*const newUser={
-      username: username,
-      email: email,
-      password: password,
-      schoolYear:schoolYear,
-      major:major,
-      gender:gender
-    };
-    */
-    const queryText = 'INSERT INTO users (username, email, password, schoolYear, major, gender) VALUES ($1, $2, $3, $4, $5, $6)';
-    const res = await this.client.query(queryText, [username, email, password, schoolYear, major, gender]);
+  async createPerson(username, email, password, schoolYear, major, gender, club) {
+    console.log(username, email, password, schoolYear, major, gender, club)
+    const queryText = 'INSERT INTO users (username, email, password, schoolYear, major, gender, club) VALUES ($1, $2, $3, $4, $5, $6, $7)';
+    const res = await this.client.query(queryText, [username, email, password, schoolYear, major, gender, club]);
     return res.rows;
-    //console.log("db");
   };
 
   async getWorkoutHist(username) {
@@ -120,7 +112,11 @@ export class GymDatabase {
   }
 
   //grab leaderboard given tags
-  async getLeaderboard(gender, schoolYear, major, club, exercise, date) {
+  async getLeaderboard(gender, schoolYear, major, club, exercise, time) {
+    if(gender == "Men")
+      gender = "Male";
+    if(gender == "Women")
+      gender = "Female";
 
     let usersQuery =
       'SELECT * ' +
@@ -172,26 +168,29 @@ export class GymDatabase {
     console.log("USER QUERY (DATABASE): " + usersQuery)
     const res1 = await this.client.query(usersQuery);
     const found = res1.rows;
-    console.log("FOUND USERS: " + res1.rows);
+    console.log("FOUND USERS: " + res1.rows.length);
 
     let users = [];
     for (let i = 0; i < found.length; i++) {
       users.push(found[i].username);
     }
 
-    date = date.split("/");
-    const d = date[0] + "-" + date[2];
-
     let workoutQuery =
       'SELECT *' +
       ' FROM workouthistory' +
-      ` WHERE username && '{${users}}'` +
-      ` AND exercise = '${exercise}'`;
-    
-    console.log(workoutQuery)
+       ` WHERE username = ANY('{${users}}'::text[])`;
+       
 
-    if (d !== "All")
-      workoutQuery += ` AND DATE LIKE '%.d'`;
+    console.log(workoutQuery)
+      
+    if(exercise !== "Any")
+      workoutQuery += ` AND exercise = '${exercise}'`;
+    if (time !== "All") {
+      const today = new Date();
+      const month = today.getMonth() + 1;
+      const year = today.getFullYear();
+      workoutQuery += ` AND DATE LIKE '${month}%${year}'`;
+    }
 
     workoutQuery += ' ORDER BY weight DESC';
 
@@ -215,6 +214,14 @@ export class GymDatabase {
     let queryr =
       'SELECT * ' +
       'FROM workoutHistory';
+    const res2 = await this.client.query(queryr);
+    console.log(res2.rows)
+  }
+
+  async getAllUsers() {
+    let queryr =
+      'SELECT * ' +
+      'FROM users';
     const res2 = await this.client.query(queryr);
     console.log(res2.rows)
   }

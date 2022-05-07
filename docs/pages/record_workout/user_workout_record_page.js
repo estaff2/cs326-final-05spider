@@ -32,10 +32,10 @@ add_ex.addEventListener("click", () => {
     const s = sets.value;
     const r = reps.value;
     const w = weight.value;
-    const username = "jlaidler";
+    const username = "joe";
     try {
         updateTable(e, s, r, w);
-        workout_list.push({ username: username, exercise: e, sets: s, reps: r, weight: w, date: date });
+        workout_list.push({ username: username, exercise: e, sets: s, reps: r, weight: w, date: "5/3/2019" });
     } catch {
         console.error("invalid exercise input: missing fields");
     }
