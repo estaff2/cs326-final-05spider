@@ -174,9 +174,10 @@ class GymServer{
     });
 
     this.app.post('/record', async (request, response) => {
+      console.log("Inside the server file for record")
       try {
         const options = request.body;
-        await self.db.recordWorkout(options.workout); 
+        await self.db.recordWorkout(options.workouts, options.notes); 
         response.status(200).send(JSON.stringify({status: "workout sucessfully recorded"}));
       }
       catch(err) {

@@ -1,4 +1,5 @@
 import 'dotenv/config';
+import { query } from 'express';
 import pg from 'pg';
 
 // Get the Pool class from the pg module.
@@ -178,7 +179,8 @@ export class GymDatabase {
       users.push(found[i].username);
     }
 
-    const d = date[1] + "-" + date[2];
+    date = date.split("/");
+    const d = date[0] + "-" + date[2];
 
     let workoutQuery =
       'SELECT *' +
@@ -200,12 +202,26 @@ export class GymDatabase {
   }
 
   //post workout to database
-  async recordWorkout(workouts) {
+  async recordWorkout(workouts, notes) {
     for (let i = 0; i < workouts.length; i++) {
       const ex = workouts[i];
       const queryText =
         'INSERT INTO workoutHistory (username, exercise, sets, reps, weight, notes, date) VALUES ($1, $2, $3, $4, $5, $6, $7)';
-      await this.client.query(queryText, [ex.username, ex.exercise, ex.sets, ex.reps, ex.weight, ex.notes, ex.date]);
+      await this.client.query(queryText, [ex.username, ex.exercise, ex.sets, ex.reps, ex.weight, notes, ex.date]);
     }
+  }
+
+  async getAllWorkouts() {
+    let queryr =
+      'SELECT * ' +
+      'FROM workoutHistory';
+    const res2 = await this.client.query(queryr);
+    console.log(res2.rows)
+  }
+
+  async clearWorkouts() {
+    let queryr = 'DELETE FROM workoutHistory';
+    const res2 = await this.client.query(queryr);
+    console.log(res2.rows)
   }
 }

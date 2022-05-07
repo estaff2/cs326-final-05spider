@@ -1,8 +1,18 @@
 let workout_list = [];
-let date = [];
+let date = "";
+const tbody = document.getElementById("tbody");
+
+//buttons
 const add_ex = document.getElementById("add_ex");
 const submit = document.getElementById("submit");
-const tbody = document.getElementById("tbody");
+
+//input
+let exercise = document.getElementById("exercise");
+let sets = document.getElementById("sets");
+let reps = document.getElementById("reps");
+let weight = document.getElementById("weight");
+let notes = document.getElementById("notes");
+
 window.onload = updateDate();
 
 //updates date on top of page
@@ -12,26 +22,20 @@ function updateDate() {
     const month = today.getMonth() + 1;
     const day = today.getDate();
     const year = today.getFullYear();
-    date.push(day);
-    date.push(month);
-    date.push(year);
-    d.innerHTML = month + "/" + day + "/" + year;
+    date = month + "/" + day + "/" + year;
+    d.innerHTML = date;
 }
 
 //upon click, "+" button appends the new exercise to the table, adds to array of exercises for workout.
 add_ex.addEventListener("click", () => {
-    let exercise = document.getElementById("exercise");
-    exercise = exercise.options[exercise.selectedIndex].text;
-    const sets = document.getElementById("sets").value;
-    const reps = document.getElementById("reps").value;
-    const weight = document.getElementById("weight").value;
-    const notes = document.getElementById("notes").value;
+    const e = exercise.options[exercise.selectedIndex].text;
+    const s = sets.value;
+    const r = reps.value;
+    const w = weight.value;
     const username = "jlaidler";
-    console.log("clicked")
-
     try {
-        updateTable(exercise, sets, reps, weight);
-        workout_list.push({ username: username, exercise: exercise, sets: sets, reps: reps, weight: weight, notes: notes, date: date });
+        updateTable(e, s, r, w);
+        workout_list.push({ username: username, exercise: e, sets: s, reps: r, weight: w, date: date });
     } catch {
         console.error("invalid exercise input: missing fields");
     }
@@ -63,9 +67,8 @@ function updateTable(exercise, sets, reps, weight) {
 
 //makes http post to server to save the workout for current user
 async function saveWorkout() {
-    console.log("WORKOUT LiST")
-    console.log(workout_list)
-    const data = { workouts: workout_list };
+    const n = notes.value;
+    const data = { workouts: workout_list, notes: n };
     let loc = window.location.href
     let url = ''
     if (loc.substring(7, 12) == 'local') {
@@ -76,11 +79,16 @@ async function saveWorkout() {
     }
     let response = await fetch(url,
         {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+              },
             method: 'POST',
             body: JSON.stringify(data)
         });
     if (response.ok) {
-        data = await response.json();
+        let json = await response.json();
+        console.log(json)
     }
     else {
         alert(response.status)
@@ -89,5 +97,11 @@ async function saveWorkout() {
 
 //resets the page to blank values.
 function resetTable() {
+    workout_list = [];
+    exercise.selectedIndex=0;
+    reps.value="";
+    sets.value="";
+    weight.value="";
+    notes.value="";
     tbody.innerHTML = "";
 }
