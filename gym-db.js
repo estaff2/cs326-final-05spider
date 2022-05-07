@@ -110,13 +110,6 @@ export class GymDatabase {
     return res.rows
   }
 
-  async workoutHistoryHelper(name, date){
-    console.log(name); 
-    const queryText = `SELECT * FROM workouthistory where username = '${name}' and date = '${date}'`
-    console.log(queryText); 
-    const res = await this.client.query(queryText); 
-    return res.rows; 
-  }
 
   //grab leaderboard given tags
   async getLeaderboard(gender, schoolYear, major, club, exercise, time) {
@@ -171,11 +164,8 @@ export class GymDatabase {
       usersQuery += `club = '${club}'`;
       conditionsMet++;
     }
-
-    console.log("USER QUERY (DATABASE): " + usersQuery)
     const res1 = await this.client.query(usersQuery);
     const found = res1.rows;
-    console.log("FOUND USERS: " + res1.rows.length);
 
     let users = [];
     for (let i = 0; i < found.length; i++) {
@@ -188,7 +178,6 @@ export class GymDatabase {
        ` WHERE username = ANY('{${users}}'::text[])`;
        
 
-    console.log(workoutQuery)
       
     if(exercise !== "Any")
       workoutQuery += ` AND exercise = '${exercise}'`;
@@ -201,7 +190,6 @@ export class GymDatabase {
 
     workoutQuery += ' ORDER BY weight DESC';
 
-    console.log("WORKOUT QUERY (DATABASE): " + workoutQuery)
 
     const res2 = await this.client.query(workoutQuery);
     return res2.rows;
@@ -222,7 +210,6 @@ export class GymDatabase {
       'SELECT * ' +
       'FROM workoutHistory';
     const res2 = await this.client.query(queryr);
-    console.log(res2.rows)
   }
 
   async getAllUsers() {
@@ -230,12 +217,10 @@ export class GymDatabase {
       'SELECT * ' +
       'FROM users';
     const res2 = await this.client.query(queryr);
-    console.log(res2.rows)
   }
 
   async clearWorkouts() {
     let queryr = 'DELETE FROM workoutHistory';
     const res2 = await this.client.query(queryr);
-    console.log(res2.rows)
   }
 }
