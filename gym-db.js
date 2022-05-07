@@ -90,6 +90,7 @@ export class GymDatabase {
     return res.rows;
   };
 
+  // gets all workouthistory for logged in user
   async getWorkoutHist(username) {
     const queryText = `SELECT * FROM workouthistory where username = '${username}'`
     const res = await this.client.query(queryText); 

@@ -38,15 +38,6 @@ function getTags() {
     return parts; 
 }
 
-
-function setup() {
-    filt.addEventListener("change", getFilter);
-    filt.addEventListener("change", getTags);
-    getFilter(); 
-    getTags();
-    loggeduser = "Brandon_Oconnor"; 
-}
-setup(); 
  
 
 //gets all the users workout history 
@@ -97,20 +88,8 @@ async function serverRequest(){
     }
     else{
         alert(response.status)
-    } 
-    renderhist();  
-
-      
+    }        
 }
-
-async function main(){
-    await callServer(); 
-    await serverRequest();
-    filt.addEventListener("change", callServer); 
-    filt.addEventListener("change", serverRequest);  
-}
-
-main(); 
 
 //matches user history to filter selected for a specific day
 function filterworkouts(date){
@@ -265,5 +244,24 @@ async function renderhist(){
      
 }
 
+function setup() {
+    filt.addEventListener("change", getFilter);
+    filt.addEventListener("change", getTags);
+    getFilter(); 
+    getTags();
+    loggeduser = "David_Tylense"; 
+}
+setup(); 
 
-} 
+async function main(){
+    await callServer(); 
+    await serverRequest();
+    filt.addEventListener("change", callServer); 
+    filt.addEventListener("change", serverRequest);
+    renderhist();  
+}
+
+main(); 
+
+}
+ 
