@@ -84,6 +84,13 @@ export class GymDatabase {
     return res.rows;
   }
 
+  async deleteUser(username){
+    const queryText =
+    `DROP TABLE users WHERE username = '${username}' `;
+    const res = await this.client.query(queryText);
+    return res.rows;
+  }
+
   //this is just for us to use to add exercises to the database
   async postExercise(name, diff, parts) {
     const queryText =
