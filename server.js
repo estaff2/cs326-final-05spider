@@ -3,6 +3,8 @@ import { readFile, writeFile, access } from 'fs/promises';
 import express from 'express'; 
 import logger from 'morgan';
 import { GymDatabase } from './gym-db.js'; 
+import expressSession from 'express-session';
+import passport from "passport";
 //import passport from "passport";
 
 
@@ -11,31 +13,14 @@ const headerFields = {
   'Access-Control-Allow-Origin': '*'
 };
 
+
+
 function findCommonElements(arr1, arr2) {
   return arr1.some(item => arr2.includes(item))
 }
 
-// create user function
-/*
-async function createUser (response, request){
-  const data = await readFile('users.json')
-  const username =request.body["username"];
-  const email =req.body["email"];
-  const password = request.body["encryPassword"];
-  const schoolYear = request.body["schoolYear"];
-  const major = request.body["major"];
-  const gender = request.body["gender"];
-  const workout_his = request.body["workout_his"];
- const checkDuplicate = await data.countDocuments(
-   {email : email},
-   {limit : 1}
- ) ;
- if (checkDuplicate >0){
-   response.sendStatus(403);
- }
-  return;
-}
-*/
+
+
 
 class GymServer{
   constructor(dburl) {
@@ -59,6 +44,10 @@ class GymServer{
     //this.app.use(passport.session());
   
   }
+
+
+  
+  
 
   async initRoutes(){
     const self = this;
@@ -123,7 +112,7 @@ class GymServer{
     });
     
     this.app.post('/register', async (req, res) => {
-      console.log("ada");
+      //console.log("ada");
       //const options = request.query
       const username = req.body["username"];
       const email = req.body["email"];
@@ -134,18 +123,40 @@ class GymServer{
       const club = req.body["club"];
       //const options = req.query;
       //let tags = options.tags.split(",");
-      console.log("person.tags");
+      //console.log("person.tags");
       console.log(username);
       const person = await self.db.createPerson(username, email, password, schoolYear, major, gender, club);
       //options.username, options.email, options.password, options.schoolYear, options.major, options.gender
         //const { username, email, password, schoolYear, major, gender } = req.query;
         res.status(200).send(JSON.stringify(person));
         //const check = await 
-        console.log("bda");
+        //console.log("bda");
         //const person = await self.db.createPerson(username, email, password, schoolYear, major, gender);
         });
+      this.app.post('/login', async(req,res) =>{
+        let inputUN = req.body["username"];
+        let inputPS = req.body["password"];
+        const user = await self.db.findName(inputUN);
+          if (!user) {
+            res.status(501).send("wrong name");
+          }
+          else{
+            const userP = await self.db.findPassword(inputUN);
+            if(userP === inputPS){
+              // success!
+              res.status(200).send(JSON.stringify(user)); 
+          }
+          res.status(501).send("wrong password");
+          
+          // should create a user object 
+          
+        }
+      });
 
-    //this.app.post('/login', passport.authenticate('local', { successRedirect: '/pages/landing_page', failureRedirect: '/login' }));
+
+
+
+    //this.app.post('/login', passport.authenticate('local', { successRedirect: '/landing_page', failureRedirect: '/login' }));
 
 
     this.app.get('/user/all', async (req, res) => {

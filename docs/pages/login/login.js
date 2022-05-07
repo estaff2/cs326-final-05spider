@@ -1,11 +1,11 @@
 //import { user } from "pg/lib/defaults";
 
-let loggedIn = [];
+//let loggedIn = [];
 
-const logged = (window.localStorage.getItem("logged-in") !== null && window.localStorage.getItem("logged-in") !== "false");
-
+//const logged = (window.localStorage.getItem("logged-in") !== null && window.localStorage.getItem("logged-in") !== "false");
+let data;
 async function logIn (username, password){
-    const data = { username: username, password:password };
+    //const data = { username: username, password:password };
     let loc = window.location.href
     let url = ''
     if (loc.substring(7, 12) == 'local') {
@@ -17,27 +17,29 @@ async function logIn (username, password){
     let response = await fetch(url,
         {
             method: 'POST',
-            body: JSON.stringify(data)
+            //body: JSON.stringify(data)
+            
         });
-    if (response.ok) {
-        data = await response.json();
+    if (!response.ok) {
+        //console.error(response.error);
+        alert("Incorrect email or password.");
     }
     else {
-        alert(response.status)
+        data = await response.json();
+        console.log('user successfully logged in', username);
+        window.localStorage.setItem("loggedIn", true);
+        window.localStorage.setItem("me",username);
     }
 }
 
 document.getElementById("log").addEventListener('click', async function () {
     const username = document.getElementById("username").value;
     const password = document.getElementById("password").value;
-
-    try{
-        logIn(username, password);
-        loggedIn.push({username:username});
-        window.localStorage.setItem("logged-in", true);
-    }catch{
-        console.error("wrong")
-    }
+    if(password === '' || username === ''){
+        alert("Empty email or password.");}
+    logIn(username, password);
+        //loggedIn.push({username:username});
+       // window.localStorage.setItem("logged-in", true);
 });
 
 
