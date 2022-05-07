@@ -274,6 +274,13 @@ class GymServer{
       response.status(200).send(JSON.stringify(history)); 
     });
 
+    this.app.get('/user/historyhelper', async (request, response) => {
+      let name = request.query.name; 
+      let date = request.query.date; 
+      const curworkouts = await self.db.workoutHistoryHelper(name, date); 
+      response.status(200).send(JSON.stringify(curworkouts)); 
+    })
+
     this.app.post('/addExercise', async (request, response) => {
       const options = request.query;
       let parts = options.parts.split(',')

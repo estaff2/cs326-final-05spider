@@ -1,7 +1,7 @@
 
 const ls = window.localStorage;  
 
- 
+let firsttime = true; 
 let workhistory = [];
 let selectedFilter = ''
 //gets the selected filter
@@ -20,11 +20,11 @@ filt.addEventListener("change", getTags);
 
 //turns filter into group of parts being worked
 
-const legs = ["quads, hamstrings, glutes, groin, calves"]; 
+const legs = ["quads,hamstrings,glutes,groin,calves"]; 
 const chest = ["chest"]; 
-const arms  = ["biceps, triceps, delts"]; 
-const back = ["lats, traps"]; 
-const all = ["quads, hamstrings, glutes, groin, calves, chest, biceps, triceps, delts, lats, traps"]
+const arms  = ["biceps,triceps,delts"]; 
+const back = ["lats,traps"]; 
+const all = ["quads,hamstrings,glutes,groin,calves,chest,biceps,triceps,delts,lats,traps"]
 let parts; 
 function getTags() { 
     if (getFilter() === "legs"){
@@ -36,15 +36,17 @@ function getTags() {
     } else if (getFilter() === "back"){
         parts = back; 
     } else {
-        parts = []; 
+        parts = all; 
     }
     return parts; 
 }
 
-let loggeduser = 'jack'; 
+let loggeduser = 'jack';
+getFilter(); 
+getTags();  
 
 
-//server call 
+//gets all the users workout history 
 let workoutdata;
 let numberofWorkouts;  
 async function callServer(){
@@ -61,41 +63,187 @@ async function callServer(){
             method: 'GET',
         });
     if(response.ok){
-        data = await response.json();
-        console.log(data); 
-        workoutdata = data;  
-        numberofWorkouts = workoutdata.length;   
+        data = await response.json(); 
+        workoutdata = data;   
     }
     else{
         alert(response.status)
     }
 }
 
-filt.addEventListener("change", callServer); 
- 
-function renderhist(){
-    //getting all the data that matches the filter selected
-    let i = 0;
-    let dates = []; 
-    let exercisename = []; 
-    let sets = []
-    let reps = []; 
-    let weight = [];  
-    while (i < numberofWorkouts){ 
-        dates.push(workoutdata[i]["date"]);  
-        exercisename.push(workoutdata[i]["exerciseName"]);  
-        sets.push(workoutdata[i]["sets"]); 
-        reps.push(workoutdata[i]["reps"]); 
-        weight.push(workoutdata[i]["weight"]); 
-        i++; 
+//gets all exercises matching the filter
+let validexercises; 
+async function serverRequest(){ 
+    let loc = window.location.href 
+    let url =''
+    if(loc.substring(7,12) == 'local'){
+        url = 'http://localhost:3000/exercises?tags=' + parts.join(',');
     }
-    
-    console.log(dates); 
-    console.log(exercisename); 
-    console.log(sets);
-    console.log(reps); 
-    console.log(weight);
-    document.getElementById("workout1header").innerHTML = dates[0]; 
+    else{
+        url = 'https://gym-recs.herokuapp.com/exercises?tags=' + parts.join(',');
+    }
+    //tags.join(',') is a way to handle putting an array into one parameter of the query 
+    let response = await fetch(url,
+        {
+            method: 'GET',
+        });
+    if(response.ok){
+        data = await response.json();
+        validexercises = data; 
+    }
+    else{
+        alert(response.status)
+    } 
+    filterworkouts();
+    renderhist();  
+
+      
+}
+callServer(); 
+serverRequest(); 
+filt.addEventListener("change", callServer); 
+filt.addEventListener("change", serverRequest); 
+
+function filterworkouts (){
+    let finalworkout = []; 
+    workoutdata.forEach(workout => {
+        validexercises.forEach(exercise => {
+            if (workout['exercise'] == exercise['name']){
+                finalworkout.push(workout); 
+            }
+        })
+
+    })
+    numberofWorkouts = finalworkout.length;
+    workoutdata = finalworkout; 
+    console.log(finalworkout); 
+    getDates();   
+}
+
+function getDates(){
+    let dates = [];
+    let uniqueDates = []; 
+    let j = 0; 
+    while (j < numberofWorkouts){
+        dates.push(workoutdata[j]['date']); 
+        j++; 
+    }
+    uniqueDates = toUniqueArray(dates);
+    return uniqueDates;  
+     
+}
+
+function toUniqueArray(arr){
+    var newArr = [];
+    for (var i = 0; i < arr.length; i++) {
+        if (newArr.indexOf(arr[i]) === -1) {
+            newArr.push(arr[i]);
+        }
+    }
+  return newArr;
+}
+
+function renderreset(){
+    let page = document.getElementById("historysection"); 
+    page.innerHTML = ""; 
+}
+ 
+async function renderhist(){
+    if (firsttime == false){
+        renderreset();
+    } 
+    firsttime = false; 
+    uniqueDates = getDates(); 
+    let curworkout;
+    let j = 0; 
+    const headers = ['Exercise Name', 'Sets', 'Reps', 'Weight'];
+    let datesnotes = false; 
+    while (j < uniqueDates.length){
+        let loc = window.location.href 
+        let url =''
+        if(loc.substring(7,12) == 'local'){
+            url = `http://localhost:3000/user/historyhelper?name=${loggeduser}&date=${uniqueDates}`
+        }
+        else{
+            url = `https://gym-recs.herokuapp.com/user/historyhelper?name=${loggeduser}&date=${uniqueDates}`
+        }
+        //tags.join(',') is a way to handle putting an array into one parameter of the query 
+        let response = await fetch(url,
+            {
+                method: 'GET',
+            });
+        if(response.ok){
+            data = await response.json();
+            curworkout = data;  
+        }
+        else{
+            alert(response.status)
+        }   
+        if (datesnotes == false) { 
+        //creates date header
+        let curdate =  curworkout[0]['date'];
+        let notes = curworkout[0]['notes'];
+        let start = document.getElementById("historysection");
+        let br = document.createElement('br');
+        start.appendChild(br); 
+        let cent = document.createElement("div"); 
+        cent.classList.add('center');
+        start.appendChild(cent); 
+        let date = document.createElement("date"); 
+        date.classList.add('col-md-7'); 
+        date.classList.add('d-flex'); 
+        date.classList.add('flex-row'); 
+        date.classList.add('h2'); 
+        cent.appendChild(date); 
+        date.innerHTML = curdate; 
+        let br2 = document.createElement('br');
+        //creates tables 
+        start.appendChild(br2); 
+        let tcenter = document.createElement("div"); 
+        tcenter.classList.add("center"); 
+        start.appendChild(tcenter);
+        let d = document.createElement("div"); 
+        d.classList.add('col-md-7'); 
+        tcenter.appendChild(d); 
+        let table = document.createElement("table");
+        table.setAttribute("id", `table${j}`)
+        table.classList.add('table');
+        d.appendChild(table); 
+        let tablerowheaders = document.createElement('thead');
+        table.appendChild(tablerowheaders); 
+        let tr = document.createElement("tr"); 
+        tablerowheaders.appendChild(tr);
+        headers.forEach(head => {
+            let th = document.createElement('th'); 
+            th.setAttribute('scope', 'col'); 
+            th.innerHTML = head
+            tr.appendChild(th); 
+        })
+        }
+        datesnotes = true;  
+        curworkout.forEach(exercise => {
+            let tablebody = document.createElement("tbody");
+            let table = document.getElementById(`table${j}`); 
+            table.appendChild(tablebody); 
+            let tr = document.createElement('tr');
+            tablebody.appendChild(tr);
+            let th = document.createElement('th'); 
+            th.setAttribute('scope', 'col'); 
+            th.innerHTML = exercise['name']; 
+            let td1 = document.createElement('td');
+            td1.innerHTML = exercise['sets']; 
+            let td2 = document.createElement('td'); 
+            td2.innerHTML = exercise['reps'];  
+            let td3 = document.createElement('td'); 
+            td3.innerHTML = exercise['weight']; 
+            tr.appendChild(th); 
+            tr.appendChild(td1); 
+            tr.appendChild(td2); 
+            tr.appendChild(td3); 
+        }); 
+
+     
 }
 
 
+} 

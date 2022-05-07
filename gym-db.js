@@ -97,10 +97,17 @@ export class GymDatabase {
 
   async getWorkoutHist(username) {
     const queryText = `SELECT * FROM workouthistory where username = '${username}'`
-    console.log(queryText); 
     const res = await this.client.query(queryText); 
     return res.rows
   } 
+
+  async workoutHistoryHelper(name, date){
+    console.log(name); 
+    const queryText = `SELECT * FROM workouthistory where username = '${name}' and date = '${date}'`
+    console.log(queryText); 
+    const res = await this.client.query(queryText); 
+    return res.rows; 
+  }
 
   //grab leaderboard given tags
   async getLeaderboard(gender, schoolYear, major, club, exercise, date) { 
@@ -124,7 +131,7 @@ export class GymDatabase {
       users.push(found[i].username);
    }
 
-   const date=date[1]+"-"+date[2];
+   const date1 =date[1]+"-"+date[2];
 
    const workoutQuery = 
    'SELECT * ' +
@@ -132,7 +139,7 @@ export class GymDatabase {
    `WHERE username && '{${users}}'` +
    `WHERE exercise = '${exercise}'`;
    
-   if(date != null)
+   if(date1 != null)
     workoutQuery += `WHERE DATE LIKE '%.date'`;
 
     const res2 = await this.client.query(workoutQuery);
