@@ -3,9 +3,6 @@ import { readFile, writeFile, access } from 'fs/promises';
 import express from 'express'; 
 import logger from 'morgan';
 import { GymDatabase } from './gym-db.js'; 
-import expressSession from 'express-session';
-import passport from "passport";
-//import passport from "passport";
 
 
 const headerFields = {
