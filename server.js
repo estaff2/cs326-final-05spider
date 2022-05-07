@@ -152,7 +152,23 @@ class GymServer{
           
         }
       });
+// edit profile
+this.app.post('/edit_profile', async(req,res)=> {
+      const username = req.body["username"];
+      const passwordO = req.body["passwordO"];
+      const passwordN = req.body["passwordN"];
+      const person = await self.db.findName(username);
+      const oldP = await self.db.findPassword(username);
+      if(!person){
+        res.status(501).send("user not exist");
+      }
+      if(oldP === passwordO){
+        const undatedP = await self.db.updatePassword(username, passwordN);
+        res.status(200).send(JSON.stringify(undatedP));
+      }
+      res.status(501).send("wrong password");
 
+});
 
 
 

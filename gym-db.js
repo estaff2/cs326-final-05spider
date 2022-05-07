@@ -67,13 +67,19 @@ export class GymDatabase {
 
   async findName(username){
     const queryText = 
-    `SELECT username FROM users WHERE where username = '${username}'`;
+    `SELECT username FROM users WHERE  username = '${username}'`;
     const res = await this.client.query(queryText);
     return res.rows;
   }
   async findPassword(username){
     const queryText = 
-    `SELECT password FROM users WHERE where username = '${username}'`;
+    `SELECT password FROM users WHERE username = '${username}'`;
+    const res = await this.client.query(queryText);
+    return res.rows;
+  }
+  async updatePassword(username, passwordN){
+    const queryText =
+    `UPDATE users SET password = '${passwordN}' WHERE username = '${username}' `;
     const res = await this.client.query(queryText);
     return res.rows;
   }
