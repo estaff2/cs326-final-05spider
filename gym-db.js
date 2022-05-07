@@ -64,6 +64,20 @@ export class GymDatabase {
     await this.pool.end();
   }
 
+
+  async findName(username){
+    const queryText = 
+    `SELECT username FROM users WHERE where username = '${username}'`;
+    const res = await this.client.query(queryText);
+    return res.rows;
+  }
+  async findPassword(username){
+    const queryText = 
+    `SELECT password FROM users WHERE where username = '${username}'`;
+    const res = await this.client.query(queryText);
+    return res.rows;
+  }
+
   //this is just for us to use to add exercises to the database
   async postExercise(name, diff, parts) {
     const queryText =
