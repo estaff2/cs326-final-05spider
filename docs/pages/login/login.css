@@ -15,9 +15,7 @@
 .radio {
   font-size: 15spx;
 }
-.org-field {
-  width: 100%;
-}
+
 /* dropdown menu boxes */
 .dropdown-menu {
   width: 345px;
@@ -40,6 +38,11 @@
   justify-content:space-between;
   font-size: 20px;
 }
+/* each select box within select element (label + select box) */
+.org-field {
+  width: 75%;
+}
+
 .avatar {
   vertical-align: middle;
   width: 100px;

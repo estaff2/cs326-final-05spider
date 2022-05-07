@@ -59,7 +59,7 @@ async function renderRecs(element){
     while (element.firstChild) {
         element.removeChild(element.firstChild);
     }
-    for(let i = 0; i< data.length; i++){ //while i is less than 3? how to add view more functionality? 
+    for(let i = 0; i< data.length; i++){ 
         let exercise = data[i]; 
         let row = document.createElement('div');
         row.classList.add('row');

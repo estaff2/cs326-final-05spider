@@ -11,6 +11,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="landing_page_style.css">
+    
     <script src="landing_page.js" defer></script>
 </head>
 
@@ -28,45 +29,31 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link nav-item button" id="user_workout_record_page" href = "../record_workout/user_workout_record_page.html">Add Workout</a>
+                <a class="nav-link nav-item button" id="user_workout_record_page"
+                    href="../record_workout/user_workout_record_page.html">Add Workout</a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link nav-item button" id="user_workout_history" href = "../workout_history/user_workout_history.html">View History</a>
+                <a class="nav-link nav-item button" id="user_workout_history"
+                    href="../workout_history/user_workout_history.html">View History</a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link nav-item" id="user_rec_input" href = "../user_rec_input/user_rec_input.html">Get Recommendations</a>
+                <a class="nav-link nav-item" id="user_rec_input" href="../user_rec_input/user_rec_input.html">Get
+                    Recommendations</a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link nav-item" id="edit_profile" href = "../edit_profile/edit_profile.html">Manage Profile</a>
+                <a class="nav-link nav-item" id="edit_profile" href="../edit_profile/edit_profile.html">Manage
+                    Profile</a>
             </li>
-            <div class="dropdown">
-                <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown"
-                    aria-expanded="false">
-                    Log In
-                </button>
-                <div class="dropdown-menu">
-                    <form class="px-4 py-3">
-                        <div>
-                            <label for="email" class="form-label">Email address</label>
-                            <input type="email" class="form-control" id="exampleDropdownFormEmail1"
-                                placeholder="email@example.com">
-                        </div>
-                        <div>
-                            <label for="password" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="exampleDropdownFormPassword1"
-                                placeholder="Password">
-                        </div>
-                        <div>
-
-                        </div>
-                        <button type="submit" class="btn btn-primary">Sign in</button>
-                    </form>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="user_creation.html">New around here? Sign up</a>
-                </div>
+        </li>
+                <a class="nav-link nav-item" id="signup" href = "../register/register.html">Sign Up</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link nav-item" id="login" href = "../login/login.html">Log In</a>
+            </li>
+        </ul>
     </nav>
 
 
@@ -76,7 +63,7 @@
             <div class="flex-b id=" header>
                 <div class="p-2 d-flex">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/d/d0/Umass_textlogo.png" class="logo">
-                    <h1 class="p-2">Leaderboard</h1>
+                    <h1 class="p-2" id="leaderboard_header">Leaderboard</h1>
                 </div>
 
                 <form class="p-2 tag-bar" id="tag_bar">
@@ -84,145 +71,17 @@
             </div>
 
             <table class="table table-striped" id="leaderboard">
-                <thead>
+                <thead class="table-dark">
                     <tr>
                         <th>Rank</th>
-                        <th>Name</th>
+                        <th>Username</th>
                         <th>Date</th>
-                        <th>Year</th>
-                        <th>Excercise</th>
+                        <th>Exercise</th>
+                        <th>Reps</th>
                         <th>Weight</th>
                     </tr>
                 </thead>
                 <tbody id="tbody">
-                    <tr>
-                        <td>1.</td>
-                        <td>Joe Shmoe</td>
-                        <td>3/11/2022</td>
-                        <td>Junior</td>
-                        <td>Squat</td>
-                        <td>465x2</td>
-                    </tr>
-                    <tr>
-                        <td>1.</td>
-                        <td>Joe Shmoe</td>
-                        <td>3/11/2022</td>
-                        <td>Junior</td>
-                        <td>Squat</td>
-                        <td>465x2</td>
-                    </tr>
-                    <tr>
-                        <td>1.</td>
-                        <td>Joe Shmoe</td>
-                        <td>3/11/2022</td>
-                        <td>Junior</td>
-                        <td>Squat</td>
-                        <td>465x2</td>
-                    </tr>
-                    <tr>
-                        <td>1.</td>
-                        <td>Joe Shmoe</td>
-                        <td>3/11/2022</td>
-                        <td>Junior</td>
-                        <td>Squat</td>
-                        <td>465x2</td>
-                    </tr>
-                    <tr>
-                        <td>1.</td>
-                        <td>Joe Shmoe</td>
-                        <td>3/11/2022</td>
-                        <td>Junior</td>
-                        <td>Squat</td>
-                        <td>465x2</td>
-                    </tr>
-                    <tr>
-                        <td>1.</td>
-                        <td>Joe Shmoe</td>
-                        <td>3/11/2022</td>
-                        <td>Junior</td>
-                        <td>Squat</td>
-                        <td>465x2</td>
-                    </tr>
-                    <tr>
-                        <td>1.</td>
-                        <td>Joe Shmoe</td>
-                        <td>3/11/2022</td>
-                        <td>Junior</td>
-                        <td>Squat</td>
-                        <td>465x2</td>
-                    </tr>
-                    <tr>
-                        <td>1.</td>
-                        <td>Joe Shmoe</td>
-                        <td>3/11/2022</td>
-                        <td>Junior</td>
-                        <td>Squat</td>
-                        <td>465x2</td>
-                    </tr>
-                    <tr>
-                        <td>1.</td>
-                        <td>Joe Shmoe</td>
-                        <td>3/11/2022</td>
-                        <td>Junior</td>
-                        <td>Squat</td>
-                        <td>465x2</td>
-                    </tr>
-                    <tr>
-                        <td>1.</td>
-                        <td>Joe Shmoe</td>
-                        <td>3/11/2022</td>
-                        <td>Junior</td>
-                        <td>Squat</td>
-                        <td>465x2</td>
-                    </tr>
-                    <tr>
-                        <td>1.</td>
-                        <td>Joe Shmoe</td>
-                        <td>3/11/2022</td>
-                        <td>Junior</td>
-                        <td>Squat</td>
-                        <td>465x2</td>
-                    </tr>
-                    <tr>
-                        <td>1.</td>
-                        <td>Joe Shmoe</td>
-                        <td>3/11/2022</td>
-                        <td>Junior</td>
-                        <td>Squat</td>
-                        <td>465x2</td>
-                    </tr>
-                    <tr>
-                        <td>1.</td>
-                        <td>Joe Shmoe</td>
-                        <td>3/11/2022</td>
-                        <td>Junior</td>
-                        <td>Squat</td>
-                        <td>465x2</td>
-                    </tr>
-                    <tr>
-                        <td>1.</td>
-                        <td>Joe Shmoe</td>
-                        <td>3/11/2022</td>
-                        <td>Junior</td>
-                        <td>Squat</td>
-                        <td>465x2</td>
-                    </tr>
-                    <tr>
-                        <td>1.</td>
-                        <td>Joe Shmoe</td>
-                        <td>3/11/2022</td>
-                        <td>Junior</td>
-                        <td>Squat</td>
-                        <td>465x2</td>
-                    </tr>
-                    <tr>
-                        <td>1.</td>
-                        <td>Joe Shmoe</td>
-                        <td>3/11/2022</td>
-                        <td>Junior</td>
-                        <td>Squat</td>
-                        <td>465x2</td>
-                    </tr>
                 </tbody>
             </table>
             <br>
@@ -239,29 +98,61 @@
 
                 <form class="radio p-2">
                     <input type="radio" id="week" name="time" value="Week">
-                    <label for="week">Weekly</label><br>
+                    <label for="week">Past Month</label><br>
                     <input type="radio" id="all-time" name="time" value="All">
                     <label for="all">All-time</label><br>
                 </form>
 
                 <select class="btn-sel p-2" id="exercise">
+                    <option>Any</option>
                     <optgroup label="Legs">
                         <option>Squat</option>
                         <option>Deadlift</option>
+                        <option>Hamstring Curl</option>
+                        <option>Leg Extension</option>
+                        <option>Calf Extension</option>
                         <option>Romanian Deadlift</option>
-                        <option>Leg Press</option>
-                        <option>Hack Squat</option>
-                        <option>Leg-Lift Machine</option>
-                        <option>Leg-Curl Machine</option>
+                        <option>Bulgarian Split Squats</option>
+                        <option>Hacksquat</option>
+                        <option>Leg press</option>
                     </optgroup>
                     <optgroup label="Chest">
-                        <option>Flat Bench</option>
-                        <option>Incline Bench</option>
+                        <option>Flat bench press</option>
+                        <option>Inclined bench press</option>
+                        <option>Inclined bench press</option>
+                        <option>Decline bench press</option>
+                        <option>Cable fly</option>
+                        <option>Pec deck machine</option>
+                        <option>Chest press machine</option>
                     </optgroup>
                     <optgroup label="Back">
-                        <option>Dumbell rows</option>
+                        <option>Pull-ups</option>
                         <option>Lat pulldown</option>
-                        <option>Barbell row</option>
+                        <option>T-bar Row</option>
+                        <option>Rowing machine</option>
+                        <option>Lat machine</option>
+                        <option>Dumbell row</option>
+                    </optgroup>
+                    <optgroup label="Shoulder">
+                        <option>Dumbell press</option>
+                        <option>Barbell press</option>
+                        <option>Shoulder press machine</option>
+                        <option>Lateral raises</option>
+                        <option>Face-pulls</option>
+                    </optgroup>
+                    <optgroup label="Bicep">
+                        <option>Dumbell/barbell bicep curls</option>
+                        <option>Preacher curl</option>
+                        <option>Hammer curl</option>
+                    </optgroup>
+                    <optgroup label="Tricep">
+                        <option>Tricep pushdown</option>
+                        <option>Nose breakers</option>
+                    </optgroup>
+                    <optgroup label="Glute">
+                        <option>Hip thrusts</option>
+                        <option>Hip extension</option>
+                        <option>Glute machine</option>
                     </optgroup>
                 </select>
 
@@ -273,38 +164,410 @@
                     <div class="mb-3">
                         <label for="club" class="form-label">Club</label>
                         <select name="club" class="org-field" id="club">
+                            <option>All</option>
                             <optgroup label="Club Sports">
-                                <option value="Club Soccer">Club Soccer</option>
-                                <option value="Rugby">Rugby</option>
+                                <option>Ballroom Dance</option>
+                                <option>Baseball Club (M)</option>
+                                <option>Club Sport Council</option>
+                                <option>Club Swimming</option>
+                                <option>Club Water Polo</option>
+                                <option>Competitive Bass Fishing</option>
+                                <option>Crew Club (M)</option>
+                                <option>Cricket Club</option>
+                                <option>Dance Team</option>
+                                <option>Disc Golf</option>
+                                <option>Dressage Team</option>
+                                <option>Fencing Club</option>
+                                <option>Golf Club</option>
+                                <option>Ice Hockey Club (M)</option>
+                                <option>Ice Hockey Club (W)</option>
+                                <option>Lacrosse Club (M)</option>
+                                <option>Lacrosse Club (W)</option>
+                                <option>Men's Club Volleyball</option>
+                                <option>Outing Club</option>
+                                <option>Paintball Team</option>
+                                <option>Parkour</option>
+                                <option>Polo Club</option>
+                                <option>Quidditch Club</option>
+                                <option>Racquetball Club</option>
+                                <option>Roller Hockey Club (M)</option>
+                                <option>Rugby Club (M)</option>
+                                <option>Rugby Club (W)</option>
+                                <option>Running Club</option>
+                                <option>Sailing Team</option>
+                                <option>Shotokan Karate Club</option>
+                                <option>Soccer - Men's</option>
+                                <option>Soccer - Women's</option>
+                                <option>Softball</option>
+                                <option>Spikeball Club</option>
+                                <option>Sport Parachute Club</option>
+                                <option>Synchronized Skating Club</option>
+                                <option>Table Tennis Club</option>
+                                <option>Tae Kwon Do</option>
+                                <option>Tennis Club</option>
+                                <option>Triathlon Club Team</option>
+                                <option>Ultimate Frisbee - Women's</option>
+                                <option>Ultimate Frisbee Team - Men's</option>
+                                <option>UMass Badminton Club</option>
+                                <option>UMASS Climbing Team</option>
+                                <option>UMass Club Field Hockey</option>
+                                <option>UMass Club Gymnastics</option>
+                                <option>UMass Cricket Club</option>
+                                <option>UMass Cycling Club</option>
+                                <option>Umass Equestrian Team</option>
+                                <option>UMass Powerlifting</option>
+                                <option>UMassive Arms</option>
+                                <option>Volleyball Club (W)</option>
+                                <option>Western Equestrian Team</option>
+                                <option>Western Mass Bouldering Club</option>
+                                <option>Women's Club Basketball</option>
+                                <option>Wrestling Club</option>
                             </optgroup>
-                            <optgroup label="Other" class="org-field">
-                                <option value="UMOC">UMOC</option>
-                                <option value="Women in Business">Women in Business</option>
+                            <optgroup label="Academic">
+                                <option>180 Degrees Consulting</option>
+                                <option>AALANAI Honor Society</option>
+                                <option>Academic Club Council</option>
+                                <option>Accounting Association</option>
+                                <option>Actuary Club</option>
+                                <option>Advancement of Diversity in Business</option>
+                                <option>American Association of Petroleum Geologists Student Chapter</option>
+                                <option>American Chemical Society</option>
+                                <option>American Hotel and Lodging Association</option>
+                                <option>American Institute of Aeronautics and Astronautics (AIAA)</option>
+                                <option>American Institute of Architecture Students</option>
+                                <option>American Institute Of Architecture Students (AIAS)</option>
+                                <option>American Marketing Association</option>
+                                <option>American Medical Student Association (AMSA)</option>
+                                <option>American Society of Civil Engineers</option>
+                                <option>American Society of Landscape Architects</option>
+                                <option>American Society of Mechanical Engineers</option>
+                                <option>Anthropology Club</option>
+                                <option>Archaeology Club</option>
+                                <option>Arnold Air Society</option>
+                                <option>Art History Society of UMass</option>
+                                <option>Asian & Pacific Islanders American VOTE (APIAVote)</option>
+                                <option>Associated General Contractors of America</option>
+                                <option>Association for Diversity in Sport</option>
+                                <option>Association For Women in Sports Media at UMass</option>
+                                <option>Association of Latino Professionals for America</option>
+                                <option>Association of Sport Management Professionals of Color</option>
+                                <option>Association of Student Sport Managers</option>
+                                <option>Association of Women in Science</option>
+                                <option>Astronomy Club</option>
+                                <option>Beta Alpha Psi</option>
+                                <option>Biochemistry Club</option>
+                                <option>Biomedical Engineering Society</option>
+                                <option>Black Women In Medicine Inc.</option>
+                                <option>BUILD</option>
+                                <option>Chemistry Club</option>
+                                <option>Club Management Association of America</option>
+                                <option>Club of Pre-Physician Assistants</option>
+                                <option>Dairy Club</option>
+                                <option>Debate Team</option>
+                                <option>DECA</option>
+                                <option>Delta Sigma Pi</option>
+                                <option>Education Club</option>
+                                <option>Eta Sigma Delta Chapter</option>
+                                <option>Finance Society</option>
+                                <option>Food and Beverage Management Association</option>
+                                <option>Food Science Club</option>
+                                <option>Genetics Club</option>
+                                <option>Geography Club</option>
+                                <option>Geoscience Club</option>
+                                <option>Hackathon Team</option>
+                                <option>History Club</option>
+                                <option>HOSA</option>
+                                <option>Hospitality Sales & Marketing Association International</option>
+                                <option>Humanities and Fine Arts Student Leadership Board</option>
+                                <option>Institute of Industrial and System Engineers</option>
+                                <option>Isenberg Business Law Club</option>
+                                <option>Isenberg Honors Council</option>
+                                <option>Isenberg Investment Club</option>
+                                <option>Isenberg Management Association</option>
+                                <option>Isenberg Marketing Club</option>
+                                <option>Isenberg Operations & Information Management Club</option>
+                                <option>Isenberg Sales Club (Sales Club)</option>
+                                <option>Isenberg Undergraduate Consulting Group</option>
+                                <option>Isenberg Women in Business</option>
+                                <option>Kinesiology Club</option>
+                                <option>Ladies of Stockbridge</option>
+                                <option>McCormick Strategy & Analytics Club</option>
+                                <option>Meeting Professional International</option>
+                                <option>Microbiology Club for Undergraduates</option>
+                                <option>MIE Innovation Lab</option>
+                                <option>Minutemen Alternative Investment Fund</option>
+                                <option>Minutemen Equity Fund</option>
+                                <option>Mock Trial Team</option>
+                                <option>Model United Nations</option>
+                                <option>National Association of Black Accountants</option>
+                                <option>National Society of Black Engineers</option>
+                                <option>National Society of Collegiate Scholars</option>
+                                <option>National Society of Leadership and Success</option>
+                                <option>National Society of Minorities in Hospitality</option>
+                                <option>National Student Speech Language Hearing Association</option>
+                                <option>Natural History Collections Club</option>
+                                <option>Neuroscience Club</option>
+                                <option>Nutrition Association</option>
+                                <option>Order of Omega</option>
+                                <option>oSTEM @ Umass Amherst</option>
+                                <option>Parliamentary Debate Team</option>
+                                <option>Phi Sigma Pi</option>
+                                <option>Pi Sigma Alpha, Delta Lambda Chapter</option>
+                                <option>Plant-Based Nutrition Club</option>
+                                <option>Pre-Dental Society</option>
+                                <option>Pre-Law Club</option>
+                                <option>Pre-Law Society (UMPLS)</option>
+                                <option>Pre-Medical Society</option>
+                                <option>Pre-Vet & Animal Science</option>
+                                <option>Public Health Club</option>
+                                <option>Research Mill</option>
+                                <option>Resource Economics Society</option>
+                                <option>Science Outreach Club</option>
+                                <option>Shakespeare Society</option>
+                                <option>Smart Woman Securities (SWS)</option>
+                                <option>Society of American Foresters - UMASS Student Chapter</option>
+                                <option>Society of Asian Scientists and Engineers</option>
+                                <option>Society of Hispanic Professional Engineers</option>
+                                <option>Society of Physics Students</option>
+                                <option>Society of Women Engineers</option>
+                                <option>Sociology Club</option>
+                                <option>Student Alumni Association</option>
+                                <option>Student National Medical Association</option>
+                                <option>Student Nurses Association</option>
+                                <option>Umass Amherst Student Chapter of the Wildlife Society</option>
+                                <option>UMass Chemistry Club</option>
+                                <option>UMass Philosophy Club</option>
+                                <option>UMass Real Estate Club</option>
+                                <option>Undergraduate Researchers Interested in Data</option>
+                                <option>Women In Sport Management</option>
+                            </optgroup>
+                            <optgroup label="Cultural">
+                                <option>African Student Association</option>
+                                <option>Albanian Student Association</option>
+                                <option>Albanian Student Union</option>
+                                <option>Alliance for Afro-American Cultural Education</option>
+                                <option>Arab Cultural Association</option>
+                                <option>Armenian Students Association</option>
+                                <option>Asian American Student Association</option>
+                                <option>Association Francophone</option>
+                                <option>Black Mass Communication Project</option>
+                                <option>Black Student Union</option>
+                                <option>Cambodian Students Association</option>
+                                <option>Cape Verdean Student Alliance</option>
+                                <option>Casa Dominicana</option>
+                                <option>Chinese Student Association</option>
+                                <option>Cross Cultural Club</option>
+                                <option>Disability Culture Club</option>
+                                <option>Filipino Student Association</option>
+                                <option>genocid</option>
+                                <option>Haitian American Student Association</option>
+                                <option>Hindu YUVA</option>
+                                <option>Insanely Prestigious Step Team</option>
+                                <option>International Students Club</option>
+                                <option>Irish Culture Club</option>
+                                <option>Italian Students Association</option>
+                                <option>Japanese Students Association</option>
+                                <option>JATRA: Bengali Students Association</option>
+                                <option>Jewish Student Union</option>
+                                <option>Kashmir Solidarity Network</option>
+                                <option>Korean International Student Association</option>
+                                <option>Korean Students Association</option>
+                                <option>Kriola's Professional Association</option>
+                                <option>Latinos Unidos</option>
+                                <option>Lusophone Student Alliance</option>
+                                <option>Native American Student Association</option>
+                                <option>Pakistani Students Organization</option>
+                                <option>Persian Student Association</option>
+                                <option>Persian Student Organization</option>
+                                <option>Polish Culture Club</option>
+                                <option>She is Goals</option>
+                                <option>Sikh Student Association</option>
+                                <option>Soul TV</option>
+                                <option>South Asian Sisters in Solidarity</option>
+                                <option>South Asian Students Association</option>
+                                <option>Students of Caribbean Ancestry</option>
+                                <option>Taiwanese and Chinese Students' Association</option>
+                                <option>Turkish Student Association</option>
+                                <option>UMass Amherst Lion Dance</option>
+                                <option>UMass Brotherly Union</option>
+                                <option>Vietnamese Students Association</option>
+                            </optgroup>
+                            <optgroup label="Fraternities">
+                                <option>Alpha Delta Phi</option>
+                                <option>Alpha Phi Alpha Fraternity Incorporated; Alpha Kappa Chapter</option>
+                                <option>Alpha Tau Gamma</option>
+                                <option>Beta Chi Theta</option>
+                                <option>Delta Chi Fraternity</option>
+                                <option>Delta Upsilon</option>
+                                <option>Gamma Iota Sigma</option>
+                                <option>Interfraternity Council</option>
+                                <option>Iota Phi Theta</option>
+                                <option>Kappa Alpha Psi</option>
+                                <option>Kappa Sigma Fraternity</option>
+                                <option>La Unidad Latina, Lambda Upsilon Lambda Fraternity, Inc</option>
+                                <option>Lambda Phi Epsilon</option>
+                                <option>Multicultural Greek Council</option>
+                                <option>National Pan-Hellenic Council</option>
+                                <option>Omega Psi Phi</option>
+                                <option>Phi Beta Sigma Fraternity Incorporated</option>
+                                <option>Phi Gamma Delta</option>
+                                <option>Phi Iota Alpha</option>
+                                <option>Phi Sigma Kappa</option>
+                                <option>Sigma Alpha Mu</option>
+                                <option>Sigma Chi Fraternity</option>
+                                <option>Sigma Lambda Beta International Fraternity, Inc.</option>
+                                <option>Sigma Phi Epsilon</option>
+                                <option>Tau Beta Sigma/Kappa Kappa Psi</option>
+                                <option>Tau Kappa Epsilon</option>
+                                <option>Theta Chi</option>
+                                <option>Zeta Beta Tau</option>
+                            </optgroup>
+                            <optgroup label="Sororoties">
+                                <option>Alpha Chi Omega</option>
+                                <option>Alpha Epsilon Phi</option>
+                                <option>Alpha Kappa Alpha Sorority, Incorporated</option>
+                                <option>alpha Kappa Delta Phi</option>
+                                <option>Chi Omega</option>
+                                <option>Delta Kappa Delta Sorority, Inc.</option>
+                                <option>Delta Sigma Theta Sorority, Incorporated</option>
+                                <option>Delta Xi Phi Multicultural Sorority</option>
+                                <option>Hermandad de Sigma Iota Alpha, Inc.</option>
+                                <option>Iota Gamma Upsilon</option>
+                                <option>Kappa Kappa Gamma</option>
+                                <option>Kappa Phi Gamma Sorority, Incorporated</option>
+                                <option>Kappa Phi Lambda Sorority Inc.</option>
+                                <option>Omega Psi Delta</option>
+                                <option>Panhellenic Council</option>
+                                <option>Sigma Chi Iota Social Justice Sorority</option>
+                                <option>Sigma Delta Tau</option>
+                                <option>Sigma Gamma Rho Sorority, Incorporated</option>
+                                <option>Sigma Kappa</option>
+                                <option>Sigma Psi Zeta Sorority, Inc.</option>
+                                <option>Sigma Sigma Sigma</option>
+                                <option>Zeta Phi Beta Sorority Inc.</option>
                             </optgroup>
                         </select>
                     </div>
                     <div class="mb-3">
                         <label for="major" class="form-label">Major</label>
                         <select name="major" class="org-field" id="major">
-                            <optgroup label="Eisenberg">
-                                <option value="Accounting">Accounting</option>
-                                <option value="Finance">Finance</option>
-                            </optgroup>
-                            <optgroup label="CICS" class="org-field">
-                                <option value="Computer Science">Computer Science</option>
-                                <option value="Computer Engineering">Computer Engineering</option>
-                            </optgroup>
+                            <option>All</option>
+                            <option>Accounting</option>
+                            <option>Afro-American Studies</option>
+                            <option>Alternative Investments</option>
+                            <option>Animal Science</option>
+                            <option>Anthropology</option>
+                            <option>Arboriculture and Community Forest Management</option>
+                            <option>Architecture</option>
+                            <option>Art</option>
+                            <option>Art Education</option>
+                            <option>Art History</option>
+                            <option>Astronomy</option>
+                            <option>Bachelor’s Degree with Individual Concentration (BDIC)</option>
+                            <option>Biochemistry and Molecular Biology</option>
+                            <option>Biology</option>
+                            <option>Biomedical Engineering</option>
+                            <option>Biostatistics</option>
+                            <option>Building and Construction Technology</option>
+                            <option>Business Analytics</option>
+                            <option>Chemical Engineering</option>
+                            <option>Chemistry</option>
+                            <option>Chinese Language and Literature</option>
+                            <option>Civil Engineering</option>
+                            <option>Classics</option>
+                            <option>Communication</option>
+                            <option>Communication Disorders</option>
+                            <option>Community Health Education</option>
+                            <option>Comparative Literature</option>
+                            <option>Computer Science</option>
+                            <option>Dance</option>
+                            <option>Data Analytics and Computational Social Science</option>
+                            <option>Economics</option>
+                            <option>Education</option>
+                            <option>Electrical and Computer Engineering</option>
+                            <option>Engineering Management</option>
+                            <option>English</option>
+                            <option>Environmental Conservation</option>
+                            <option>Environmental Engineering</option>
+                            <option>Environmental Health Sciences</option>
+                            <option>Environmental Science</option>
+                            <option>Epidemiology</option>
+                            <option>Film Studies through BDIC</option>
+                            <option>Finance</option>
+                            <option>Food Science</option>
+                            <option>French & Francophone Studies</option>
+                            <option>Geography</option>
+                            <option>Geology</option>
+                            <option>Geosciences</option>
+                            <option>German and Scandinavian Studies</option>
+                            <option>Health Policy and Management</option>
+                            <option>Hispanic Literatures and Linguistics</option>
+                            <option>History</option>
+                            <option>History of Art and Architecture</option>
+                            <option>Horticultural Science</option>
+                            <option>Hospitality and Tourism Management</option>
+                            <option>Industrial Engineering</option>
+                            <option>Informatics</option>
+                            <option>Italian Studies</option>
+                            <option>Japanese Language & Literature</option>
+                            <option>Journalism</option>
+                            <option>Judaic Studies</option>
+                            <option>Kinesiology</option>
+                            <option>Labor Studies</option>
+                            <option>Landscape Architecture</option>
+                            <option>Landscape Contracting</option>
+                            <option>Legal Studies</option>
+                            <option>Linguistics</option>
+                            <option>Management</option>
+                            <option>Marketing</option>
+                            <option>Mathematics</option>
+                            <option>Mechanical Engineering</option>
+                            <option>Microbiology</option>
+                            <option>Middle Eastern Studies</option>
+                            <option>Music</option>
+                            <option>Natural Resource Conservation</option>
+                            <option>Neuroscience and Behavior</option>
+                            <option>Nursing</option>
+                            <option>Nutrition</option>
+                            <option>Operations and Information Management</option>
+                            <option>Philosophy</option>
+                            <option>Physics</option>
+                            <option>Plant Biology</option>
+                            <option>Plant and Soil Science</option>
+                            <option>Political Science</option>
+                            <option>Polymer Science and Engineering</option>
+                            <option>Portuguese</option>
+                            <option>Pre-Medical, Pre-Health</option>
+                            <option>Pre-Veterinary</option>
+                            <option>Psychology</option>
+                            <option>Public Health Sciences</option>
+                            <option>Public Policy and Administration</option>
+                            <option>Regional Planning</option>
+                            <option>Resource Economics</option>
+                            <option>Russian and East European Studies</option>
+                            <option>Social Thought and Political Economy</option>
+                            <option>Sociology</option>
+                            <option>Spanish</option>
+                            <option>Sport Management</option>
+                            <option>Sustainable Food and Farming</option>
+                            <option>Sustainable Horticulture</option>
+                            <option>Sustainability Science</option>
+                            <option>Theater</option>
+                            <option>Turfgrass Management</option>
+                            <option>University Without Walls Interdisciplinary Studies</option>
+                            <option>Veterinary Technology</option>
+                            <option>Women, Gender, Sexuality Studies</option>
                         </select>
 
                     </div>
                     <div class="mb-3">
                         <label for="year" class="form-label">Year</label>
                         <select name="year" class="org-field" id="year">
+                            <option value="all">All</option>
                             <option value="freshman">Freshman</option>
                             <option value="sophomore">Sophomore</option>
                             <option value="junior">Junior</option>
                             <option value="senior">Senior</option>
-                            <option value="all">All</option>
                         </select>
                     </div>
                 </div>
