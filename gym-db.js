@@ -92,9 +92,16 @@ export class GymDatabase {
 
   async getWorkoutHist(username) {
     const queryText = `SELECT * FROM workouthistory where username = '${username}'`
-    console.log(queryText);
-    const res = await this.client.query(queryText);
+    const res = await this.client.query(queryText); 
     return res.rows
+  }
+
+  async workoutHistoryHelper(name, date){
+    console.log(name); 
+    const queryText = `SELECT * FROM workouthistory where username = '${name}' and date = '${date}'`
+    console.log(queryText); 
+    const res = await this.client.query(queryText); 
+    return res.rows; 
   }
 
   //grab leaderboard given tags
