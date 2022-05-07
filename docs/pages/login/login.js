@@ -64,10 +64,14 @@ async function serverRequest(){
 document.getElementById("log").addEventListener('click', async function () {
     const username = document.getElementById("username").value;
     const password = document.getElementById("password").value;
-    await serverRequest(); 
+    await serverRequest();
+    let match1; 
+    let match2;
+    let count = 0;  
     users.forEach(userentry => {
-        let match1 = false; 
-        let match2 = false; 
+        count++; 
+        match1 = false; 
+        match2 = false; 
         if (userentry['username'] === username){
             match1 = true; 
         }
@@ -80,7 +84,11 @@ document.getElementById("log").addEventListener('click', async function () {
             window.location.href = "../landing_page/landing_page.html"; 
         } 
     });
-    alert("Username or Password is incorrect");
+    console.log(count); 
+    console.log(users.length); 
+    if (count === users.length) {
+        alert("Username or Password is incorrect");
+    }
 });
         //loggedIn.push({username:username});
        // window.localStorage.setItem("logged-in", true);
