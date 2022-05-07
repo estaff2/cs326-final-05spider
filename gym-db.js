@@ -54,8 +54,8 @@ export class GymDatabase {
         schoolYear varchar(30),
         gender varchar(30),
         major varchar(30),
-        gender varchar(30)
-       
+        gender varchar(30),
+        club varchar(30)
       );
 
       create table if not exists workouthistory (
@@ -105,10 +105,10 @@ export class GymDatabase {
       gender:gender
     };
     */
-  const queryText ='INSERT INTO users (username, email, password, schoolYear, major, gender) VALUES ($1, $2, $3, $4, $5, $6)';
-   const res = await this.client.query(queryText, [username, email, password, schoolYear, major, gender]);
-   return res.rows;
-   //console.log("db");
+    const queryText = 'INSERT INTO users (username, email, password, schoolYear, major, gender) VALUES ($1, $2, $3, $4, $5, $6)';
+    const res = await this.client.query(queryText, [username, email, password, schoolYear, major, gender]);
+    return res.rows;
+    //console.log("db");
   };
 
   async getWorkoutHist(username) {
@@ -120,20 +120,58 @@ export class GymDatabase {
 
   //grab leaderboard given tags
   async getLeaderboard(gender, schoolYear, major, club, exercise, date) {
-    const usersQuery =
+
+    let usersQuery =
       'SELECT * ' +
-      'FROM users ' +
-      `WHERE gender = '${gender}'`;
+      'FROM users';
 
-    if (schoolYear != "All")
-      usersQuery += ` AND schoolYear = '${schoolYear}'`;
-    if (major != "All")
-      usersQuery += ` AND major = '${major}'`;
-    if (club != "All")
-      usersQuery += ` AND club = '${club}'`;
+    let conditionsMet = 0;
 
+    if (gender !== "All") {
+      if (conditionsMet == 0) {
+        usersQuery += " WHERE "
+      }
+      else {
+        usersQuery += " AND "
+      }
+      usersQuery += `gender = '${gender}'`;
+      conditionsMet++;
+    }
+    if (schoolYear !== "All") {
+      if (conditionsMet == 0) {
+        usersQuery += " WHERE "
+      }
+      else {
+        usersQuery += " AND "
+      }
+      usersQuery += `schoolYear = '${schoolYear}'`;
+      conditionsMet++;
+    }
+    if (major !== "All") {
+      if (conditionsMet == 0) {
+        usersQuery += " WHERE "
+      }
+      else {
+        usersQuery += " AND "
+      }
+      usersQuery += `major = '${major}'`;
+      conditionsMet++;
+    }
+    if (club !== "All") {
+      if (conditionsMet == 0) {
+        usersQuery += " WHERE "
+      }
+      else {
+        usersQuery += " AND "
+      }
+      usersQuery += `club = '${club}'`;
+      conditionsMet++;
+    }
+
+    console.log("USER QUERY (DATABASE): " + usersQuery)
     const res1 = await this.client.query(usersQuery);
     const found = res1.rows;
+    console.log("FOUND USERS: " + res1.rows);
 
     let users = [];
     for (let i = 0; i < found.length; i++) {
@@ -142,16 +180,20 @@ export class GymDatabase {
 
     const d = date[1] + "-" + date[2];
 
-    const workoutQuery =
-      'SELECT * ' +
-      'FROM workouthistory ' +
-      `WHERE username && '{${users}}'` +
+    let workoutQuery =
+      'SELECT *' +
+      ' FROM workouthistory' +
+      ` WHERE username && '{${users}}'` +
       ` AND exercise = '${exercise}'`;
+    
+    console.log(workoutQuery)
 
     if (d !== "All")
       workoutQuery += ` AND DATE LIKE '%.d'`;
 
     workoutQuery += ' ORDER BY weight DESC';
+
+    console.log("WORKOUT QUERY (DATABASE): " + workoutQuery)
 
     const res2 = await this.client.query(workoutQuery);
     return res2.rows;

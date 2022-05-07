@@ -1,9 +1,9 @@
-let workouts = [];
+let workout_list = [];
 let date = [];
 const add_ex = document.getElementById("add_ex");
 const submit = document.getElementById("submit");
 const tbody = document.getElementById("tbody");
-updateDate();
+window.onload = updateDate();
 
 //updates date on top of page
 function updateDate() {
@@ -27,10 +27,11 @@ add_ex.addEventListener("click", () => {
     const weight = document.getElementById("weight").value;
     const notes = document.getElementById("notes").value;
     const username = "jlaidler";
+    console.log("clicked")
 
     try {
         updateTable(exercise, sets, reps, weight);
-        workouts.push({ username: username, exercise: exercise, sets: sets, reps: reps, weight: weight, notes: notes, date: date });
+        workout_list.push({ username: username, exercise: exercise, sets: sets, reps: reps, weight: weight, notes: notes, date: date });
     } catch {
         console.error("invalid exercise input: missing fields");
     }
@@ -62,7 +63,9 @@ function updateTable(exercise, sets, reps, weight) {
 
 //makes http post to server to save the workout for current user
 async function saveWorkout() {
-    const data = { workouts: workouts };
+    console.log("WORKOUT LiST")
+    console.log(workout_list)
+    const data = { workouts: workout_list };
     let loc = window.location.href
     let url = ''
     if (loc.substring(7, 12) == 'local') {

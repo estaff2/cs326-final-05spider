@@ -41,7 +41,6 @@ async function gatherTags() {
     let year = document.getElementById("year");
     year = year.options[year.selectedIndex].text;
 
-    console.log(gender, time, exercise, club, major, year)
     await updatePage(gender, time, exercise, club, major, year);
 }
 
@@ -180,7 +179,6 @@ async function resetTags() {
 
 //makes the http request to server to get ranking data based on supplied tags
 async function callServer(tags) {
-    console.log("callServer")
     let loc = window.location.href
     let url = ''
     if (loc.substring(7, 12) == 'local') {
