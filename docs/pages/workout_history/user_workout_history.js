@@ -42,8 +42,19 @@ function setup() {
     getFilter(); 
     getTags();
     user = ls.getItem("me"); 
-    loggeduser = user; 
-     
+    loggeduser = user;
+    console.log(loggeduser); 
+    if (loggeduser === null){
+        let nouser = document.getElementById("historysection"); 
+        let alert = document.createElement("div"); 
+        alert.classList.add("h3"); 
+        nouser.appendChild(alert); 
+        alert.innerHTML = "Please login to view your workout history"; 
+        
+    } 
+    if (loggeduser != null){
+        main(); 
+    }
 }
 setup(); 
 filt.addEventListener("change", getFilter);
@@ -122,8 +133,6 @@ async function main(){
     await serverRequest();
     renderhist();  
 }
-
-main();
 filt.addEventListener("change", callServer); 
 filt.addEventListener("change", serverRequest); 
 
