@@ -7,9 +7,9 @@
   }
 
   .center {
-      display: flex;
-      justify-content: center;
-  }
+    display: flex;
+    justify-content: center;
+}
 
   .dropdown-menu {
     width: 345px;

@@ -38,6 +38,17 @@ function getTags() {
     return parts; 
 }
 
+function setup() {
+    getFilter(); 
+    getTags();
+    user = ls.getItem("me"); 
+    loggeduser = user; 
+     
+}
+setup(); 
+filt.addEventListener("change", getFilter);
+filt.addEventListener("change", getTags);
+
  
 
 //gets all the users workout history 
@@ -88,14 +99,13 @@ async function serverRequest(){
     }
     else{
         alert(response.status)
-    }        
+    }
+    renderhist();         
 }
 
 //matches user history to filter selected for a specific day
 function filterworkouts(date){
-    let finalworkout = []; 
-    console.log(workoutdata); 
-    console.log(validexercises); 
+    let finalworkout = [];  
     workoutdata.forEach(workout => {
         validexercises.forEach(exercise => {
             if (workout['exercise'].toLowerCase() == exercise['name'].toLowerCase() && workout['date'] == date){
@@ -106,6 +116,16 @@ function filterworkouts(date){
     })
     return finalworkout;  
 }
+
+async function main(){
+    await callServer(); 
+    await serverRequest();
+    renderhist();  
+}
+
+main();
+filt.addEventListener("change", callServer); 
+filt.addEventListener("change", serverRequest); 
 
 function getDates(){
     let dates = [];
@@ -149,7 +169,7 @@ function renderreset(){
     page.innerHTML = ""; 
 }
  
-async function renderhist(){
+async function renderhist(){ 
     renderreset(); 
     uniqueDates = getDates(); 
     let curworkout;
@@ -243,25 +263,4 @@ async function renderhist(){
 
      
 }
-
-function setup() {
-    filt.addEventListener("change", getFilter);
-    filt.addEventListener("change", getTags);
-    getFilter(); 
-    getTags();
-    loggeduser = "David_Tylense"; 
-}
-setup(); 
-
-async function main(){
-    await callServer(); 
-    await serverRequest();
-    filt.addEventListener("change", callServer); 
-    filt.addEventListener("change", serverRequest);
-    renderhist();  
-}
-
-main(); 
-
-}
- 
+} 
