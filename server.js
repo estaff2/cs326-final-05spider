@@ -34,7 +34,7 @@ class GymServer{
     this.app.use(express.static('docs/pages/user_rec_input')); 
     this.app.use(express.static('docs/pages/workout_history')); 
     this.app.use(express.static('docs/pages/workout_recs'));
-    this.app.use(express.static('docs/pages/delete_user')); 
+    this.app.use(express.static('docs/pages/logout')); 
     this.app.use(logger('dev'));
     this.app.use(express.json());
     //passport.use(strategy);
@@ -173,20 +173,21 @@ this.app.post('/edit_profile', async(req,res)=> {
 
 });
 // delete user
-this.app.post('/delete', async(req,res)=> {
-  const username = req.body["username"];
-  const password = req.body["password"];
-  const pass = await self.db.findPassword(username);
-  const user = await self.db.findName(username);
-  if(!user){
-    res.status(501).send("user not exist");
-  }
-  if(pass === password){
-    const undatedP = await self.db.deleteUser(username);
-    res.status(200).send(JSON.stringify(undatedP));
-  }
-  res.status(501).send("wrong password");
-})
+this.app.post('/logout', async(req,res)=> {
+  let inputUN = req.body["username"];
+  let inputPS = req.body["password"];
+  const user = await self.db.findName(inputUN);
+    if (!user) {
+      res.status(501).send("wrong name");
+    }
+    else{
+      const userP = await self.db.findPassword(inputUN);
+      if(userP === inputPS){
+        // success!
+        res.status(200).send(JSON.stringify(user)); 
+    }
+    res.status(501).send("wrong password");}
+});
 
 
 
