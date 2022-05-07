@@ -92,12 +92,7 @@ export class GymDatabase {
 
   async getWorkoutHist(username) {
     const queryText = `SELECT * FROM workouthistory where username = '${username}'`
-<<<<<<< HEAD
     const res = await this.client.query(queryText); 
-=======
-    console.log(queryText);
-    const res = await this.client.query(queryText);
->>>>>>> 7188b7959cf2282c76402f8329109606be8d744e
     return res.rows
   }
 
@@ -173,18 +168,6 @@ export class GymDatabase {
       users.push(found[i].username);
     }
 
-<<<<<<< HEAD
-   const date1 =date[1]+"-"+date[2];
-
-   const workoutQuery = 
-   'SELECT * ' +
-   'FROM workouthistory ' +
-   `WHERE username && '{${users}}'` +
-   `WHERE exercise = '${exercise}'`;
-   
-   if(date1 != null)
-    workoutQuery += `WHERE DATE LIKE '%.date'`;
-=======
     let workoutQuery =
       'SELECT *' +
       ' FROM workouthistory' +
@@ -205,7 +188,6 @@ export class GymDatabase {
     workoutQuery += ' ORDER BY weight DESC';
 
     console.log("WORKOUT QUERY (DATABASE): " + workoutQuery)
->>>>>>> 7188b7959cf2282c76402f8329109606be8d744e
 
     const res2 = await this.client.query(workoutQuery);
     return res2.rows;
