@@ -1,6 +1,7 @@
 
 "use strict"
-let tags = ['biceps','triceps']; //this be assigned the value from getTags()
+let tags = []
+getTags() //this be assigned the value from getTags()
 let data;
 
 

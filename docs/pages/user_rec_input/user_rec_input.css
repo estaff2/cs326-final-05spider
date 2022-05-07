@@ -53,3 +53,6 @@
 .hidden{
   display: none;
 }
+.tag{
+  display: inline-block;
+}
