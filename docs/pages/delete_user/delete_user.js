@@ -46,7 +46,7 @@ document.getElementById("log").addEventListener('click', async function () {
         }
         if (match1 && match2){
             window.localStorage.removeItem("user");
-            console.log("successfully logged in");
+            console.log("successfully logged out");
             window.location.href = "../landing_page/landing_page.html"; 
             break;
         }
