@@ -69,7 +69,7 @@ export class GymDatabase {
       ); 
     `;
     const res = await this.client.query(queryText);
-    await this.getAllWorkouts();
+    //await this.clearWorkouts();
   }
 
   // Close the pool.

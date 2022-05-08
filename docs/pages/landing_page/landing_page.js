@@ -17,17 +17,23 @@ search.addEventListener("click", () => {
 
 async function gatherTags() {
     let gender = document.getElementsByName("sex");
+    let gCheck = false;
+    let tCheck = false
     for (var radio of gender) {
         if (radio.checked) {
             gender = radio.value;
+            gCheck=true;
         }
     }
     let time = document.getElementsByName("time");
     for (var radio of time) {
         if (radio.checked) {
             time = radio.value;
+            tCheck = true;
         }
     }
+    if(!gCheck || !tCheck)
+        window.alert("Invalid input: please specify gender and timeframe!")
 
     let exercise = document.getElementById("exercise");
     exercise = exercise.options[exercise.selectedIndex].text;
