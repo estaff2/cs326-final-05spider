@@ -171,23 +171,6 @@ this.app.post('/edit_profile', async(req,res)=> {
       res.status(501).send("wrong password");
 
 });
-// delete user
-this.app.post('/logout', async(req,res)=> {
-  let inputUN = req.body["username"];
-  let inputPS = req.body["password"];
-  const user = await self.db.findName(inputUN);
-    if (!user) {
-      res.status(501).send("wrong name");
-    }
-    else{
-      const userP = await self.db.findPassword(inputUN);
-      if(userP === inputPS){
-        // success!
-        res.status(200).send(JSON.stringify(user)); 
-    }
-    res.status(501).send("wrong password");}
-});
-
 
 
     //this.app.post('/login', passport.authenticate('local', { successRedirect: '/landing_page', failureRedirect: '/login' }));
