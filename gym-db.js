@@ -55,7 +55,7 @@ export class GymDatabase {
       ); 
     `;
     const res = await this.client.query(queryText);
-    //await this.clearWorkouts();
+    await this.getAllWorkouts();
   }
 
   // Close the pool.
@@ -196,8 +196,6 @@ export class GymDatabase {
       ' FROM workouthistory' +
        ` WHERE username = ANY('{${users}}'::text[])`;
        
-
-      
     if(exercise !== "Any")
       workoutQuery += ` AND exercise = '${exercise}'`;
     if (time !== "All") {
@@ -215,12 +213,12 @@ export class GymDatabase {
   }
 
   //post workout to database
-  async recordWorkout(workouts, notes) {
+  async recordWorkout(username, workouts, notes) {
     for (let i = 0; i < workouts.length; i++) {
       const ex = workouts[i];
       const queryText =
         'INSERT INTO workoutHistory (username, exercise, sets, reps, weight, notes, date) VALUES ($1, $2, $3, $4, $5, $6, $7)';
-      await this.client.query(queryText, [ex.username, ex.exercise, ex.sets, ex.reps, ex.weight, notes, ex.date]);
+      await this.client.query(queryText, [username, ex.exercise, ex.sets, ex.reps, ex.weight, notes, ex.date]);
     }
   }
 
