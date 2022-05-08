@@ -23,30 +23,30 @@ John Laidler - johnlaidler267
 
 # User Interface:
 
-	![](images/Leaderboard.jpg)
-	This shows our leaderboard. The top lifts sorted in descending order of weight are displayed in a table sortable by tags including major, club, year, and gender.
-
-	![](images/Rec_Input.jpg)
-	This shows our Recommendations input page. Users can select what body parts they need recommendations for.
-
-	![](images/Recs.jpg)
-	This shows our page that gives users recommendations. It uses the body parts that were selected on the input page to show what exercises you should do.
-
-	![](images/Record_Workout.jpg)
-	This shows our page for recording a new workout. Users can add pertinent information about their workout and save it to a table containing all workout data across the user base.
-
-	![](images/Login.png)
-	This shows our login page. Users can log in here so that they can view their workout history and record new workouts. 
+![](/images/Leaderboard.jpg)
 	
-	![](images/signup.png)
-	This shows our sign up page. Users can sign up with username, email, password, schoolYear, major, gender.
+This shows our leaderboard. The top lifts sorted in descending order of weight are displayed in a table sortable by tags including major, club, year, and gender.
+
+![in](docs/images/Rec_Input.jpg)
+This shows our Recommendations input page. Users can select what body parts they need recommendations for.
+
+![](docs/images/Recs.jpg)
+This shows our page that gives users recommendations. It uses the body parts that were selected on the input page to show what exercises you 	should do.
+
+![](docs/images/Record_Workout.jpg)
+This shows our page for recording a new workout. Users can add pertinent information about their workout and save it to a table containing all workout data across the user base.
+
+![](docs/images/Login.png)
+This shows our login page. Users can log in here so that they can view their workout history and record new workouts. 
 	
-	![](images/logout.png)
+![](docs/images/signup.png)
+This shows our sign up page. Users can sign up with username, email, password, schoolYear, major, gender.
 	
-	This allows a logged in user to log out.
+![](docs/images/logout.png)
+This allows a logged in user to log out.
 	
-	![](images/editeuser.png)
-	This allows users to update their profile by updating their password.
+![](docs/images/editeuser.png)
+This allows users to update their profile by updating their password.
 
 
 	
@@ -146,5 +146,5 @@ Our team learned a lot working on this project. The biggest challenge for this p
 
 
 # Rubric: 
-![](images/rubric.jpg)
+![](docs/images/rubric.png)
 
