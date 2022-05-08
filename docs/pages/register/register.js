@@ -64,6 +64,11 @@ const response = await fetch(`http://localhost:3000/register`, {
   
   body: JSON.stringify(data)
 }); 
+if(response.ok){
+  data = await response.json();
+  alert("sucess");
+  window.location.href = "../landing_page/landing_page.html";
+}
 
 
 
