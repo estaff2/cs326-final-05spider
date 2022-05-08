@@ -33,7 +33,7 @@ async function gatherTags() {
         }
     }
     if(!gCheck || !tCheck)
-        window.alert("Invalid input: please specify gender and timeframe!")
+        window.alert("Invalid input: please specify gender and timeframe!");
 
     let exercise = document.getElementById("exercise");
     exercise = exercise.options[exercise.selectedIndex].text;

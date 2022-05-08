@@ -91,7 +91,7 @@ class GymServer{
     this.app.post('/record', async (request, response) => {
       try {
         const options = request.body;
-        await self.db.recordWorkout(options.workouts, options.notes); 
+        await self.db.recordWorkout(options.username, options.workouts, options.notes); 
         response.status(200).send(JSON.stringify({status: "workout sucessfully recorded"}));
       }
       catch(err) {
