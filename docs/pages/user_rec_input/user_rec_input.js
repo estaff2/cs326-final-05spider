@@ -50,7 +50,13 @@ function add_listeners(){
 
 find.addEventListener('click', function(){
   window.localStorage.setItem('tags' , JSON.stringify(selected_array))
-  window.location.assign('../workout_recs/recs.HTML')
+  if(selected_array.length == 0 ){
+    alert('No tags selected');
+  }
+  else{
+    window.location.assign('../workout_recs/recs.HTML')
+  }
+
 });
 
 
