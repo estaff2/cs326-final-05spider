@@ -68,25 +68,31 @@ document.getElementById("log").addEventListener('click', async function () {
     let match1; 
     let match2;
     let count = 0;  
-    users.forEach(userentry => {
-        count++; 
+    while (count < users.length){ 
         match1 = false; 
         match2 = false; 
-        if (userentry['username'] === username){
+        console.log(users[count]['username']); 
+        console.log(username); 
+        if (users[count]['username'] === username){
             match1 = true; 
         }
-        if (userentry['password'] === password){
+        console.log(users[count]['password']); 
+        console.log(password); 
+        if (users[count]['password'] === password){
             match2 = true; 
         }
         if (match1 && match2){
             window.localStorage.setItem("user",username);
             console.log("successfully logged in");
             window.location.href = "../landing_page/landing_page.html"; 
-        } 
-    });
+            break;
+        }
+        count++; 
+    }
+    count++; 
     console.log(count); 
     console.log(users.length); 
-    if (count === users.length) {
+    if (count > users.length) {
         alert("Username or Password is incorrect");
     }
 });
