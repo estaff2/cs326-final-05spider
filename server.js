@@ -80,7 +80,6 @@ class GymServer{
         const options = request.query;
         let tags = options.tags.split(',');
         const leaderboard = await self.db.getLeaderboard(tags[0],tags[1],tags[2],tags[3],tags[4],tags[5]); 
-        console.log("LEADERBOARD IN SERVER: " + JSON.stringify(leaderboard));
         response.status(200).send(JSON.stringify(leaderboard));
       }
       catch(err) {

@@ -63,11 +63,8 @@ async function updatePage(gender, time, exercise, club, major, year) {
 
 //makes the http request to server to get ranking data based on supplied tags and updates the table accordingly
 async function updateTable(gender, time, exercise, club, major, year) {
-    console.log(gender, year, major, club, exercise, time)
     const tags = [gender, year, major, club, exercise, time];
     const rankings = await callServer(tags);
-    console.log("RANKINGS IN LANDINGPAGE.JS: " + rankings)
-    console.log(rankings)
     resetTable();
 
     for (let i = 0; i < rankings.length; i++) {
