@@ -24,7 +24,7 @@ async function serverRequest(){
     }         
 }
 
-document.getElementById("log").addEventListener('click', async function () {
+document.getElementById("logout").addEventListener('click', async function () {
     const username = document.getElementById("username").value;
     const password = document.getElementById("password").value;
     await serverRequest();
