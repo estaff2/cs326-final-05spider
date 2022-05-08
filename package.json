@@ -13,9 +13,12 @@
   "dependencies": {
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
+    "express-session": "^1.17.2",
     "morgan": "^1.10.0",
     "passport": "^0.5.2",
-    "pg": "^8.7.3"
+    "pg": "^8.7.3",
+    "postgres": "^3.1.0",
+    "psql": "^0.0.1"
   },
   "engines": {
     "node": "17.8.0"

@@ -11,15 +11,6 @@ export class GymDatabase {
   }
 
   async connect() {
-    // Create a new Pool. The Pool manages a set of connections to the database.
-    // It will keep track of unused connections, and reuse them when new queries
-    // are needed. The constructor requires a database URL to make the
-    // connection. You can find the URL of your database by looking in Heroku
-    // or you can run the following command in your terminal:
-    //
-    //  heroku pg:credentials:url -a APP_NAME
-    //
-    // Replace APP_NAME with the name of your app in Heroku.
 
     this.pool = new Pool({
       connectionString: this.dburl,
@@ -34,11 +25,6 @@ export class GymDatabase {
   }
 
   async init() {
-    //It's important to note that part(for exercises) should just be a single tag. This means that an exercise with 2 body part tags 
-    // should have 2 seperate entries in the table.   
-    //not sure how we want to handle workout_his
-    // seperate table for workout history? 
-    //images in exercises table? 
     //if you change any values in a table, either name or type of the variable or just deleting or adding values
     //you will need add DROP TABLE nameOfTable; to the top of the query text and run npm start once. Remove the statement after to avoid table being deleted every time
     const queryText = `
@@ -78,6 +64,38 @@ export class GymDatabase {
     await this.pool.end();
   }
 
+  async users(){
+    const queryText = `SELECT * FROM users`
+    const res = await this.client.query(queryText); 
+    return res.rows; 
+  }
+
+  async findName(username){
+    const queryText = 
+    `SELECT username FROM users WHERE  username = '${username}'`;
+    const res = await this.client.query(queryText);
+    return res.rows;
+  }
+  async findPassword(username){
+    const queryText = 
+    `SELECT password FROM users WHERE username = '${username}'`;
+    const res = await this.client.query(queryText);
+    return res.rows;
+  }
+  async updatePassword(username, passwordN){
+    const queryText =
+    `UPDATE users SET password = '${passwordN}' WHERE username = '${username}' `;
+    const res = await this.client.query(queryText);
+    return res.rows;
+  }
+
+  async deleteUser(username){
+    const queryText =
+    `DROP TABLE users WHERE username = '${username}' `;
+    const res = await this.client.query(queryText);
+    return res.rows;
+  }
+
   //this is just for us to use to add exercises to the database
   async postExercise(name, diff, parts) {
     const queryText =
@@ -104,12 +122,13 @@ export class GymDatabase {
     return res.rows;
   };
 
+  // gets all workouthistory for logged in user
   async getWorkoutHist(username) {
     const queryText = `SELECT * FROM workouthistory where username = '${username}'`
-    console.log(queryText);
-    const res = await this.client.query(queryText);
+    const res = await this.client.query(queryText); 
     return res.rows
   }
+
 
   //grab leaderboard given tags
   async getLeaderboard(gender, schoolYear, major, club, exercise, time) {
@@ -164,11 +183,8 @@ export class GymDatabase {
       usersQuery += `club = '${club}'`;
       conditionsMet++;
     }
-
-    console.log("USER QUERY (DATABASE): " + usersQuery)
     const res1 = await this.client.query(usersQuery);
     const found = res1.rows;
-    console.log("FOUND USERS: " + res1.rows.length);
 
     let users = [];
     for (let i = 0; i < found.length; i++) {
@@ -181,7 +197,6 @@ export class GymDatabase {
        ` WHERE username = ANY('{${users}}'::text[])`;
        
 
-    console.log(workoutQuery)
       
     if(exercise !== "Any")
       workoutQuery += ` AND exercise = '${exercise}'`;
@@ -194,7 +209,6 @@ export class GymDatabase {
 
     workoutQuery += ' ORDER BY weight DESC';
 
-    console.log("WORKOUT QUERY (DATABASE): " + workoutQuery)
 
     const res2 = await this.client.query(workoutQuery);
     return res2.rows;
@@ -215,7 +229,6 @@ export class GymDatabase {
       'SELECT * ' +
       'FROM workoutHistory';
     const res2 = await this.client.query(queryr);
-    console.log(res2.rows)
   }
 
   async getAllUsers() {
@@ -223,12 +236,10 @@ export class GymDatabase {
       'SELECT * ' +
       'FROM users';
     const res2 = await this.client.query(queryr);
-    console.log(res2.rows)
   }
 
   async clearWorkouts() {
     let queryr = 'DELETE FROM workoutHistory';
     const res2 = await this.client.query(queryr);
-    console.log(res2.rows)
   }
 }

@@ -7,9 +7,9 @@
   }
 
   .center {
-      display: flex;
-      justify-content: center;
-  }
+    display: flex;
+    justify-content: center;
+}
 
   .dropdown-menu {
     width: 345px;
@@ -28,4 +28,28 @@
   
   .org-field {
     width: 75%;
+  }
+
+  .logo {
+    max-width: 50%;
+    max-height: 50%;
+  }
+
+  .flex-b {
+    display: flex;
+    justify-content: center;
+  }
+
+  .h1 {
+    margin-top: auto;
+  }
+
+  .h2 {
+    justify-content: center;
+  }
+
+  .h3 {
+    text-align: center;
+    margin-left: auto;
+    margin-left: auto;
   }

@@ -3,15 +3,14 @@ import { readFile, writeFile, access } from 'fs/promises';
 import express from 'express'; 
 import logger from 'morgan';
 import { GymDatabase } from './gym-db.js'; 
-import path from 'path';
-//import passport from "passport";
 
-const JSONfile = 'users.json';
-let users = {};
+
 const headerFields = {
   'Content-Type': 'text/html',
   'Access-Control-Allow-Origin': '*'
 };
+
+
 
 function findCommonElements(arr1, arr2) {
   return arr1.some(item => arr2.includes(item))
@@ -19,100 +18,6 @@ function findCommonElements(arr1, arr2) {
 
 
 
-//gets user workout history based on filter selected
-async function filterUserworkoutHist(workoutarray, workouttags){
-  if (workouttags == undefined){
-    workouttags = "quads,hamstrings,glutes,groin,calves,chest,biceps,triceps,delts,lats,traps";
-    console.log("working"); 
-  } 
-  let currentuser = "spider"
-  let filterselected = workouttags.split(','); 
-  const data = await readFile('docs/JSON Files/users.json')
-  let exercises = await readFile('docs/JSON Files/exercises.json');
-  exercises = JSON.parse(exercises);
-  exercises = exercises['exercises']; 
-  //finds exercises that match the filter
-  let matching = []; 
-  let i;
-  for (i = 0; i < exercises.length; i++) {
-    let exercise = exercises[i];
-    let parts = exercise.parts;
-    console.log(exercise); 
-    console.log(filterselected); 
-    if (findCommonElements(filterselected, parts)) {
-      matching.push(exercise);
-    }
-  } 
-  console.log(matching);  
-  //gets exercise names
-  let validworkouts = []; 
-  matching.forEach(exerc => {
-    validworkouts.push(exerc["name"]); 
-  })   
-  //makes sure it is only history of the current user
-  let alldata = JSON.parse(data);
-  let userhist = []; 
-  if (alldata["username"] === (currentuser)){
-    userhist = alldata["workout_his"];
-    
-  //filters user history to only include workouts that match their filter 
-  } 
-  let final = []; 
-  userhist.forEach(workout => {
-    validworkouts.forEach(exerciseName => {
-      if (workout["exerciseName"].toLowerCase() == exerciseName.toLowerCase()){
-        final.push(workout); 
-      }
-    })
-  })
-  response.writeHead(200, headerFields); 
-  response.write(JSON.stringify(final)); 
-  response.end(); 
-}
-
-
-// myArray.join(',')}); is how to pass the tags in, so make one string with , and then split into array here
-async function getExercises(response, exercies_tags) {
-  const data = await readFile('docs/JSON Files/exercises.json');
-  const tags = exercies_tags.split(',');
-  let matching = [];
-  let exercises = JSON.parse(data);
-  exercises = exercises['exercises'];
-  let i;
-  for (i = 0; i < exercises.length; i++) {
-    let exercise = exercises[i];
-    let parts = exercise.parts;
-    if (findCommonElements(tags, parts)) {
-      matching.push(exercise);
-    }
-  }
-  response.writeHead(200, headerFields);
-  response.write(JSON.stringify(matching));
-  response.end();
-}
-
-
-// create user function
-/*
-async function createUser (response, request){
-  const data = await readFile('users.json')
-  const username =request.body["username"];
-  const email =req.body["email"];
-  const password = request.body["encryPassword"];
-  const schoolYear = request.body["schoolYear"];
-  const major = request.body["major"];
-  const gender = request.body["gender"];
-  const workout_his = request.body["workout_his"];
- const checkDuplicate = await data.countDocuments(
-   {email : email},
-   {limit : 1}
- ) ;
- if (checkDuplicate >0){
-   response.sendStatus(403);
- }
-  return;
-}
-*/
 
 class GymServer{
   constructor(dburl) {
@@ -128,7 +33,8 @@ class GymServer{
     this.app.use(express.static('docs/pages/register')); 
     this.app.use(express.static('docs/pages/user_rec_input')); 
     this.app.use(express.static('docs/pages/workout_history')); 
-    this.app.use(express.static('docs/pages/workout_recs')); 
+    this.app.use(express.static('docs/pages/workout_recs'));
+    this.app.use(express.static('docs/pages/logout')); 
     this.app.use(logger('dev'));
     this.app.use(express.json());
     //passport.use(strategy);
@@ -136,6 +42,10 @@ class GymServer{
     //this.app.use(passport.session());
   
   }
+
+
+  
+  
 
   async initRoutes(){
     const self = this;
@@ -152,6 +62,11 @@ class GymServer{
         res.redirect(401);
       }
     }
+
+    this.app.get('/users', async (request, response) => {
+      const users = await self.db.users();  
+      response.status(200).send(JSON.stringify(users)); 
+    })
 
     this.app.get('/exercises', async (request, response) => {
       const options = request.query;
@@ -191,6 +106,7 @@ class GymServer{
       response.status(200).send(JSON.stringify(history)); 
     });
 
+
     this.app.post('/addExercise', async (request, response) => {
       const options = request.query;
       let parts = options.parts.split(',')
@@ -199,7 +115,7 @@ class GymServer{
     });
     
     this.app.post('/register', async (req, res) => {
-      console.log("ada");
+      //console.log("ada");
       //const options = request.query
       const username = req.body["username"];
       const email = req.body["email"];
@@ -210,18 +126,72 @@ class GymServer{
       const club = req.body["club"];
       //const options = req.query;
       //let tags = options.tags.split(",");
-      console.log("person.tags");
+      //console.log("person.tags");
       console.log(username);
       const person = await self.db.createPerson(username, email, password, schoolYear, major, gender, club);
       //options.username, options.email, options.password, options.schoolYear, options.major, options.gender
         //const { username, email, password, schoolYear, major, gender } = req.query;
         res.status(200).send(JSON.stringify(person));
         //const check = await 
-        console.log("bda");
+        //console.log("bda");
         //const person = await self.db.createPerson(username, email, password, schoolYear, major, gender);
         });
+      this.app.post('/login', async(req,res) =>{
+        let inputUN = req.body["username"];
+        let inputPS = req.body["password"];
+        const user = await self.db.findName(inputUN);
+          if (!user) {
+            res.status(501).send("wrong name");
+          }
+          else{
+            const userP = await self.db.findPassword(inputUN);
+            if(userP === inputPS){
+              // success!
+              res.status(200).send(JSON.stringify(user)); 
+          }
+          res.status(501).send("wrong password");
+          
+          // should create a user object 
+          
+        }
+      });
+// edit profile
+this.app.post('/edit_profile', async(req,res)=> {
+      const username = req.body["username"];
+      const passwordO = req.body["passwordO"];
+      const passwordN = req.body["passwordN"];
+      const person = await self.db.findName(username);
+      const oldP = await self.db.findPassword(username);
+      if(!person){
+        res.status(501).send("user not exist");
+      }
+      if(oldP === passwordO){
+        const undatedP = await self.db.updatePassword(username, passwordN);
+        res.status(200).send(JSON.stringify(undatedP));
+      }
+      res.status(501).send("wrong password");
 
-    //this.app.post('/login', passport.authenticate('local', { successRedirect: '/pages/landing_page', failureRedirect: '/login' }));
+});
+// delete user
+this.app.post('/logout', async(req,res)=> {
+  let inputUN = req.body["username"];
+  let inputPS = req.body["password"];
+  const user = await self.db.findName(inputUN);
+    if (!user) {
+      res.status(501).send("wrong name");
+    }
+    else{
+      const userP = await self.db.findPassword(inputUN);
+      if(userP === inputPS){
+        // success!
+        res.status(200).send(JSON.stringify(user)); 
+    }
+    res.status(501).send("wrong password");}
+});
+
+
+
+    //this.app.post('/login', passport.authenticate('local', { successRedirect: '/landing_page', failureRedirect: '/login' }));
 
 
     this.app.get('/user/all', async (req, res) => {

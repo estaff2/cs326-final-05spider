@@ -17,7 +17,7 @@
 
     <nav class="navbar navbar-light justify-content-center ">
 
-        <a href="../landing_page/landing_page.htmll" class="navbar-brand">
+        <a href="../landing_page/landing_page.html" class="navbar-brand">
             <h2><img src="https://www.seekpng.com/png/full/43-436743_free-download-man-weight-lifting-png-silhouette.png"
                     width="35" height="30">RecCenterRecs</h2>
         </a>
@@ -71,11 +71,13 @@
     </nav>
 
     <br>
-    <div class="center">
-        <div class="d-flex flex-row justify-content-between">
-            <h1 class="p-2">Workout History</h1>
-            <h2 class="p-3">
-            <select class="form-select form-select-md" aria-label=".form-select-lg example" id = "filter">
+    <div class = "center">
+        <div class="col-lg-7">
+            <div class="flex-b">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/d/d0/Umass_textlogo.png" class="logo">
+                <h1 class="h1" id="leaderboard_header">Workout History</h1>
+            </div>
+            <select class="form-select" aria-label=".form-select-lg example" id = "filter">
                 <option selected>Filter By Body Part:</option>
                 <option value = "1">Legs</option>
                 <option value = "2">Chest</option>
@@ -88,99 +90,11 @@
 
     <br>
     <div class = "center">
-        <div class = "col-md-7 d-flex flex-row h2" id = "workout1header">Wednesday,  March 11th,  2022</div>
+        <div id = "historysection" class = "col-lg-10"> 
     </div>
-
-    <br> 
-    <div class = "center" id = "workout1">
-        <div class = "col-md-7">
-            <table class = "table">
-                <thead>
-                    <tr>
-                        <th scope = "col">Exercise Name</th>
-                        <th scope = "col">Sets</th>
-                        <th scope = "col">Reps</th>
-                        <th scope = "col">Weight</th>
-                    </tr>
-                </thead>
-                <tbody id = "table1">
-                    <tr>
-                        <th scope = "row">Deadlift</th>
-                        <td>2</td>
-                        <td>7</td>
-                        <td>255</td>
-                    </tr>
-
-                    <tr> 
-                        <th scope = "row">Squats</th>
-                        <td>2</td>
-                        <td>7</td>
-                        <td>255</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <br> 
-
-    <div class="center">
-        <div class = "col-md-1 p-2">Workout Notes</div>
-        <div class = "col-md-6 p-3">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-                sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip 
-                ex ea commodo consequat. Duis aute irure dolor in 
-        </div>
-    </div>
-
-    <br>
-
-    <div class = "center">
-        <div class = "col-md-7 d-flex flex-row h2">Monday,  March 5th,  2022</div>
-    </div>
-
-    <br> 
-    <div class = "center">
-        <div class = "col-md-7">
-            <table class = "table">
-                <thead>
-                    <tr>
-                        <th scope = "col">Exercise Name</th>
-                        <th scope = "col">Sets</th>
-                        <th scope = "col">Reps</th>
-                        <th scope = "col">Weight</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th scope = "row">Deadlift</th>
-                        <td>2</td>
-                        <td>7</td>
-                        <td>255</td>
-                    </tr>
-
-                    <tr> 
-                        <th scope = "row">Squats</th>
-                        <td>2</td>
-                        <td>7</td>
-                        <td>255</td>
-                    </tr>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <br> 
-
-   <div class= "center">
-       <div class = "col-md-7 text-end">
-           <button class = "btn btn-dark btn-md">Next Page</button>
-       </div>
-   </div>
-
-
+        
+    </div>   
+    
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"

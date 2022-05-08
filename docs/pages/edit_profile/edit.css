@@ -1,6 +1,8 @@
 .nav-item {
     color:black
 }
+
+
 .login {
   margin-bottom:5px;
 }
@@ -13,7 +15,9 @@
 .radio {
   font-size: 15spx;
 }
-
+.org-field {
+  width: 100%;
+}
 /* dropdown menu boxes */
 .dropdown-menu {
   width: 345px;
@@ -36,23 +40,9 @@
   justify-content:space-between;
   font-size: 20px;
 }
-/* each select box within select element (label + select box) */
-.org-field {
-  width: 75%;
-}
-
-.larry {
-  text-align: left;
-  width: 80px;
+.avatar {
+  vertical-align: middle;
+  width: 100px;
   height: 100px;
-}
-
-.hid_div{
-  display: none;
-}
-.hidden{
-  display: none;
-}
-.tag{
-  display: inline-block;
+  border-radius: 50%;
 }

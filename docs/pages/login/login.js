@@ -1,48 +1,97 @@
-//import { user } from "pg/lib/defaults";
 
-let loggedIn = [];
+//let loggedIn = [];
 
-const logged = (window.localStorage.getItem("logged-in") !== null && window.localStorage.getItem("logged-in") !== "false");
+//const logged = (window.localStorage.getItem("logged-in") !== null && window.localStorage.getItem("logged-in") !== "false");
 
-async function logIn (username, password){
-    const data = { username: username, password:password };
-    let loc = window.location.href
-    let url = ''
-    if (loc.substring(7, 12) == 'local') {
-        url = 'http://localhost:3000/login';
+// let data;
+// async function logIn (username, password){
+//     //const data = { username: username, password:password };
+//     let loc = window.location.href
+//     let url = ''
+//     if (loc.substring(7, 12) == 'local') {
+//         url = 'http://localhost:3000/login';
+//     }
+//     else {
+//         url = 'https://gym-recs.herokuapp.com/login';
+//     }
+//     let response = await fetch(url,
+//         {
+//             method: 'POST',
+//             //body: JSON.stringify(data)
+            
+//         });
+//     if (!response.ok) {
+//         //console.error(response.error);
+//         alert("Incorrect email or password.");
+//     }
+//     else {
+//         data = await response.json();
+//         console.log('user successfully logged in', username);
+//         window.localStorage.setItem("loggedIn", true);
+//         window.localStorage.setItem("me",username);
+//     }
+// }
+
+
+
+
+let users; 
+async function serverRequest(){ 
+    let loc = window.location.href 
+    let url =''
+    if(loc.substring(7,12) == 'local'){
+        url = 'http://localhost:3000/users'
     }
-    else {
-        url = 'https://gym-recs.herokuapp.com/login';
+    else{
+        url = 'https://gym-recs.herokuapp.com/users'
     }
+    //tags.join(',') is a way to handle putting an array into one parameter of the query 
     let response = await fetch(url,
         {
-            method: 'POST',
-            body: JSON.stringify(data)
+            method: 'GET',
         });
-    if (response.ok) {
+    if(response.ok){
         data = await response.json();
+        users = data;
+        console.log(users);  
+
     }
-    else {
+    else{
         alert(response.status)
-    }
+    }         
 }
 
 document.getElementById("log").addEventListener('click', async function () {
     const username = document.getElementById("username").value;
     const password = document.getElementById("password").value;
-
-    try{
-        logIn(username, password);
-        loggedIn.push({username:username});
-        window.localStorage.setItem("logged-in", true);
-    }catch{
-        console.error("wrong")
+    await serverRequest();
+    let match1; 
+    let match2;
+    let count = 0;  
+    users.forEach(userentry => {
+        count++; 
+        match1 = false; 
+        match2 = false; 
+        if (userentry['username'] === username){
+            match1 = true; 
+        }
+        if (userentry['password'] === password){
+            match2 = true; 
+        }
+        if (match1 && match2){
+            window.localStorage.setItem("user",username);
+            console.log("successfully logged in");
+            window.location.href = "../landing_page/landing_page.html"; 
+        } 
+    });
+    console.log(count); 
+    console.log(users.length); 
+    if (count === users.length) {
+        alert("Username or Password is incorrect");
     }
 });
-
-
-
-
+        //loggedIn.push({username:username});
+       // window.localStorage.setItem("logged-in", true);
 
 
 

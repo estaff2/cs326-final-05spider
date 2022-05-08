@@ -28,6 +28,7 @@ async function serverRequest(){
       });
   if(response.ok){
       data = await response.json();
+      window.location.href = "../landing_page/landing_page.html";
   }
   else{
       alert(response.status)
